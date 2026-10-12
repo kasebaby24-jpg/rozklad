@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Розклад КПІ</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root {
+    --bg: var(--tg-theme-bg-color, #ffffff);
+    --bg2: var(--tg-theme-secondary-bg-color, #f2f3f5);
+    --text: var(--tg-theme-text-color, #15171a);
+    --hint: var(--tg-theme-hint-color, #8a8f98);
+    --accent: var(--tg-theme-button-color, #2f7cf6);
+    --accent-text: var(--tg-theme-button-text-color, #ffffff);
+    --lec: #2f7cf6;
+    --prac: #1aa36f;
+    --lab: #e08a00;
+    --now: #ff5a3c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not(.tg) {
+      --bg: #17191d; --bg2: #0f1013; --text: #eceef1; --hint: #8d939c; --accent: #4b8ef8;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg2); color: var(--text);
+    font: 15px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { padding: 12px 16px 32px; max-width: 560px; margin: 0 auto; }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin: 4px 0 12px; }
+  h1 { font-size: 20px; margin: 0; }
+  .sub { color: var(--hint); font-size: 13px; margin-top: 2px; }
+  .grp { border: 0; background: var(--bg); color: var(--accent); font: inherit; font-size: 13px;
+    padding: 6px 10px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
+  .tabs { display: flex; background: var(--bg); border-radius: 12px; padding: 3px; margin-bottom: 12px; }
+  .tabs button { flex: 1; border: 0; background: transparent; color: var(--text); font: inherit;
+    padding: 8px 0; border-radius: 9px; cursor: pointer; }
+  .tabs button.on { background: var(--accent); color: var(--accent-text); font-weight: 600; }
+  .card { background: var(--bg); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px; }
+  .status { border-left: 4px solid var(--accent); }
+  .status.live { border-left-color: var(--now); }
+  .status .big { font-size: 16px; font-weight: 600; }
+  .day-h { display: flex; justify-content: space-between; align-items: baseline; margin: 16px 2px 6px; }
+  .day-h b { font-size: 15px; }
+  .day-h span { color: var(--hint); font-size: 13px; }
+  .day-h.today b { color: var(--accent); }
+  .pair { display: flex; gap: 12px; background: var(--bg); border-radius: 14px; padding: 11px 14px; margin-bottom: 8px; }
+  .pair.live { outline: 2px solid var(--now); }
+  .pair.past { opacity: .5; }
+  .t { min-width: 54px; text-align: right; }
+  .t .s { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .t .e { color: var(--hint); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .t .n { color: var(--hint); font-size: 11px; }
+  .info { flex: 1; min-width: 0; }
+  .name { font-weight: 600; }
+  .meta { color: var(--hint); font-size: 13px; margin-top: 2px; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; color: #fff; padding: 1px 7px;
+    border-radius: 6px; margin-right: 6px; vertical-align: 1px; }
+  .lec { background: var(--lec); } .prac { background: var(--prac); } .lab { background: var(--lab); }
+  .only { color: var(--hint); font-size: 12px; margin-top: 3px; }
+  .empty { text-align: center; color: var(--hint); padding: 18px 0; }
+  .wk { display: flex; gap: 8px; margin-bottom: 4px; }
+  .wk button { flex: 1; border: 0; background: var(--bg); color: var(--text); font: inherit; font-size: 14px;
+    padding: 8px 0; border-radius: 10px; cursor: pointer; }
+  .wk button.on { color: var(--accent); font-weight: 600; outline: 1.5px solid var(--accent); }
+  .err { color: var(--now); }
+  .search { width: 100%; font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--bg2);
+    background: var(--bg2); color: var(--text); margin-bottom: 8px; }
+  .glist button { display: block; width: 100%; text-align: left; border: 0; background: transparent; color: var(--text);
+    font: inherit; padding: 9px 4px; border-bottom: 1px solid var(--bg2); cursor: pointer; }
+  .glist small { color: var(--hint); }
+  .foot { text-align: center; color: var(--hint); font-size: 12px; margin-top: 18px; }
+  .foot a { color: var(--hint); }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1 id="title">Розклад</h1>
+    <div class="sub" id="sub">Завантаження…</div>
+  </div>
+  <button class="grp" id="grpBtn">Змінити групу</button>
+</header>
+<div class="tabs">
+  <button data-v="today" class="on">Сьогодні</button>
+  <button data-v="tomorrow">Завтра</button>
+  <button data-v="week">Тиждень</button>
+</div>
+<main id="main"></main>
+<div class="foot">Дані: <a href="https://schedule.kpi.ua" target="_blank" rel="noopener">schedule.kpi.ua</a></div>
+
+<script>
+(function () {
+  var API = 'https://api.campus.kpi.ua';
+  var DEFAULT_GROUP = { id: '6202', name: 'ГС-61мп' };
+  var TZ = 'Europe/Kyiv';
+  var DAYS = ['Пн', 'Вв', 'Ср', 'Чт', 'Пт', 'Сб'];
+  var DAY_FULL = ['Понеділок', 'Вівторок', 'Середа', 'Четвер', "П'ятниця", 'Субота', 'Неділя'];
+  var MONTHS = ['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
+  // Стандартний дзвінковий розклад КПІ
+  var BELLS = { '08:30': ['10:05', 1], '10:25': ['12:00', 2], '12:20': ['13:55', 3], '14:15': ['15:50', 4],
+                '16:10': ['17:45', 5], '18:30': ['20:05', 6], '20:20': ['21:55', 7] };
+
+  var tg = window.Telegram && window.Telegram.WebApp;
+  if (tg && tg.initData !== undefined) {
+    document.documentElement.classList.add('tg');
+    try { tg.ready(); tg.expand(); } catch (e) {}
+  }
+
+  var state = { view: 'today', weekShift: 0, data: null, currentWeek: null, refDate: null, baseDate: null, group: loadGroup() };
+
+  function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function read(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function loadGroup() {
+    try { var g = JSON.parse(read('rozklad_group')); if (g && g.id) return g; } catch (e) {}
+    return DEFAULT_GROUP;
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+    return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  // ---- дата/час у київському часовому поясі ----
+  function kyivNow() {
+    var p = {};
+    new Intl.DateTimeFormat('en-GB', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date())
+      .forEach(function (x) { p[x.type] = x.value; });
+    return { y: +p.year, m: +p.month, d: +p.day, min: (+p.hour % 24) * 60 + (+p.minute) };
+  }
+  function dateUTC(y, m, d) { return new Date(Date.UTC(y, m - 1, d)); }
+  function addDays(dt, n) { return new Date(dt.getTime() + n * 86400000); }
+  function iso(dt) { return dt.toISOString().slice(0, 10); }
+  function dow(dt) { return (dt.getUTCDay() + 6) % 7; } // 0 = Пн … 6 = Нд
+  function monday(dt) { return addDays(dt, -dow(dt)); }
+  function human(dt) { return dt.getUTCDate() + ' ' + MONTHS[dt.getUTCMonth()]; }
+  function toMin(hhmm) { var a = hhmm.split(':'); return +a[0] * 60 + +a[1]; }
+
+  function weekOf(dt) {
+    var diff = Math.round((monday(dt) - monday(state.refDate)) / (7 * 86400000));
+    return ((state.currentWeek - 1 + diff) % 2 + 2) % 2 + 1;
+  }
+
+  function pairsFor(dt) {
+    var d = dow(dt);
+    if (d > 5 || !state.data) return [];
+    var wk = weekOf(dt) === 1 ? state.data.scheduleFirstWeek : state.data.scheduleSecondWeek;
+    var day = (wk || []).filter(function (x) { return x.day === DAYS[d]; })[0];
+    if (!day) return [];
+    var key = iso(dt);
+    return day.pairs.filter(function (p) { return !p.dates || !p.dates.length || p.dates.indexOf(key) >= 0; })
+      .map(function (p) {
+        var s = p.time.slice(0, 5), b = BELLS[s];
+        var e = b ? b[0] : (function () { var m = toMin(s) + 95; return ('0' + Math.floor(m / 60)).slice(-2) + ':' + ('0' + m % 60).slice(-2); })();
+        return { start: s, end: e, num: b ? b[1] : '', name: p.name, type: p.type, tag: p.tag,
+                 teacher: p.lecturer && p.lecturer.name, place: p.location, dates: p.dates || [] };
+      })
+      .sort(function (a, b) { return toMin(a.start) - toMin(b.start); });
+  }
+
+  function pairHtml(p, opts) {
+    var cls = 'pair';
+    if (opts && opts.live) cls += ' live';
+    if (opts && opts.past) cls += ' past';
+    var tagCls = p.tag === 'lec' ? 'lec' : p.tag === 'lab' ? 'lab' : 'prac';
+    var only = '';
+    if (opts && opts.showDates && p.dates.length) {
+      only = '<div class="only">лише ' + p.dates.map(function (x) { return x.slice(8, 10) + '.' + x.slice(5, 7); }).join(', ') + '</div>';
+    }
+    return '<div class="' + cls + '"><div class="t"><div class="s">' + p.start + '</div><div class="e">' + p.end +
+      '</div>' + (p.num ? '<div class="n">' + p.num + ' пара</div>' : '') + '</div><div class="info"><div class="name">' +
+      esc(p.name) + '</div><div class="meta"><span class="badge ' + tagCls + '">' + esc(p.type) + '</span>' +
+      esc(p.teacher || '') + (p.place ? ' · ' + esc(p.place) : '') + '</div>' + only + '</div></div>';
+  }
+
+  function dur(min) {
+    var h = Math.floor(min / 60), m = min % 60;
+    return (h ? h + ' год ' : '') + m + ' хв';
+  }
+
+  function nextDayWithPairs(from) {
+    for (var i = 1; i <= 14; i++) { var d = addDays(from, i); if (pairsFor(d).length) return d; }
+    return null;
+  }
+
+  function renderDay(dt, isToday) {
+    var now = kyivNow(), list = pairsFor(dt), html = '';
+    if (isToday) {
+      var live = null, next = null;
+      list.forEach(function (p) {
+        if (now.min >= toMin(p.start) && now.min < toMin(p.end)) live = p;
+        else if (!next && toMin(p.start) > now.min) next = p;
+      });
+      if (live) {
+        html += '<div class="card status live"><div class="sub">Зараз іде</div><div class="big">' + esc(live.name) +
+          '</div><div class="sub">до кінця ' + dur(toMin(live.end) - now.min) + (next ? ' · далі о ' + next.start : '') + '</div></div>';
+      } else if (next) {
+        html += '<div class="card status"><div class="sub">Наступна пара</div><div class="big">' + esc(next.name) +
+          '</div><div class="sub">о ' + next.start + ', через ' + dur(toMin(next.start) - now.min) + '</div></div>';
+      } else {
+        var nd = nextDayWithPairs(dt), np = nd && pairsFor(nd)[0];
+        html += '<div class="card status"><div class="sub">' + (list.length ? 'На сьогодні пари закінчились' : 'Сьогодні пар немає') +
+          '</div>' + (np ? '<div class="big">' + esc(np.name) + '</div><div class="sub">' + DAY_FULL[dow(nd)].toLowerCase() +
+          ', ' + human(nd) + ' о ' + np.start + '</div>' : '') + '</div>';
+      }
+    }
+    html += '<div class="day-h' + (isToday ? ' today' : '') + '"><b>' + DAY_FULL[dow(dt)] + ', ' + human(dt) +
+      '</b><span>' + weekOf(dt) + '-й тиждень</span></div>';
+    if (!list.length) html += '<div class="card empty">Пар немає 🎉</div>';
+    list.forEach(function (p) {
+      var o = {};
+      if (isToday) { o.live = now.min >= toMin(p.start) && now.min < toMin(p.end); o.past = now.min >= toMin(p.end); }
+      html += pairHtml(p, o);
+    });
+    return html;
+  }
+
+  function renderWeek() {
+    var mon = addDays(monday(state.baseDate), 7 * state.weekShift);
+    var html = '<div class="wk"><button data-w="0" class="' + (state.weekShift === 0 ? 'on' : '') + '">Цей тиждень</button>' +
+      '<button data-w="1" class="' + (state.weekShift === 1 ? 'on' : '') + '">Наступний</button></div>';
+    html += '<div class="sub" style="margin:6px 2px 0">' + human(mon) + ' – ' + human(addDays(mon, 5)) + ' · ' + weekOf(mon) + '-й тиждень</div>';
+    var today = iso(state.baseDate);
+    for (var i = 0; i < 6; i++) {
+      var d = addDays(mon, i), list = pairsFor(d);
+      if (!list.length) continue;
+      html += '<div class="day-h' + (iso(d) === today ? ' today' : '') + '"><b>' + DAY_FULL[i] + '</b><span>' + human(d) + '</span></div>';
+      list.forEach(function (p) { html += pairHtml(p, {}); });
+    }
+    if (html.indexOf('class="pair') < 0) html += '<div class="card empty">Пар немає</div>';
+    return html;
+  }
+
+  function render() {
+    var main = document.getElementById('main');
+    if (!state.data) return;
+    var n = kyivNow();
+    state.baseDate = dateUTC(n.y, n.m, n.d);
+    document.getElementById('title').textContent = state.group.name;
+    document.getElementById('sub').textContent = DAY_FULL[dow(state.baseDate)] + ', ' + human(state.baseDate) + ' · ' +
+      weekOf(state.baseDate) + '-й тиждень';
+    if (state.view === 'today') main.innerHTML = renderDay(state.baseDate, true);
+    else if (state.view === 'tomorrow') main.innerHTML = renderDay(addDays(state.baseDate, 1), false);
+    else main.innerHTML = renderWeek();
+    Array.prototype.forEach.call(main.querySelectorAll('[data-w]'), function (b) {
+      b.onclick = function () { state.weekShift = +b.getAttribute('data-w'); render(); };
+    });
+  }
+
+  function getJSON(url) {
+    return fetch(url).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+  }
+
+  function load() {
+    var gid = state.group.id;
+    var cached = read('rozklad_cache_' + gid);
+    if (cached) {
+      try { var c = JSON.parse(cached); if (c.ref) { state.data = c.data; state.currentWeek = c.week; state.refDate = new Date(c.ref + 'T00:00:00Z'); render(); } } catch (e) {}
+    }
+    Promise.all([getJSON(API + '/schedule/lessons?groupId=' + encodeURIComponent(gid)), getJSON(API + '/time/current')])
+      .then(function (r) {
+        state.data = r[0];
+        state.currentWeek = r[1].currentWeek;
+        var n = kyivNow(); state.refDate = dateUTC(n.y, n.m, n.d);
+        store('rozklad_cache_' + gid, JSON.stringify({ data: state.data, week: state.currentWeek, ref: iso(state.refDate) }));
+        render();
+      })
+      .catch(function () {
+        if (!state.data) {
+          document.getElementById('sub').textContent = 'Немає зв’язку';
+          document.getElementById('main').innerHTML = '<div class="card err">Не вдалося завантажити розклад. Перевір інтернет і відкрий ще раз.</div>';
+        }
+      });
+  }
+
+  // ---- вибір групи ----
+  var groupsCache = null;
+  function openGroupPicker() {
+    var main = document.getElementById('main');
+    main.innerHTML = '<div class="card"><input class="search" id="q" placeholder="Назва групи, напр. ГС-61мп" autocomplete="off">' +
+      '<div class="glist" id="gl"><div class="sub">Завантаження списку груп…</div></div></div>';
+    var q = document.getElementById('q'), gl = document.getElementById('gl');
+    function draw() {
+      if (!groupsCache) return;
+      var s = q.value.trim().toLowerCase();
+      var list = groupsCache.filter(function (g) { return !s || g.name.toLowerCase().indexOf(s) >= 0; }).slice(0, 40);
+      gl.innerHTML = list.map(function (g) {
+        return '<button data-id="' + g.id + '" data-name="' + esc(g.name) + '">' + esc(g.name) + ' <small>' + esc(g.faculty || '') + '</small></button>';
+      }).join('') || '<div class="sub">Нічого не знайдено</div>';
+      Array.prototype.forEach.call(gl.querySelectorAll('button'), function (b) {
+        b.onclick = function () {
+          state.group = { id: b.getAttribute('data-id'), name: b.getAttribute('data-name') };
+          store('rozklad_group', JSON.stringify(state.group));
+          state.data = null; setView('today'); load();
+        };
+      });
+    }
+    q.oninput = draw;
+    if (groupsCache) draw();
+    else getJSON(API + '/schedule/groups').then(function (g) { groupsCache = g.data || g; draw(); })
+      .catch(function () { gl.innerHTML = '<div class="err">Не вдалося завантажити список груп</div>'; });
+    q.focus();
+  }
+
+  function setView(v) {
+    state.view = v;
+    Array.prototype.forEach.call(document.querySelectorAll('.tabs button'), function (b) {
+      b.classList.toggle('on', b.getAttribute('data-v') === v);
+    });
+    render();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.tabs button'), function (b) {
+    b.onclick = function () { state.weekShift = 0; setView(b.getAttribute('data-v')); };
+  });
+  document.getElementById('grpBtn').onclick = openGroupPicker;
+
+  load();
+  setInterval(function () { if (state.view !== 'week' && document.getElementById('q') == null) render(); }, 30000);
+})();
+</script>
+</body>
+</html>
