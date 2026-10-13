@@ -4,6 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Розклад КПІ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Outfit — шрифт із референсу (латиниця й цифри); Onest — найближчий до нього з українськими літерами -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
   (function () {
@@ -15,183 +19,187 @@
 </script>
 <style>
   :root {
-    --bg: #f2f2f7; --card: #ffffff; --material: rgba(242, 242, 247, .82);
-    --label: #000000; --label2: rgba(60, 60, 67, .6); --label3: rgba(60, 60, 67, .3);
-    --sep: rgba(60, 60, 67, .2); --fill: rgba(118, 118, 128, .12); --thumb: #ffffff;
-    --blue: #007aff; --blue-t: rgba(0, 122, 255, .1);
-    --green: #248a3d; --green-t: rgba(52, 199, 89, .14);
-    --orange: #c93400; --orange-t: rgba(255, 149, 0, .14);
-    --red: #ff3b30; --red-t: rgba(255, 59, 48, .07);
-    --shadow: 0 1px 1px rgba(0, 0, 0, .02), 0 6px 20px rgba(0, 0, 0, .04);
-    --thumb-shadow: 0 3px 8px rgba(0, 0, 0, .12), 0 3px 1px rgba(0, 0, 0, .04);
+    --bg: #f4f2ed; --card: #ffffff; --soft: #ebe8e1; --ink: #151515; --muted: #7b7871;
+    --green: #8dca8e; --salmon: #f5a48c; --yellow: #e8e382;
+    --on: #151515; --pill: #151515; --pill-ink: #ffffff;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 10px 30px rgba(0, 0, 0, .05);
   }
   :root[data-theme="dark"] {
-    --bg: #000000; --card: #1c1c1e; --material: rgba(0, 0, 0, .75);
-    --label: #ffffff; --label2: rgba(235, 235, 245, .6); --label3: rgba(235, 235, 245, .3);
-    --sep: rgba(84, 84, 88, .6); --fill: rgba(118, 118, 128, .24); --thumb: #636366;
-    --blue: #0a84ff; --blue-t: rgba(10, 132, 255, .18);
-    --green: #30d158; --green-t: rgba(48, 209, 88, .16);
-    --orange: #ff9f0a; --orange-t: rgba(255, 159, 10, .16);
-    --red: #ff453a; --red-t: rgba(255, 69, 58, .12);
-    --shadow: none; --thumb-shadow: none;
+    --bg: #111111; --card: #1d1d1d; --soft: #282828; --ink: #f4f4f1; --muted: #9c9a94;
+    --pill: #111111; --shadow: none;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; background: var(--bg); color: var(--label);
-    font: 16px/1.35 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  html, body { margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.35 Outfit, Onest, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased; }
-  body { padding: 0 16px calc(28px + env(safe-area-inset-bottom)); max-width: 560px; margin: 0 auto; }
+  body { padding: 0 18px calc(32px + env(safe-area-inset-bottom)); max-width: 560px; margin: 0 auto; }
   button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+  button:active { transform: scale(.97); }
+  svg { display: block; }
 
   /* ---- шапка ---- */
-  header { padding: 14px 4px 6px; }
-  .eyebrow { font-size: 13px; font-weight: 600; color: var(--label2); letter-spacing: .01em;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 2px; }
-  .grp { flex: none; font-size: 15px; font-weight: 500; color: var(--blue); background: var(--card);
-    padding: 6px 13px; border-radius: 16px; box-shadow: var(--shadow); white-space: nowrap; }
-  .grp:active { opacity: .6; }
-  h1 { font-size: 34px; line-height: 1.12; font-weight: 700; letter-spacing: -.02em; margin: 0;
-    min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0 4px; }
+  .hi { font-size: 20px; font-weight: 400; }
+  .hi b { font-weight: 600; }
+  .grp { display: inline-flex; align-items: center; gap: 6px; margin-top: 5px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  .grp .cap { width: 20px; height: 20px; border-radius: 50%; background: var(--yellow); display: grid; place-items: center; }
+  .grp .cap svg { width: 12px; height: 12px; color: var(--on); }
+  .grp .chev { width: 14px; height: 14px; }
+  .lock { position: relative; flex: none; width: 48px; height: 48px; border-radius: 50%; background: var(--card);
+    display: grid; place-items: center; box-shadow: var(--shadow); }
+  .lock svg { width: 22px; height: 22px; }
+  .lock.on { background: var(--green); color: var(--on); }
+  h1 { font-size: 34px; line-height: 1.1; font-weight: 500; letter-spacing: -.02em; margin: 18px 0 8px; }
+  .lead { font-size: 15px; color: var(--muted); font-weight: 400; }
 
-  /* ---- перемикач як в iOS ---- */
-  .bar { position: sticky; top: 0; z-index: 5; margin: 0 -16px; padding: 10px 16px;
-    background: var(--material); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); }
-  .seg { position: relative; display: flex; background: var(--fill); border-radius: 10px; padding: 2px; }
-  .seg button { flex: 1; position: relative; z-index: 1; padding: 7px 0; font-size: 14px; font-weight: 500;
-    border-radius: 8px; transition: font-weight .2s; }
-  .seg button.on { font-weight: 600; }
-  .seg .thumb { position: absolute; top: 2px; bottom: 2px; left: 2px; border-radius: 8px; background: var(--thumb);
-    box-shadow: var(--thumb-shadow); transition: transform .32s cubic-bezier(.3, .8, .25, 1); }
+  /* ---- вкладки ---- */
+  .tabs { display: flex; gap: 6px; margin: 20px 0 4px; }
+  .tabs button { flex: 1 1 auto; display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 42px; padding: 0 6px 0 12px;
+    border-radius: 21px; background: var(--card); font-size: 14.5px; font-weight: 500; box-shadow: var(--shadow); transition: background .2s; white-space: nowrap; }
+  .tabs button i { font-style: normal; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--soft);
+    font-size: 12px; font-weight: 600; display: grid; place-items: center; }
+  .tabs button.on { background: var(--salmon); color: var(--on); }
+  .tabs button.on i { background: rgba(21, 21, 21, .14); }
+  .tabs button.noc { padding-right: 12px; }
 
-  /* ---- головна картка ---- */
-  .hero { background: var(--card); border-radius: 22px; padding: 16px 18px 18px; margin: 10px 0 4px; box-shadow: var(--shadow); }
-  .kicker { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 600; color: var(--label2); }
-  .hero.live .kicker { color: var(--red); }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex: none; animation: pulse 2s ease-out infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 59, 48, .45); } 70%, 100% { box-shadow: 0 0 0 7px rgba(255, 59, 48, 0); } }
-  .hero h2 { font-size: 22px; line-height: 1.22; font-weight: 700; letter-spacing: -.015em; margin: 6px 0 4px; }
-  .hero .meta { font-size: 14px; color: var(--label2); }
-  .progress { height: 5px; border-radius: 3px; background: var(--fill); overflow: hidden; margin: 16px 0 8px; }
-  .progress i { display: block; height: 100%; border-radius: 3px; background: var(--red); }
-  .stats { display: flex; justify-content: space-between; font-size: 13px; color: var(--label2); font-variant-numeric: tabular-nums; }
-  .stats b { color: var(--label); font-weight: 600; }
-  .join { display: flex; gap: 8px; margin-top: 16px; }
-  .join button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; height: 48px;
-    border-radius: 14px; background: var(--blue); color: #fff; font-size: 16px; font-weight: 600; transition: transform .15s, opacity .15s; }
-  .join button:active { transform: scale(.97); opacity: .85; }
-  .join svg { width: 20px; height: 20px; }
+  /* ---- велика картка ---- */
+  .hero { position: relative; overflow: hidden; border-radius: 30px; padding: 20px; margin-top: 16px; color: var(--on); }
+  .hero.green { background: var(--green); } .hero.yellow { background: var(--yellow); } .hero.salmon { background: var(--salmon); }
+  .deco { position: absolute; top: 10px; right: 8px; width: 112px; height: 84px; pointer-events: none; }
+  .status { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 15px;
+    background: rgba(21, 21, 21, .1); font-size: 13px; font-weight: 500; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #e5372b; animation: pulse 1.8s ease-out infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(229, 55, 43, .5); } 75%, 100% { box-shadow: 0 0 0 7px rgba(229, 55, 43, 0); } }
+  .hero h2 { font-size: 27px; line-height: 1.12; font-weight: 600; letter-spacing: -.02em; margin: 40px 0 8px; }
+  .hero .by { font-size: 15px; font-weight: 400; opacity: .75; }
+  .prog { height: 8px; border-radius: 4px; background: rgba(21, 21, 21, .12); margin: 18px 0 8px; overflow: hidden; }
+  .prog i { display: block; height: 100%; border-radius: 4px; background: var(--on); }
+  .prog-l { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .prog-l span:first-child, .prog-l span:last-child { opacity: .6; }
+  .when { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .when span { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px;
+    background: rgba(21, 21, 21, .1); font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  .go { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 60px; margin-top: 18px;
+    padding: 0 8px 0 22px; border-radius: 30px; background: var(--pill); color: var(--pill-ink); font-size: 16px; font-weight: 500; }
+  .go + .go { margin-top: 8px; }
+  .go b { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: #151515; display: grid; place-items: center; }
+  .go b svg { width: 18px; height: 18px; margin-left: 2px; }
+  .next-line { margin-top: 14px; font-size: 14px; font-weight: 400; opacity: .75; }
 
-  /* ---- список пар ---- */
-  .sec { display: flex; justify-content: space-between; align-items: baseline; margin: 26px 4px 8px; }
-  .sec b { font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
-  .sec span { font-size: 13px; color: var(--label2); }
-  .sec.today b { color: var(--blue); }
-  .range { font-size: 13px; color: var(--label2); margin: 12px 4px 0; }
-  .group { background: var(--card); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); }
-  .row { position: relative; display: flex; gap: 14px; padding: 13px 16px 14px; }
-  .row + .row::before { content: ''; position: absolute; top: 0; left: 82px; right: 0; height: 1px;
-    background: var(--sep); transform: scaleY(.5); transform-origin: top; }
-  .row.live { background: var(--red-t); }
-  .row.past > div { opacity: .4; }
-  .time { width: 52px; flex: none; text-align: right; font-variant-numeric: tabular-nums; }
-  .time .s { font-size: 16px; font-weight: 600; letter-spacing: -.01em; }
-  .time .e { font-size: 13px; color: var(--label2); }
-  .time .n { font-size: 11px; color: var(--label3); margin-top: 3px; }
-  .row.live .time .s { color: var(--red); }
-  .info { flex: 1; min-width: 0; }
-  .name { font-size: 16px; font-weight: 600; line-height: 1.28; letter-spacing: -.01em; }
-  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 5px; font-size: 13px; color: var(--label2); }
-  .tag { font-size: 11px; font-weight: 600; line-height: 1; padding: 4px 7px; border-radius: 6px; letter-spacing: .01em; }
-  .tag.lec { color: var(--blue); background: var(--blue-t); }
-  .tag.prac { color: var(--green); background: var(--green-t); }
-  .tag.lab { color: var(--orange); background: var(--orange-t); }
-  .only { font-size: 12px; color: var(--label3); margin-top: 4px; }
-  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .chip { display: inline-flex; align-items: center; gap: 5px; height: 28px; padding: 0 11px 0 9px; border-radius: 14px;
-    background: var(--blue-t); color: var(--blue); font-size: 13px; font-weight: 600; transition: transform .15s; }
-  .chip:active { transform: scale(.95); }
-  .chip svg { width: 15px; height: 15px; }
-  .empty { text-align: center; color: var(--label2); padding: 22px 16px; font-size: 15px; }
-  .err { color: var(--red); padding: 16px; }
+  /* ---- список ---- */
+  .sec { display: flex; justify-content: space-between; align-items: center; margin: 28px 2px 12px; }
+  .sec b { font-size: 19px; font-weight: 500; letter-spacing: -.01em; }
+  .count { height: 30px; padding: 0 13px; border-radius: 15px; background: var(--salmon); color: var(--on);
+    font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; }
+  .count.ghost { background: var(--card); color: var(--muted); box-shadow: var(--shadow); }
+  .row { display: flex; gap: 14px; background: var(--card); border-radius: 24px; padding: 16px; margin-bottom: 10px;
+    box-shadow: var(--shadow); border: 2px solid transparent; }
+  .row.live { border-color: var(--green); }
+  .row.past { opacity: .45; }
+  .tm { flex: none; width: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    padding: 9px 0; border-radius: 16px; background: var(--soft); font-variant-numeric: tabular-nums; align-self: flex-start; }
+  .tm b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .tm span { font-size: 12px; font-weight: 500; color: var(--muted); }
+  .tm em { font-style: normal; font-size: 10.5px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+  .row.live .tm { background: var(--green); color: var(--on); }
+  .row.live .tm span, .row.live .tm em { color: rgba(21, 21, 21, .6); }
+  .bd { flex: 1; min-width: 0; }
+  .nm { font-size: 17px; font-weight: 500; line-height: 1.25; letter-spacing: -.01em; }
+  .mt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 7px; font-size: 13.5px; font-weight: 400; color: var(--muted); }
+  .tag { height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12px; font-weight: 500; color: var(--on); display: inline-flex; align-items: center; }
+  .tag.lec { background: var(--salmon); } .tag.prac { background: var(--green); } .tag.lab { background: var(--yellow); }
+  .tag.now { background: var(--ink); color: var(--bg); }
+  .only { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .act { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 6px; border-radius: 20px;
+    background: var(--ink); color: var(--bg); font-size: 14.5px; font-weight: 500; }
+  .act b { width: 28px; height: 28px; border-radius: 50%; background: var(--bg); color: var(--ink); display: grid; place-items: center; }
+  .act b svg { width: 12px; height: 12px; margin-left: 1px; }
+  .act.light { background: var(--soft); color: var(--ink); padding: 0 16px 0 12px; }
+  .act.light svg { width: 17px; height: 17px; }
+  .empty { background: var(--card); border-radius: 24px; padding: 26px 18px; text-align: center; color: var(--muted);
+    font-weight: 500; box-shadow: var(--shadow); }
+  .empty span { display: block; font-size: 30px; margin-bottom: 6px; }
+  .err { color: #d0392b; }
 
-  /* ---- вибір групи ---- */
-  .search { display: flex; align-items: center; gap: 6px; background: var(--fill); border-radius: 10px; padding: 0 10px; margin: 12px 0 10px; }
-  .search svg { width: 17px; height: 17px; color: var(--label2); flex: none; }
-  .search input { flex: 1; border: 0; background: none; outline: none; font: inherit; font-size: 17px; color: var(--label); padding: 8px 0; }
-  .search input::placeholder { color: var(--label2); }
-  .glist button { position: relative; display: flex; justify-content: space-between; gap: 12px; width: 100%; text-align: left; padding: 12px 16px; }
-  .glist button + button::before { content: ''; position: absolute; top: 0; left: 16px; right: 0; height: 1px;
-    background: var(--sep); transform: scaleY(.5); transform-origin: top; }
-  .glist small { color: var(--label2); font-size: 14px; }
-  .hint { color: var(--label2); font-size: 14px; padding: 14px 16px; }
+  /* ---- перемикач тижнів ---- */
+  .wk { display: flex; background: var(--card); border-radius: 22px; padding: 4px; margin-top: 16px; box-shadow: var(--shadow); }
+  .wk button { flex: 1; height: 38px; border-radius: 18px; font-size: 14.5px; font-weight: 500; color: var(--muted); }
+  .wk button.on { background: var(--ink); color: var(--bg); }
 
-  /* ---- код доступу ---- */
-  .foot { text-align: center; color: var(--label3); font-size: 12px; margin-top: 30px; line-height: 2; }
-  .foot a, .foot button { color: var(--label3); font-size: 12px; }
-  .foot a { text-decoration: none; }
-  .modal { position: fixed; inset: 0; z-index: 20; display: flex; justify-content: center; align-items: flex-start;
-    padding: 14vh 20px 0; visibility: hidden; }
-  .modal .scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, .4); opacity: 0; transition: opacity .25s; }
-  .dialog { position: relative; width: 100%; max-width: 360px; background: var(--card); border-radius: 22px; padding: 24px 20px 18px;
-    text-align: center; opacity: 0; transform: scale(1.06); transition: opacity .25s, transform .3s cubic-bezier(.2, .8, .2, 1); }
-  .modal.open { visibility: visible; }
-  .modal.open .scrim { opacity: 1; }
-  .modal.open .dialog { opacity: 1; transform: none; }
-  .badge-ic { width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 12px; display: grid; place-items: center;
-    background: var(--blue-t); color: var(--blue); }
-  .badge-ic svg { width: 28px; height: 28px; }
-  .dialog h3 { font-size: 20px; font-weight: 700; letter-spacing: -.01em; margin: 0 0 6px; }
-  .dialog p { font-size: 14px; color: var(--label2); margin: 0 0 18px; }
-  .dialog input { width: 100%; height: 50px; border: 0; outline: none; border-radius: 12px; background: var(--fill); color: var(--label);
-    font: 600 18px/1 ui-monospace, "SF Mono", Menlo, monospace; letter-spacing: .12em; text-align: center; text-transform: uppercase; }
-  .dialog input::placeholder { color: var(--label3); letter-spacing: .12em; }
-  .dialog .msg { min-height: 18px; font-size: 13px; color: var(--red); margin: 8px 0 6px; }
-  .btn { display: block; width: 100%; height: 50px; border-radius: 14px; font-size: 17px; font-weight: 600; }
-  .btn.primary { background: var(--blue); color: #fff; }
-  .btn.plain { color: var(--blue); height: 44px; margin-top: 4px; font-weight: 400; }
-  .btn:disabled { opacity: .5; }
+  /* ---- окремі сторінки (група, доступ) ---- */
+  .page-top { display: flex; align-items: center; gap: 12px; padding: 18px 0 0; }
+  .back { width: 44px; height: 44px; border-radius: 50%; background: var(--card); display: grid; place-items: center; box-shadow: var(--shadow); }
+  .back svg { width: 20px; height: 20px; }
+  .page-top b { font-size: 18px; font-weight: 500; }
+  .search { display: flex; align-items: center; gap: 8px; background: var(--card); border-radius: 22px; padding: 0 16px; margin: 18px 0 12px; box-shadow: var(--shadow); }
+  .search svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+  .search input { flex: 1; border: 0; background: none; outline: none; font: inherit; font-size: 16px; color: var(--ink); padding: 14px 0; }
+  .search input::placeholder { color: var(--muted); }
+  .glist button { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left;
+    background: var(--card); border-radius: 18px; padding: 14px 16px; margin-bottom: 8px; font-weight: 500; box-shadow: var(--shadow); }
+  .glist small { color: var(--muted); font-size: 13px; }
+  .hint { color: var(--muted); padding: 12px 4px; }
+
+  .ac-hero { padding: 24px 22px; margin-top: 18px; }
+  .ac-hero .big { width: 64px; height: 64px; border-radius: 50%; background: var(--pill); color: #fff; display: grid; place-items: center; }
+  .ac-hero .big svg { width: 30px; height: 30px; }
+  .ac-hero h2 { margin: 18px 0 8px; }
+  .ac-hero p { font-size: 15px; margin: 0; opacity: .75; }
+  .step { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border-radius: 22px; padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow); }
+  .step i { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--salmon); color: var(--on);
+    font-style: normal; font-weight: 600; display: grid; place-items: center; }
+  .step div { font-size: 16px; font-weight: 500; padding-top: 5px; }
+  .step small { display: block; color: var(--muted); font-size: 13.5px; font-weight: 400; margin-top: 3px; }
+  .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 58px; border-radius: 29px;
+    font-size: 16px; font-weight: 500; margin-top: 10px; }
+  .btn.dark { background: var(--ink); color: var(--bg); }
+  .btn.text { height: 44px; color: var(--muted); font-size: 14px; }
+  .btn svg { width: 20px; height: 20px; }
+  .codebox { background: var(--card); border-radius: 24px; padding: 16px; margin-top: 18px; box-shadow: var(--shadow); }
+  .codebox label { display: block; font-size: 15px; font-weight: 500; margin: 0 4px 10px; }
+  .codebox input { width: 100%; height: 52px; border: 0; outline: none; border-radius: 16px; background: var(--soft); color: var(--ink);
+    font: 600 18px/1 Outfit, ui-monospace, monospace; letter-spacing: .14em; text-align: center; text-transform: uppercase; }
+  .codebox input::placeholder { color: var(--muted); letter-spacing: .14em; }
+  .codebox .msg { min-height: 18px; font-size: 13px; font-weight: 500; color: #d0392b; text-align: center; margin: 8px 0 0; }
+  .note { font-size: 13px; color: var(--muted); text-align: center; margin: 12px 8px 0; }
   .shake { animation: shake .4s; }
   @keyframes shake { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
+
+  .toast { position: fixed; left: 50%; top: 14px; z-index: 30; transform: translate(-50%, -140%); width: max-content; max-width: calc(100% - 32px);
+    background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 22px; font-size: 14px; font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .2); transition: transform .35s cubic-bezier(.2, .8, .2, 1); text-align: center; }
+  .toast.show { transform: translate(-50%, 0); }
+  .foot { text-align: center; color: var(--muted); font-size: 12px; margin-top: 28px; }
+  .foot a { color: var(--muted); }
 </style>
 </head>
 <body>
-<header>
-  <div class="eyebrow" id="sub">Завантаження…</div>
-  <div class="top">
-    <h1 id="title">Розклад</h1>
-    <button class="grp" id="grpBtn">Змінити групу</button>
+<div id="home">
+  <header class="head">
+    <div>
+      <div class="hi" id="hi">Привіт 👋</div>
+      <button class="grp" id="grpBtn"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></span><span id="grpName">ГС-61мп</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+    </div>
+    <button class="lock" id="lockBtn" aria-label="Посилання на пари"></button>
+  </header>
+  <h1 id="title">Розклад</h1>
+  <div class="lead" id="lead">Завантаження…</div>
+  <div class="tabs" id="tabs">
+    <button data-v="today" class="on">Сьогодні <i></i></button>
+    <button data-v="tomorrow">Завтра <i></i></button>
+    <button data-v="week">Тиждень <i></i></button>
   </div>
-</header>
-<div class="bar">
-  <div class="seg" id="tabs">
-    <span class="thumb"></span>
-    <button data-v="today" class="on">Сьогодні</button>
-    <button data-v="tomorrow">Завтра</button>
-    <button data-v="week">Тиждень</button>
-  </div>
+  <main id="main"></main>
+  <div class="foot">Дані: <a href="https://schedule.kpi.ua" target="_blank" rel="noopener">schedule.kpi.ua</a></div>
 </div>
-<main id="main"></main>
-<div class="foot">
-  <button id="keyBtn">Код доступу</button><br>
-  Дані: <a href="https://schedule.kpi.ua" target="_blank" rel="noopener">schedule.kpi.ua</a>
-</div>
-
-<div class="modal" id="modal">
-  <div class="scrim" id="scrim"></div>
-  <div class="dialog" id="dialog">
-    <div class="badge-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg></div>
-    <h3>Посилання на пари</h3>
-    <p>Введіть код доступу, щоб бачити Zoom, Meet і Classroom біля кожної пари.</p>
-    <input id="code" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20">
-    <div class="msg" id="msg"></div>
-    <button class="btn primary" id="unlockBtn">Відкрити</button>
-    <button class="btn plain" id="cancelBtn">Скасувати</button>
-  </div>
-</div>
+<div id="page" hidden></div>
+<div class="toast" id="toast"></div>
 
 <script>
 (function () {
   var API = 'https://api.campus.kpi.ua';
+  var BOT = 'rrrrrozklad_bot';
   var DEFAULT_GROUP = { id: '6202', name: 'ГС-61мп' };
   var TZ = 'Europe/Kyiv';
   var DAYS = ['Пн', 'Вв', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -203,15 +211,29 @@
 
   // Посилання на конференції — зашифровані (AES-GCM, ключ з коду доступу через PBKDF2).
   // Без коду це просто набір байтів. Генерується скриптом з приватної папки, вручну не редагувати.
-  var VAULT = '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';
+  var VAULT = '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';
   var VAULT_ITER = 310000;
   var CODE_KEY = 'rozklad_access';
 
-  var ICONS = {
-    video: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="13" height="12" rx="3"/><path d="M15.5 10.5l6-3.5v10l-6-3.5"/></svg>',
-    class: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>'
+  var IC = {
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>',
+    cap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>',
+    lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="3"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>',
+    unlock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="3"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>'
   };
-  var KIND = { zoom: ['Zoom', 'video'], meet: ['Meet', 'video'], classroom: ['Classroom', 'class'] };
+  var KIND = { zoom: 'Zoom', meet: 'Meet', classroom: 'Classroom' };
+  // Декор у стилі референсу: кольори підбираються під колір картки
+  function deco(a, b) {
+    return '<svg class="deco" viewBox="0 0 112 84" fill="none" stroke="#151515" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">' +
+      '<rect x="52" y="10" width="46" height="28" rx="5" fill="' + a + '" transform="rotate(-10 75 24)"/>' +
+      '<path d="M58 20h16M58 27h26" transform="rotate(-10 75 24)"/>' +
+      '<rect x="30" y="46" width="34" height="22" rx="4" fill="' + b + '" transform="rotate(12 47 57)"/>' +
+      '<circle cx="92" cy="62" r="8"/><path d="M16 22v10M11 27h10"/><path d="M80 76l6 0"/></svg>';
+  }
 
   var tg = window.Telegram && window.Telegram.WebApp;
   var inTg = !!(tg && tg.initData);
@@ -221,7 +243,7 @@
     var dark = inTg ? tg.colorScheme === 'dark' : window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
     if (inTg) {
-      var c = dark ? '#000000' : '#f2f2f7';
+      var c = dark ? '#111111' : '#f4f2ed';
       try { tg.setHeaderColor(c); tg.setBackgroundColor(c); } catch (e) {}
     }
   }
@@ -238,9 +260,15 @@
       else tg.HapticFeedback.notificationOccurred(arg);
     } catch (e) {}
   }
+  var toastTimer;
+  function toast(text) {
+    var t = document.getElementById('toast');
+    t.textContent = text; t.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3200);
+  }
 
   var state = { view: 'today', weekShift: 0, data: null, currentWeek: null, refDate: null, baseDate: null,
-                group: loadGroup(), vault: null };
+                group: loadGroup(), vault: null, code: null };
   var LINKS = [];
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -268,6 +296,7 @@
   function monday(dt) { return addDays(dt, -dow(dt)); }
   function human(dt) { return dt.getUTCDate() + ' ' + MONTHS[dt.getUTCMonth()]; }
   function toMin(hhmm) { var a = hhmm.split(':'); return +a[0] * 60 + +a[1]; }
+  function pairs(n) { var m = n % 10, h = n % 100; return n + ' ' + (m === 1 && h !== 11 ? 'пара' : m >= 2 && m <= 4 && (h < 10 || h >= 20) ? 'пари' : 'пар'); }
 
   function weekOf(dt) {
     var diff = Math.round((monday(dt) - monday(state.refDate)) / (7 * 86400000));
@@ -301,20 +330,18 @@
     return out;
   }
   function linkRef(l) { LINKS.push(l); return LINKS.length - 1; }
-  function chips(name) {
+  function rowActions(name) {
     var ls = linksFor(name);
     if (!ls.length) return '';
-    return '<div class="links">' + ls.map(function (l) {
-      var k = KIND[l.kind] || [l.kind, 'video'];
-      return '<button class="chip" data-li="' + linkRef(l) + '">' + ICONS[k[1]] + esc(k[0]) + '</button>';
+    return '<div class="acts">' + ls.map(function (l) {
+      if (l.kind === 'classroom') return '<button class="act light" data-li="' + linkRef(l) + '">' + IC.cap + 'Classroom</button>';
+      return '<button class="act" data-li="' + linkRef(l) + '"><b>' + IC.play + '</b>' + esc(KIND[l.kind] || l.kind) + '</button>';
     }).join('') + '</div>';
   }
-  function joinButtons(name) {
-    var ls = linksFor(name).filter(function (l) { return l.kind !== 'classroom'; });
-    if (!ls.length) return '';
-    return '<div class="join">' + ls.map(function (l) {
-      return '<button data-li="' + linkRef(l) + '">' + ICONS.video + (ls.length > 1 ? '' : 'Приєднатися · ') + esc(KIND[l.kind][0]) + '</button>';
-    }).join('') + '</div>';
+  function bigButtons(name, verb) {
+    return linksFor(name).filter(function (l) { return l.kind !== 'classroom'; }).map(function (l) {
+      return '<button class="go" data-li="' + linkRef(l) + '"><span>' + verb + ' · ' + esc(KIND[l.kind] || l.kind) + '</span><b>' + IC.play + '</b></button>';
+    }).join('');
   }
   function openLink(url) {
     haptic('imp', 'light');
@@ -322,6 +349,7 @@
     window.open(url, '_blank', 'noopener');
   }
 
+  // ---- доступ: розшифрування, збереження, запрошення ----
   function b64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
   function normCode(c) { return String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
   function decrypt(code) {
@@ -335,25 +363,56 @@
       .then(function (key) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct); })
       .then(function (buf) { return JSON.parse(new TextDecoder().decode(buf)); });
   }
-  function saveCode(c) {
-    store(CODE_KEY, c);
-    if (inTg && tg.CloudStorage) { try { tg.CloudStorage.setItem(CODE_KEY, c); } catch (e) {} }
+  function grant(code, vault) {
+    state.vault = vault; state.code = normCode(code);
+    store(CODE_KEY, state.code);
+    if (inTg && tg.CloudStorage) { try { tg.CloudStorage.setItem(CODE_KEY, state.code); } catch (e) {} }
+    updateLock(); render();
   }
-  function forgetCode() {
+  function revoke() {
+    state.vault = null; state.code = null;
     drop(CODE_KEY);
     if (inTg && tg.CloudStorage) { try { tg.CloudStorage.removeItem(CODE_KEY); } catch (e) {} }
+    updateLock(); render();
+  }
+  function inviteLink() { return 'https://t.me/' + BOT + '?startapp=k_' + state.code; }
+  function shareInvite() {
+    var link = inviteLink(), text = 'Розклад ' + state.group.name + ' з посиланнями на Zoom і Meet. Натисни, щоб відкрити:';
+    haptic('imp', 'medium');
+    if (inTg) {
+      try { tg.openTelegramLink('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(text)); return; } catch (e) {}
+    }
+    if (navigator.share) { navigator.share({ text: text, url: link }).catch(function () {}); return; }
+    if (navigator.clipboard) navigator.clipboard.writeText(link).then(function () { toast('Посилання скопійовано'); });
   }
   function restoreAccess() {
+    var sp = inTg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
+    if (sp && sp.indexOf('k_') === 0) {
+      var c = sp.slice(2);
+      decrypt(c).then(function (v) {
+        var had = !!read(CODE_KEY);
+        grant(c, v); haptic('n', 'success');
+        if (!had) toast('Доступ відкрито — кнопки Zoom і Meet тепер біля пар');
+      }).catch(function () { toast('Запрошення недійсне — попросіть нове'); haptic('n', 'error'); fromStorage(); });
+      return;
+    }
+    fromStorage();
+  }
+  function fromStorage() {
     function tryCode(c) {
       if (!c) return;
-      decrypt(c).then(function (v) { state.vault = v; store(CODE_KEY, c); updateFoot(); render(); })
-        .catch(function () { forgetCode(); });
+      decrypt(c).then(function (v) { grant(c, v); }).catch(function () { revoke(); });
     }
     var c = read(CODE_KEY);
     if (c) return tryCode(c);
     if (inTg && tg.CloudStorage) {
       try { tg.CloudStorage.getItem(CODE_KEY, function (err, v) { if (!err) tryCode(v); }); } catch (e) {}
     }
+  }
+  function updateLock() {
+    var b = document.getElementById('lockBtn');
+    b.innerHTML = state.vault ? IC.unlock : IC.lock;
+    b.classList.toggle('on', !!state.vault);
   }
 
   // ---- розмітка ----
@@ -367,28 +426,21 @@
     if (p.tag === 'lab') return ['lab', 'Лаба'];
     return ['prac', 'Практика'];
   }
-  function metaHtml(p) {
-    var t = tagOf(p);
-    return '<div class="meta"><span class="tag ' + t[0] + '">' + t[1] + '</span><span>' + esc(shortName(p.teacher)) +
-      (p.place ? ' · ' + esc(p.place) : '') + '</span></div>';
+  function dur(min) {
+    var h = Math.floor(min / 60), m = min % 60;
+    return h ? h + ' год' + (m ? ' ' + m + ' хв' : '') : m + ' хв';
   }
 
   function rowHtml(p, opts) {
-    var cls = 'row';
-    if (opts && opts.live) cls += ' live';
-    if (opts && opts.past) cls += ' past';
-    var only = '';
-    if (opts && opts.showDates && p.dates.length) {
-      only = '<div class="only">лише ' + p.dates.map(function (x) { return x.slice(8, 10) + '.' + x.slice(5, 7); }).join(', ') + '</div>';
-    }
-    return '<div class="' + cls + '"><div class="time"><div class="s">' + p.start + '</div><div class="e">' + p.end +
-      '</div>' + (p.num ? '<div class="n">' + p.num + ' пара</div>' : '') + '</div><div class="info"><div class="name">' +
-      esc(p.name) + '</div>' + metaHtml(p) + only + chips(p.name) + '</div></div>';
-  }
-
-  function dur(min) {
-    var h = Math.floor(min / 60), m = min % 60;
-    return (h ? h + ' год ' : '') + m + ' хв';
+    opts = opts || {};
+    var t = tagOf(p), cls = 'row' + (opts.live ? ' live' : '') + (opts.past ? ' past' : '');
+    var only = opts.showDates && p.dates.length
+      ? '<div class="only">лише ' + p.dates.map(function (x) { return x.slice(8, 10) + '.' + x.slice(5, 7); }).join(', ') + '</div>' : '';
+    return '<div class="' + cls + '"><div class="tm"><b>' + p.start + '</b><span>' + p.end + '</span>' +
+      (p.num ? '<em>' + p.num + ' пара</em>' : '') + '</div><div class="bd"><div class="nm">' + esc(p.name) + '</div>' +
+      '<div class="mt">' + (opts.live ? '<span class="tag now">Зараз</span>' : '') + '<span class="tag ' + t[0] + '">' + t[1] + '</span>' +
+      '<span>' + esc(shortName(p.teacher)) + (p.place ? ' · ' + esc(p.place) : '') + '</span></div>' + only +
+      (opts.past ? '' : rowActions(p.name)) + '</div></div>';
   }
 
   function nextDayWithPairs(from) {
@@ -404,90 +456,101 @@
     });
     if (live) {
       var total = toMin(live.end) - toMin(live.start), done = now.min - toMin(live.start);
-      return '<section class="hero live"><div class="kicker"><span class="dot"></span>Зараз іде</div>' +
-        '<h2>' + esc(live.name) + '</h2>' + metaHtml(live).replace('class="meta"', 'class="meta" style="margin-top:8px"') +
-        '<div class="progress"><i style="width:' + Math.round(done / total * 100) + '%"></i></div>' +
-        '<div class="stats"><span>Залишилось <b>' + dur(toMin(live.end) - now.min) + '</b></span><span>' +
-        (next ? 'Далі о ' + next.start : 'До ' + live.end) + '</span></div>' + joinButtons(live.name) + '</section>';
+      return '<section class="hero green">' + deco('#f5a48c', '#e8e382') +
+        '<span class="status"><i class="dot"></i>Зараз іде' + (live.num ? ' · ' + live.num + ' пара' : '') + '</span>' +
+        '<h2>' + esc(live.name) + '</h2><div class="by">' + esc(shortName(live.teacher)) + ' · ' + tagOf(live)[1] + '</div>' +
+        '<div class="prog"><i style="width:' + Math.round(done / total * 100) + '%"></i></div>' +
+        '<div class="prog-l"><span>' + live.start + '</span><span>ще ' + dur(toMin(live.end) - now.min) + '</span><span>' + live.end + '</span></div>' +
+        bigButtons(live.name, 'Приєднатися') +
+        (next ? '<div class="next-line">Далі о ' + next.start + ' — ' + esc(next.name) + '</div>' : '') + '</section>';
     }
     if (next) {
       var wait = toMin(next.start) - now.min;
-      return '<section class="hero"><div class="kicker">Наступна пара · о ' + next.start + '</div>' +
-        '<h2>' + esc(next.name) + '</h2>' + metaHtml(next).replace('class="meta"', 'class="meta" style="margin-top:8px"') +
-        '<div class="stats" style="margin-top:14px"><span>Почнеться через <b>' + dur(wait) + '</b></span><span>до ' + next.end + '</span></div>' +
-        (wait <= 30 ? joinButtons(next.name) : '') + '</section>';
+      return '<section class="hero yellow">' + deco('#8dca8e', '#f5a48c') +
+        '<span class="status">Наступна пара · через ' + dur(wait) + '</span>' +
+        '<h2>' + esc(next.name) + '</h2><div class="by">' + esc(shortName(next.teacher)) + ' · ' + tagOf(next)[1] + '</div>' +
+        '<div class="when"><span>' + next.start + ' – ' + next.end + '</span>' + (next.num ? '<span>' + next.num + ' пара</span>' : '') + '</div>' +
+        bigButtons(next.name, 'Відкрити') + '</section>';
     }
     var nd = nextDayWithPairs(dt), np = nd && pairsFor(nd)[0];
-    return '<section class="hero"><div class="kicker">' + (list.length ? 'На сьогодні пари закінчились' : 'Сьогодні пар немає') +
-      '</div>' + (np ? '<h2>' + esc(np.name) + '</h2><div class="meta" style="margin-top:6px">' + DAY_FULL[dow(nd)] +
-      ', ' + human(nd) + ' о ' + np.start + '</div>' : '') + '</section>';
+    return '<section class="hero salmon">' + deco('#e8e382', '#8dca8e') +
+      '<span class="status">' + (list.length ? 'Пари на сьогодні закінчились' : 'Сьогодні пар немає') + '</span>' +
+      (np ? '<h2>' + esc(np.name) + '</h2><div class="by">Наступна пара</div><div class="when"><span>' +
+        DAY_FULL[dow(nd)] + ', ' + human(nd) + '</span><span>' + np.start + '</span></div>'
+        : '<h2>Відпочивайте</h2>') + '</section>';
   }
 
-  function renderDay(dt, isToday) {
-    var now = kyivNow(), list = pairsFor(dt), html = '';
-    if (isToday) html += heroHtml(dt, list, now);
-    html += '<div class="sec' + (isToday ? ' today' : '') + '"><b>' + DAY_FULL[dow(dt)] + ', ' + human(dt) +
-      '</b><span>' + weekOf(dt) + '-й тиждень</span></div>';
-    if (!list.length) return html + '<div class="group empty">Пар немає — можна відпочити</div>';
-    html += '<div class="group">';
+  function dayList(list, opts) {
+    var now = kyivNow(), html = '';
+    if (!list.length) return '<div class="empty"><span>🎉</span>Пар немає</div>';
     list.forEach(function (p) {
-      var o = {};
-      if (isToday) { o.live = now.min >= toMin(p.start) && now.min < toMin(p.end); o.past = now.min >= toMin(p.end); }
+      var o = { showDates: opts.showDates };
+      if (opts.today) { o.live = now.min >= toMin(p.start) && now.min < toMin(p.end); o.past = now.min >= toMin(p.end); }
       html += rowHtml(p, o);
     });
-    return html + '</div>';
-  }
-
-  function renderWeek() {
-    var mon = addDays(monday(state.baseDate), 7 * state.weekShift);
-    var html = '<div class="seg" id="wk" style="margin-top:12px"><span class="thumb"></span>' +
-      '<button data-w="0" class="' + (state.weekShift === 0 ? 'on' : '') + '">Цей тиждень</button>' +
-      '<button data-w="1" class="' + (state.weekShift === 1 ? 'on' : '') + '">Наступний</button></div>';
-    html += '<div class="range">' + human(mon) + ' – ' + human(addDays(mon, 5)) + ' · ' + weekOf(mon) + '-й тиждень</div>';
-    var today = iso(state.baseDate), any = false;
-    for (var i = 0; i < 6; i++) {
-      var d = addDays(mon, i), list = pairsFor(d);
-      if (!list.length) continue;
-      any = true;
-      html += '<div class="sec' + (iso(d) === today ? ' today' : '') + '"><b>' + DAY_FULL[i] + '</b><span>' + human(d) + '</span></div><div class="group">';
-      list.forEach(function (p) { html += rowHtml(p, {}); });
-      html += '</div>';
-    }
-    if (!any) html += '<div class="group empty" style="margin-top:16px">Пар немає</div>';
     return html;
   }
 
-  function placeThumb(seg) {
-    if (!seg) return;
-    var btns = seg.querySelectorAll('button'), thumb = seg.querySelector('.thumb'), idx = 0;
-    Array.prototype.forEach.call(btns, function (b, i) { if (b.classList.contains('on')) idx = i; });
-    thumb.style.width = 'calc((100% - 4px) / ' + btns.length + ')';
-    thumb.style.transform = 'translateX(' + (idx * 100) + '%)';
+  function weekCount(mon) {
+    var n = 0;
+    for (var i = 0; i < 6; i++) n += pairsFor(addDays(mon, i)).length;
+    return n;
   }
 
   function render() {
-    var main = document.getElementById('main');
-    if (!state.data) return;
+    if (!state.data || !document.getElementById('page').hidden) return;
     LINKS = [];
-    var n = kyivNow();
-    state.baseDate = dateUTC(n.y, n.m, n.d);
-    document.getElementById('title').textContent = state.group.name;
-    document.getElementById('sub').textContent = DAY_FULL[dow(state.baseDate)] + ', ' + human(state.baseDate) + ' · ' +
-      weekOf(state.baseDate) + '-й тиждень';
-    if (state.view === 'today') main.innerHTML = renderDay(state.baseDate, true);
-    else if (state.view === 'tomorrow') main.innerHTML = renderDay(addDays(state.baseDate, 1), false);
-    else main.innerHTML = renderWeek();
-    var wk = document.getElementById('wk');
-    if (wk) {
-      placeThumb(wk);
-      Array.prototype.forEach.call(wk.querySelectorAll('[data-w]'), function (b) {
-        b.onclick = function () {
-          var w = +b.getAttribute('data-w');
-          if (w === state.weekShift) return;
-          haptic('sel'); state.weekShift = w; render();
-        };
-      });
+    var n = kyivNow(), main = document.getElementById('main');
+    var today = state.baseDate = dateUTC(n.y, n.m, n.d), tomorrow = addDays(today, 1);
+    var todayList = pairsFor(today), tomList = pairsFor(tomorrow);
+    var counts = { today: todayList.length, tomorrow: tomList.length, week: weekCount(monday(today)) };
+    Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
+      var c = counts[b.getAttribute('data-v')], i = b.querySelector('i');
+      i.textContent = c; i.style.display = c ? '' : 'none';
+      b.classList.toggle('noc', !c);
+    });
+    document.getElementById('grpName').textContent = state.group.name;
+    var title = document.getElementById('title'), lead = document.getElementById('lead'), html = '';
+
+    if (state.view === 'today') {
+      title.innerHTML = DAY_FULL[dow(today)] + ',<br>' + human(today);
+      lead.textContent = weekOf(today) + '-й тиждень · ' + (todayList.length ? pairs(todayList.length) : 'вихідний');
+      html += heroHtml(today, todayList, n);
+      if (todayList.length) {
+        html += '<div class="sec"><b>Пари на сьогодні</b><span class="count">' + pairs(todayList.length) + '</span></div>';
+        html += dayList(todayList, { today: true });
+      }
+    } else if (state.view === 'tomorrow') {
+      title.innerHTML = DAY_FULL[dow(tomorrow)] + ',<br>' + human(tomorrow);
+      lead.textContent = 'Завтра · ' + weekOf(tomorrow) + '-й тиждень';
+      html += '<div class="sec"><b>Пари на завтра</b><span class="count' + (tomList.length ? '' : ' ghost') + '">' +
+        (tomList.length ? pairs(tomList.length) : 'вихідний') + '</span></div>';
+      html += dayList(tomList, {});
+    } else {
+      var mon = addDays(monday(today), 7 * state.weekShift);
+      title.innerHTML = state.weekShift ? 'Наступний<br>тиждень' : 'Цей тиждень';
+      lead.textContent = human(mon) + ' – ' + human(addDays(mon, 5)) + ' · ' + weekOf(mon) + '-й тиждень';
+      html += '<div class="wk"><button data-w="0" class="' + (state.weekShift === 0 ? 'on' : '') + '">Цей тиждень</button>' +
+        '<button data-w="1" class="' + (state.weekShift === 1 ? 'on' : '') + '">Наступний</button></div>';
+      var any = false;
+      for (var i = 0; i < 6; i++) {
+        var d = addDays(mon, i), list = pairsFor(d), isToday = iso(d) === iso(today);
+        if (!list.length) continue;
+        any = true;
+        html += '<div class="sec"><b>' + DAY_FULL[i] + '</b><span class="count' + (isToday ? '' : ' ghost') + '">' +
+          (isToday ? 'сьогодні' : human(d)) + '</span></div>';
+        html += dayList(list, { showDates: true });
+      }
+      if (!any) html += '<div class="empty" style="margin-top:16px"><span>🎉</span>Пар немає</div>';
     }
+    main.innerHTML = html;
+    Array.prototype.forEach.call(main.querySelectorAll('[data-w]'), function (b) {
+      b.onclick = function () {
+        var w = +b.getAttribute('data-w');
+        if (w === state.weekShift) return;
+        haptic('sel'); state.weekShift = w; render();
+      };
+    });
   }
 
   function getJSON(url) {
@@ -510,19 +573,38 @@
       })
       .catch(function () {
         if (!state.data) {
-          document.getElementById('sub').textContent = 'Немає зв’язку';
-          document.getElementById('main').innerHTML = '<div class="group err" style="margin-top:16px">Не вдалося завантажити розклад. Перевірте інтернет і відкрийте ще раз.</div>';
+          document.getElementById('lead').textContent = 'Немає зв’язку';
+          document.getElementById('main').innerHTML = '<div class="empty err" style="margin-top:16px">Не вдалося завантажити розклад. Перевірте інтернет і відкрийте ще раз.</div>';
         }
       });
   }
 
-  // ---- вибір групи ----
+  // ---- окремі сторінки ----
+  function showPage(html) {
+    var page = document.getElementById('page');
+    page.innerHTML = html; page.hidden = false;
+    document.getElementById('home').hidden = true;
+    window.scrollTo(0, 0);
+    if (inTg && tg.BackButton) { try { tg.BackButton.show(); } catch (e) {} }
+    var b = page.querySelector('.back');
+    if (b) b.onclick = closePage;
+  }
+  function closePage() {
+    var page = document.getElementById('page');
+    if (page.hidden) return;
+    page.hidden = true; page.innerHTML = '';
+    document.getElementById('home').hidden = false;
+    if (inTg && tg.BackButton) { try { tg.BackButton.hide(); } catch (e) {} }
+    render();
+  }
+  if (inTg && tg.BackButton) { try { tg.BackButton.onClick(closePage); } catch (e) {} }
+  function pageTop(title) { return '<div class="page-top"><button class="back" aria-label="Назад">' + IC.back + '</button><b>' + title + '</b></div>'; }
+
   var groupsCache = null;
   function openGroupPicker() {
-    var main = document.getElementById('main');
-    main.innerHTML = '<label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>' +
+    showPage(pageTop('Вибір групи') + '<label class="search">' + IC.search +
       '<input id="q" placeholder="Назва групи, напр. ГС-61мп" autocomplete="off"></label>' +
-      '<div class="group glist" id="gl"><div class="hint">Завантаження списку груп…</div></div>';
+      '<div class="glist" id="gl"><div class="hint">Завантаження списку груп…</div></div>');
     var q = document.getElementById('q'), gl = document.getElementById('gl');
     function draw() {
       if (!groupsCache) return;
@@ -536,7 +618,7 @@
           haptic('sel');
           state.group = { id: b.getAttribute('data-id'), name: b.getAttribute('data-name') };
           store('rozklad_group', JSON.stringify(state.group));
-          state.data = null; setView('today'); load();
+          state.data = null; state.view = 'today'; setTabs(); closePage(); load();
         };
       });
     }
@@ -544,72 +626,80 @@
     if (groupsCache) draw();
     else getJSON(API + '/schedule/groups').then(function (g) { groupsCache = g.data || g; draw(); })
       .catch(function () { gl.innerHTML = '<div class="hint err">Не вдалося завантажити список груп</div>'; });
-    q.focus();
   }
 
-  function setView(v) {
-    state.view = v;
-    var tabs = document.getElementById('tabs');
-    Array.prototype.forEach.call(tabs.querySelectorAll('button'), function (b) {
-      b.classList.toggle('on', b.getAttribute('data-v') === v);
+  function openAccess() {
+    if (state.vault) {
+      showPage(pageTop('Посилання на пари') +
+        '<section class="hero green ac-hero">' + deco('#f5a48c', '#e8e382') + '<div class="big">' + IC.check + '</div>' +
+        '<h2>Доступ відкрито</h2><p>Біля кожної пари є кнопки Zoom, Meet і Classroom. Стороннім вони не видні.</p></section>' +
+        '<div class="sec"><b>Як дати доступ іншому</b></div>' +
+        '<div class="step"><i>1</i><div>Натисніть «Запросити»<small>Відкриється список ваших чатів у Telegram</small></div></div>' +
+        '<div class="step"><i>2</i><div>Виберіть чат групи або людину<small>Хто натисне на посилання — одразу бачить Zoom і Meet. Ніяких кодів</small></div></div>' +
+        '<button class="btn dark" id="inviteBtn">' + IC.share + 'Запросити</button>' +
+        '<div class="note">Надсилайте тільки своїм — у чат групи чи особисто. Стороннім не пересилайте.</div>' +
+        '<button class="btn text" id="offBtn">Сховати посилання на цьому телефоні</button>');
+      document.getElementById('inviteBtn').onclick = shareInvite;
+      document.getElementById('offBtn').onclick = function () { revoke(); haptic('n', 'warning'); closePage(); toast('Посилання сховано'); };
+      return;
+    }
+    showPage(pageTop('Посилання на пари') +
+      '<section class="hero salmon ac-hero">' + deco('#e8e382', '#8dca8e') + '<div class="big">' + IC.lock + '</div>' +
+      '<h2>Zoom і Meet — лише для своїх</h2><p>Посилання на пари приховані. Їх бачать тільки ті, кого запросили.</p></section>' +
+      '<div class="sec"><b>Як отримати доступ</b></div>' +
+      '<div class="step"><i>1</i><div>Знайдіть посилання-запрошення<small>У чаті групи або попросіть в одногрупника</small></div></div>' +
+      '<div class="step"><i>2</i><div>Натисніть на нього<small>Розклад відкриється вже з кнопками Zoom і Meet. Нічого вводити не треба</small></div></div>' +
+      '<button class="btn text" id="haveCode">У мене є код</button>' +
+      '<div class="codebox" id="codebox" hidden><label>Код доступу</label>' +
+      '<input id="code" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20">' +
+      '<div class="msg" id="msg"></div><button class="btn dark" id="unlockBtn" style="margin-top:6px">Відкрити</button></div>');
+    var codeIn = document.getElementById('code'), msg = document.getElementById('msg'), btn = document.getElementById('unlockBtn');
+    document.getElementById('haveCode').onclick = function () {
+      this.hidden = true; document.getElementById('codebox').hidden = false; codeIn.focus();
+    };
+    function submit() {
+      var c = codeIn.value;
+      if (normCode(c).length < 6) { msg.textContent = 'Введіть код повністю'; return; }
+      btn.disabled = true; btn.textContent = 'Перевіряю…'; msg.textContent = '';
+      decrypt(c).then(function (v) {
+        closePage(); grant(c, v); haptic('n', 'success'); toast('Доступ відкрито — кнопки Zoom і Meet тепер біля пар');
+      }).catch(function () {
+        haptic('n', 'error'); msg.textContent = 'Код не підходить';
+        var box = codeIn.parentNode; box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
+        btn.disabled = false; btn.textContent = 'Відкрити';
+      });
+    }
+    btn.onclick = submit;
+    codeIn.onkeydown = function (e) { if (e.key === 'Enter') submit(); };
+  }
+
+  function setTabs() {
+    Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
+      b.classList.toggle('on', b.getAttribute('data-v') === state.view);
     });
-    placeThumb(tabs);
-    render();
   }
-
-  // ---- вікно коду доступу ----
-  var modal = document.getElementById('modal'), codeIn = document.getElementById('code'),
-      msg = document.getElementById('msg'), unlockBtn = document.getElementById('unlockBtn');
-  function updateFoot() {
-    document.getElementById('keyBtn').textContent = state.vault ? 'Посилання відкрито · Вийти' : 'Код доступу';
-  }
-  function openModal() {
-    msg.textContent = ''; codeIn.value = '';
-    modal.classList.add('open');
-    setTimeout(function () { codeIn.focus(); }, 80);
-  }
-  function closeModal() { modal.classList.remove('open'); codeIn.blur(); }
-  function submitCode() {
-    var c = codeIn.value;
-    if (normCode(c).length < 6) { msg.textContent = 'Введіть код повністю'; return; }
-    unlockBtn.disabled = true; unlockBtn.textContent = 'Перевіряю…'; msg.textContent = '';
-    decrypt(c).then(function (v) {
-      state.vault = v; saveCode(normCode(c)); haptic('n', 'success');
-      closeModal(); updateFoot(); render();
-    }).catch(function () {
-      haptic('n', 'error');
-      msg.textContent = 'Код не підходить';
-      var d = document.getElementById('dialog');
-      d.classList.remove('shake'); void d.offsetWidth; d.classList.add('shake');
-    }).then(function () { unlockBtn.disabled = false; unlockBtn.textContent = 'Відкрити'; });
-  }
-  document.getElementById('keyBtn').onclick = function () {
-    if (state.vault) { state.vault = null; forgetCode(); updateFoot(); render(); return; }
-    openModal();
-  };
-  document.getElementById('scrim').onclick = closeModal;
-  document.getElementById('cancelBtn').onclick = closeModal;
-  unlockBtn.onclick = submitCode;
-  codeIn.onkeydown = function (e) { if (e.key === 'Enter') submitCode(); };
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-li]');
     if (b && LINKS[+b.getAttribute('data-li')]) openLink(LINKS[+b.getAttribute('data-li')].url);
   });
-
   Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
     b.onclick = function () {
       var v = b.getAttribute('data-v');
-      if (v === state.view && document.getElementById('q') == null) return;
-      haptic('sel'); state.weekShift = 0; setView(v);
+      if (v === state.view) return;
+      haptic('sel'); state.view = v; state.weekShift = 0; setTabs(); render();
     };
   });
   document.getElementById('grpBtn').onclick = openGroupPicker;
+  document.getElementById('lockBtn').onclick = openAccess;
 
-  placeThumb(document.getElementById('tabs'));
+  var user = inTg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+  if (user && user.first_name) document.getElementById('hi').innerHTML = 'Привіт, <b>' + esc(user.first_name) + '</b> 👋';
+
+  updateLock();
   load();
   restoreAccess();
-  setInterval(function () { if (state.view !== 'week' && document.getElementById('q') == null) render(); }, 30000);
+  setInterval(function () { if (state.view !== 'week') render(); }, 30000);
 })();
 </script>
 </body>
