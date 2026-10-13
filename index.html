@@ -6,8 +6,7 @@
 <title>Розклад КПІ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Outfit — шрифт із референсу (латиниця й цифри); Onest — найближчий до нього з українськими літерами -->
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,500;0,600;0,700;0,800;1,500;1,600&family=Unbounded:wght@700&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
   (function () {
@@ -19,181 +18,178 @@
 </script>
 <style>
   :root {
-    --bg: #e8e4dc; --card: #ffffff; --soft: #f1eee8; --ink: #121212; --muted: #55524c; --border: rgba(18, 18, 18, .07);
-    --tm: #121212; --tm-ink: #ffffff;
-    --green: #8dca8e; --salmon: #f5a48c; --yellow: #e8e382;
-    --on: #151515; --pill: #151515; --pill-ink: #ffffff;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 6px 18px rgba(0, 0, 0, .06);
+    --bg: #ececea; --card: #ffffff; --ink: #0d0d0d; --muted: #5a5a5a; --dim: #9b9b98; --line: rgba(13, 13, 13, .12);
+    --on: #0d0d0d; --neon: #3ddc6e; --live: #f24b35;
+    --c-green: #1db45a; --c-lime: #dcf244; --c-lilac: #d8bbf6; --c-mint: #4ee3b4;
+    --c-pink: #f6a4a4; --c-violet: #8b86fa; --c-warm: #cdc7c0; --c-red: #f24b35;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
   }
   :root[data-theme="dark"] {
-    --bg: #0c0c0c; --card: #232323; --soft: #2e2e2e; --ink: #f6f6f3; --muted: #bdbab3; --border: rgba(255, 255, 255, .08);
-    --tm: #f6f6f3; --tm-ink: #121212; --pill: #111111; --shadow: none;
+    --bg: #000000; --card: #161616; --ink: #ffffff; --muted: #b0b0ad; --dim: #6c6c6a; --line: rgba(255, 255, 255, .14);
+    --shadow: none;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; background: var(--bg); color: var(--ink);
-    font: 16px/1.35 Outfit, Onest, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font: 16px/1.3 "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased; }
-  body { padding: 0 18px calc(32px + env(safe-area-inset-bottom)); max-width: 560px; margin: 0 auto; }
+  body { padding: 0 16px calc(104px + env(safe-area-inset-bottom)); max-width: 560px; margin: 0 auto; }
   button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
   button:active { transform: scale(.97); }
   svg { display: block; }
+  .num-font { font-family: Unbounded, "Inter Tight", sans-serif; }
 
   /* ---- шапка ---- */
-  .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0 4px; }
-  .hi { font-size: 20px; font-weight: 500; }
-  .hi b { font-weight: 700; }
-  .grp { display: inline-flex; align-items: center; gap: 6px; margin-top: 5px; font-size: 15px; font-weight: 600; color: var(--ink); }
-  .grp .cap { width: 20px; height: 20px; border-radius: 50%; background: var(--yellow); display: grid; place-items: center; }
-  .grp .cap svg { width: 12px; height: 12px; color: var(--on); }
-  .grp .chev { width: 14px; height: 14px; }
-  .lock { position: relative; flex: none; width: 48px; height: 48px; border-radius: 50%; background: var(--card);
-    display: grid; place-items: center; box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .lock svg { width: 22px; height: 22px; }
-  .lock.on { background: var(--green); color: var(--on); }
-  h1 { font-size: 34px; line-height: 1.1; font-weight: 700; letter-spacing: -.02em; margin: 18px 0 8px; }
-  .lead { font-size: 16px; color: var(--muted); font-weight: 500; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 16px 0 0; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 18px;
+    border: 1.5px solid var(--ink); font-size: 15px; font-weight: 700; }
+  .pill svg { width: 14px; height: 14px; }
+  .wkpill { font-size: 14px; font-style: italic; font-weight: 600; color: var(--muted); }
+  h1 { font-size: 42px; line-height: .98; font-weight: 800; letter-spacing: -.035em; margin: 22px 0 0; }
+  h1 span { display: block; color: var(--dim); }
+  .hello { font-size: 15px; font-weight: 600; color: var(--muted); margin-top: 10px; }
 
-  /* ---- вкладки ---- */
-  .tabs { display: flex; gap: 6px; margin: 20px 0 4px; }
-  .tabs button { flex: 1 1 auto; display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 42px; padding: 0 6px 0 12px;
-    border-radius: 21px; background: var(--card); font-size: 14.5px; font-weight: 600; box-shadow: var(--shadow); border: 1px solid var(--border); transition: background .2s; white-space: nowrap; }
-  .tabs button i { font-style: normal; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--soft);
-    font-size: 12px; font-weight: 600; display: grid; place-items: center; }
-  .tabs button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .tabs button.on i { background: var(--salmon); color: var(--on); }
-  .tabs button.noc { padding-right: 12px; }
+  /* ---- велика картка (як у Music OS) ---- */
+  .hero { background: var(--card); border-radius: 30px; padding: 16px; margin-top: 22px; box-shadow: var(--shadow); }
+  .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 4px 4px 14px; }
+  .kick { font-size: 19px; line-height: 1.05; font-weight: 800; letter-spacing: -.02em; }
+  .kick span { display: block; color: var(--dim); }
+  .ring { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 1.5px dashed var(--line); display: grid; place-items: center; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--live); animation: pulse 1.8s ease-out infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(242, 75, 53, .5); } 75%, 100% { box-shadow: 0 0 0 9px rgba(242, 75, 53, 0); } }
+  .block { position: relative; border-radius: 22px; padding: 18px 18px 14px; color: var(--on); min-height: 250px; display: flex; flex-direction: column; }
+  .block h2 { font-size: 25px; line-height: 1.06; font-weight: 800; letter-spacing: -.025em; margin: 0; }
+  .block .who { font-size: 14px; font-weight: 600; opacity: .62; margin-top: 6px; }
+  .balls { display: flex; gap: 6px; margin-top: 14px; }
+  .ball { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 18px; font-weight: 800;
+    border: 2px solid rgba(13, 13, 13, .85); color: var(--on); }
+  .big { display: flex; align-items: flex-end; justify-content: space-between; margin-top: auto; padding-top: 18px; }
+  .big svg { width: 74px; height: 74px; }
+  .big b { font-family: Unbounded, "Inter Tight", sans-serif; font-size: 92px; line-height: .78; font-weight: 700; letter-spacing: -.04em; }
+  .stats { display: flex; margin: 16px 0 2px; }
+  .stats div { flex: 1; padding: 0 12px; border-left: 1px solid var(--line); }
+  .stats div:first-child { padding-left: 4px; border-left: 0; }
+  .stats i { display: block; font-size: 13px; font-weight: 500; color: var(--muted); }
+  .stats b { display: block; font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .join { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 60px; margin-top: 14px;
+    padding: 0 8px 0 22px; border-radius: 30px; background: var(--ink); color: var(--bg); font-size: 17px; font-weight: 700; }
+  .join + .join { margin-top: 8px; }
+  .join .gdot { width: 9px; height: 9px; border-radius: 50%; background: var(--neon); display: inline-block; margin-right: 10px; vertical-align: 1px; }
+  .join b { width: 44px; height: 44px; border-radius: 50%; background: var(--neon); color: #0d0d0d; display: grid; place-items: center; }
+  .join b svg { width: 20px; height: 20px; }
 
-  /* ---- велика картка ---- */
-  .hero { position: relative; overflow: hidden; border-radius: 30px; padding: 20px; margin-top: 16px; color: var(--on); }
-  .hero.green { background: var(--green); } .hero.yellow { background: var(--yellow); } .hero.salmon { background: var(--salmon); }
-  .deco { position: absolute; top: 10px; right: 8px; width: 112px; height: 84px; pointer-events: none; }
-  .status { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 15px;
-    background: rgba(255, 255, 255, .55); font-size: 13.5px; font-weight: 700; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: #e5372b; animation: pulse 1.8s ease-out infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(229, 55, 43, .5); } 75%, 100% { box-shadow: 0 0 0 7px rgba(229, 55, 43, 0); } }
-  .hero h2 { font-size: 27px; line-height: 1.12; font-weight: 700; letter-spacing: -.02em; margin: 40px 0 8px; }
-  .hero .by { font-size: 16px; font-weight: 600; opacity: .85; }
-  .prog { height: 8px; border-radius: 4px; background: rgba(21, 21, 21, .12); margin: 18px 0 8px; overflow: hidden; }
-  .prog i { display: block; height: 100%; border-radius: 4px; background: var(--on); }
-  .prog-l { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
-  .prog-l { font-size: 14px; font-weight: 700; }
-  .prog-l span:first-child, .prog-l span:last-child { opacity: .7; }
-  .when { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
-  .when span { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px;
-    background: rgba(255, 255, 255, .55); font-size: 14.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .go { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 60px; margin-top: 18px;
-    padding: 0 8px 0 22px; border-radius: 30px; background: var(--pill); color: var(--pill-ink); font-size: 17px; font-weight: 600; }
-  .go + .go { margin-top: 8px; }
-  .go b { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: #151515; display: grid; place-items: center; }
-  .go b svg { width: 18px; height: 18px; margin-left: 2px; }
-  .next-line { margin-top: 14px; font-size: 15px; font-weight: 600; opacity: .85; }
+  /* ---- список пар ---- */
+  .sec { display: flex; justify-content: space-between; align-items: flex-end; margin: 34px 4px 12px; }
+  .sec h3 { font-size: 27px; line-height: 1; font-weight: 800; letter-spacing: -.03em; margin: 0; }
+  .sec h3 span { color: var(--dim); }
+  .sec small { font-size: 14px; font-weight: 600; font-style: italic; color: var(--muted); }
+  .row { display: flex; gap: 14px; background: var(--card); border-radius: 24px; padding: 12px; margin-bottom: 10px; box-shadow: var(--shadow); }
+  .row.live { box-shadow: inset 0 0 0 2.5px var(--ink), var(--shadow); }
+  .row.past { opacity: .45; }
+  .tile { flex: none; width: 74px; min-height: 74px; border-radius: 18px; color: var(--on); display: flex; flex-direction: column;
+    align-items: center; justify-content: center; align-self: flex-start; font-variant-numeric: tabular-nums; }
+  .tile b { font-size: 19px; font-weight: 800; letter-spacing: -.02em; }
+  .tile span { font-size: 13px; font-weight: 700; opacity: .6; }
+  .info { flex: 1; min-width: 0; padding: 4px 4px 4px 0; }
+  .nm { font-size: 17px; line-height: 1.16; font-weight: 800; letter-spacing: -.015em; }
+  .who2 { font-size: 14.5px; font-weight: 600; color: var(--muted); margin-top: 4px; }
+  .tags { font-size: 13.5px; font-style: italic; font-weight: 600; color: var(--muted); margin-top: 6px; }
+  .tags .now { color: var(--live); font-style: normal; font-weight: 800; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .lk { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 18px;
+    background: var(--ink); color: var(--bg); font-size: 14.5px; font-weight: 700; }
+  .lk svg { width: 14px; height: 14px; }
+  .lk.out { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+  .empty { background: var(--card); border-radius: 24px; padding: 28px 20px; box-shadow: var(--shadow); }
+  .empty b { display: block; font-size: 24px; font-weight: 800; letter-spacing: -.02em; }
+  .empty span { display: block; font-size: 15px; font-weight: 600; color: var(--muted); margin-top: 4px; }
+  .err { color: var(--live); }
 
-  /* ---- список ---- */
-  .sec { display: flex; justify-content: space-between; align-items: center; margin: 28px 2px 12px; }
-  .sec b { font-size: 21px; font-weight: 700; letter-spacing: -.01em; }
-  .count { height: 30px; padding: 0 13px; border-radius: 15px; background: var(--salmon); color: var(--on);
-    font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; }
-  .count.ghost { background: var(--card); color: var(--ink); box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .row { display: flex; gap: 14px; background: var(--card); border-radius: 24px; padding: 16px; margin-bottom: 10px;
-    box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .row.live { border: 2.5px solid var(--green); padding: 14.5px; }
-  .row.past { opacity: .5; }
-  .tm { flex: none; width: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
-    padding: 9px 0; border-radius: 16px; background: var(--tm); color: var(--tm-ink); font-variant-numeric: tabular-nums; align-self: flex-start; }
-  .tm b { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
-  .tm span { font-size: 12.5px; font-weight: 600; opacity: .72; }
-  .tm em { font-style: normal; font-size: 11px; font-weight: 600; opacity: .72; margin-top: 2px; }
-  .row.live .tm { background: var(--green); color: var(--on); }
-  
-  .bd { flex: 1; min-width: 0; }
-  .nm { font-size: 17px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
-  .mt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 8px; font-size: 14.5px; font-weight: 600; color: var(--muted); }
-  .tag { height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12.5px; font-weight: 700; color: var(--on); display: inline-flex; align-items: center; }
-  .tag.lec { background: var(--salmon); } .tag.prac { background: var(--green); } .tag.lab { background: var(--yellow); }
-  .tag.now { background: var(--ink); color: var(--bg); }
-  .only { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 6px; }
-  .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .act { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 6px; border-radius: 20px;
-    background: var(--ink); color: var(--bg); font-size: 15px; font-weight: 600; }
-  .act b { width: 28px; height: 28px; border-radius: 50%; background: var(--bg); color: var(--ink); display: grid; place-items: center; }
-  .act b svg { width: 12px; height: 12px; margin-left: 1px; }
-  .act.light { background: var(--card); color: var(--ink); padding: 0 16px 0 12px; box-shadow: inset 0 0 0 1.5px var(--ink); }
-  .act.light svg { width: 17px; height: 17px; }
-  .empty { background: var(--card); border-radius: 24px; padding: 26px 18px; text-align: center; color: var(--ink);
-    font-weight: 600; box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .empty span { display: block; font-size: 30px; margin-bottom: 6px; }
-  .err { color: #d0392b; }
-
-  /* ---- перемикач тижнів ---- */
-  .wk { display: flex; background: var(--card); border-radius: 22px; padding: 4px; margin-top: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .wk button { flex: 1; height: 38px; border-radius: 18px; font-size: 15px; font-weight: 600; color: var(--muted); }
+  /* ---- тиждень ---- */
+  .wk { display: flex; gap: 8px; margin-top: 18px; }
+  .wk button { height: 40px; padding: 0 18px; border-radius: 20px; font-size: 15px; font-weight: 700; box-shadow: inset 0 0 0 1.5px var(--ink); }
   .wk button.on { background: var(--ink); color: var(--bg); }
+  .day { display: flex; align-items: baseline; gap: 10px; margin: 30px 4px 12px; }
+  .day b { font-family: Unbounded, "Inter Tight", sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -.03em; }
+  .day span { font-size: 15px; font-weight: 600; color: var(--muted); }
+  .day em { margin-left: auto; font-size: 12px; font-weight: 800; font-style: normal; background: var(--live); color: #fff; padding: 4px 10px; border-radius: 12px; }
 
-  /* ---- окремі сторінки (група, доступ) ---- */
-  .page-top { display: flex; align-items: center; gap: 12px; padding: 18px 0 0; }
-  .back { width: 44px; height: 44px; border-radius: 50%; background: var(--card); display: grid; place-items: center; box-shadow: var(--shadow); border: 1px solid var(--border); }
+  /* ---- нижня панель ---- */
+  .dock { position: fixed; z-index: 10; left: 50%; transform: translateX(-50%); bottom: calc(12px + env(safe-area-inset-bottom));
+    width: calc(100% - 24px); max-width: 536px; height: 70px; border-radius: 26px; background: #141414; display: flex; padding: 0 6px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
+  :root[data-theme="dark"] .dock { background: #1e1e1e; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08); }
+  .dock button { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+    color: #8a8a88; font-size: 12px; font-weight: 700; }
+  .dock button svg { width: 23px; height: 23px; }
+  .dock button.on { color: var(--neon); }
+  .dock button[hidden] { display: none; }
+
+  /* ---- окремі сторінки ---- */
+  .ptop { display: flex; align-items: center; gap: 12px; padding: 16px 0 0; }
+  .back { width: 46px; height: 46px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--ink); display: grid; place-items: center; }
   .back svg { width: 20px; height: 20px; }
-  .page-top b { font-size: 18px; font-weight: 700; }
-  .search { display: flex; align-items: center; gap: 8px; background: var(--card); border-radius: 22px; padding: 0 16px; margin: 18px 0 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+  .lead { font-size: 16px; font-weight: 600; color: var(--muted); margin: 12px 2px 0; line-height: 1.4; }
+  .field { display: flex; gap: 8px; margin-top: 22px; }
+  .inp { flex: 1; min-width: 0; display: flex; align-items: center; height: 56px; padding: 0 16px; border-radius: 28px; background: var(--card);
+    box-shadow: var(--shadow), inset 0 0 0 1.5px var(--line); }
+  .inp b { font-size: 18px; font-weight: 800; color: var(--dim); margin-right: 2px; }
+  .inp input { flex: 1; min-width: 0; border: 0; outline: none; background: none; font: inherit; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .inp input::placeholder { color: var(--dim); font-weight: 600; }
+  .add { flex: none; height: 56px; padding: 0 22px; border-radius: 28px; background: var(--neon); color: #0d0d0d; font-size: 16px; font-weight: 800; }
+  .add:disabled { opacity: .5; }
+  .msg { min-height: 20px; font-size: 14px; font-weight: 700; margin: 8px 6px 0; }
+  .msg.bad { color: var(--live); }
+  .person { display: flex; align-items: center; gap: 12px; background: var(--card); border-radius: 20px; padding: 10px 10px 10px 12px; margin-bottom: 8px; box-shadow: var(--shadow); }
+  .ava { flex: none; width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-size: 17px; font-weight: 800; color: var(--on);
+    border: 2px solid rgba(13, 13, 13, .85); }
+  .person .u { flex: 1; min-width: 0; font-size: 17px; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .person .u small { display: block; font-size: 13px; font-weight: 600; font-style: italic; color: var(--muted); }
+  .del { flex: none; height: 38px; padding: 0 14px; border-radius: 19px; box-shadow: inset 0 0 0 1.5px var(--line); font-size: 14px; font-weight: 700; color: var(--muted); }
+  .note { background: var(--card); border-radius: 22px; padding: 16px 18px; margin-top: 18px; font-size: 14.5px; font-weight: 600; color: var(--muted); line-height: 1.45; box-shadow: var(--shadow); }
+  .note b { color: var(--ink); }
+  .search { display: flex; align-items: center; gap: 8px; height: 56px; padding: 0 18px; border-radius: 28px; background: var(--card); margin: 20px 0 12px;
+    box-shadow: var(--shadow), inset 0 0 0 1.5px var(--line); }
   .search svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
-  .search input { flex: 1; border: 0; background: none; outline: none; font: inherit; font-size: 16px; color: var(--ink); padding: 14px 0; }
-  .search input::placeholder { color: var(--muted); }
+  .search input { flex: 1; border: 0; background: none; outline: none; font: inherit; font-size: 17px; font-weight: 600; color: var(--ink); }
   .glist button { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left;
-    background: var(--card); border-radius: 18px; padding: 14px 16px; margin-bottom: 8px; font-weight: 700; box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .glist small { color: var(--muted); font-size: 13px; }
-  .hint { color: var(--muted); padding: 12px 4px; }
+    background: var(--card); border-radius: 20px; padding: 15px 18px; margin-bottom: 8px; font-size: 17px; font-weight: 800; box-shadow: var(--shadow); }
+  .glist small { color: var(--muted); font-size: 13px; font-weight: 600; }
+  .hint { color: var(--muted); font-weight: 600; padding: 12px 4px; }
 
-  .ac-hero { padding: 24px 22px; margin-top: 18px; }
-  .ac-hero .big { width: 64px; height: 64px; border-radius: 50%; background: var(--pill); color: #fff; display: grid; place-items: center; }
-  .ac-hero .big svg { width: 30px; height: 30px; }
-  .ac-hero h2 { margin: 18px 0 8px; }
-  .ac-hero p { font-size: 16px; font-weight: 500; margin: 0; opacity: .85; }
-  .step { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border-radius: 22px; padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow); border: 1px solid var(--border); }
-  .step i { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--salmon); color: var(--on);
-    font-style: normal; font-weight: 600; display: grid; place-items: center; }
-  .step div { font-size: 16px; font-weight: 700; padding-top: 5px; }
-  .step small { display: block; color: var(--muted); font-size: 14px; font-weight: 500; margin-top: 4px; }
-  .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 58px; border-radius: 29px;
-    font-size: 17px; font-weight: 600; margin-top: 10px; }
-  .btn.dark { background: var(--ink); color: var(--bg); }
-  .btn.text { height: 44px; color: var(--muted); font-size: 14px; }
-  .btn svg { width: 20px; height: 20px; }
-  .note { font-size: 14px; font-weight: 500; color: var(--muted); text-align: center; margin: 12px 8px 0; }
-
-  .toast { position: fixed; left: 50%; top: 14px; z-index: 30; transform: translate(-50%, -140%); width: max-content; max-width: calc(100% - 32px);
-    background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 22px; font-size: 14px; font-weight: 500;
+  .toast { position: fixed; left: 50%; top: 12px; z-index: 30; transform: translate(-50%, -150%); width: max-content; max-width: calc(100% - 32px);
+    background: var(--ink); color: var(--bg); padding: 13px 20px; border-radius: 24px; font-size: 15px; font-weight: 700;
     box-shadow: 0 10px 30px rgba(0, 0, 0, .2); transition: transform .35s cubic-bezier(.2, .8, .2, 1); text-align: center; }
   .toast.show { transform: translate(-50%, 0); }
-  .foot { text-align: center; color: var(--muted); font-size: 13px; font-weight: 500; margin-top: 28px; }
+  .foot { text-align: center; color: var(--muted); font-size: 13px; font-weight: 600; margin-top: 30px; }
   .foot a { color: var(--muted); }
 </style>
 </head>
 <body>
 <div id="home">
-  <header class="head">
-    <div>
-      <div class="hi" id="hi">Привіт 👋</div>
-      <button class="grp" id="grpBtn"><span class="cap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></span><span id="grpName">ГС-61мп</span><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
-    </div>
-    <button class="lock" id="lockBtn" aria-label="Посилання на пари"></button>
-  </header>
-  <h1 id="title">Розклад</h1>
-  <div class="lead" id="lead">Завантаження…</div>
-  <div class="tabs" id="tabs">
-    <button data-v="today" class="on">Сьогодні <i></i></button>
-    <button data-v="tomorrow">Завтра <i></i></button>
-    <button data-v="week">Тиждень <i></i></button>
+  <div class="top">
+    <button class="pill" id="grpBtn"><span id="grpName">ГС-61мп</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+    <span class="wkpill" id="wkName"></span>
   </div>
+  <h1 id="title">Розклад<span>КПІ</span></h1>
+  <div class="hello" id="hello"></div>
   <main id="main"></main>
   <div class="foot">Дані: <a href="https://schedule.kpi.ua" target="_blank" rel="noopener">schedule.kpi.ua</a></div>
 </div>
 <div id="page" hidden></div>
+
+<nav class="dock" id="dock">
+  <button data-v="today" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>Сьогодні</button>
+  <button data-v="tomorrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>Завтра</button>
+  <button data-v="week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="2"/></svg>Тиждень</button>
+  <button data-v="access" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.2-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M18 8v6M15 11h6"/></svg>Доступ</button>
+</nav>
 <div class="toast" id="toast"></div>
 
 <script>
 (function () {
   var API = 'https://api.campus.kpi.ua';
-  var BOT = 'rrrrrozklad_bot';
+  // Сервер посилань (Cloudflare). Посилання й список доступу живуть там, не в цьому файлі.
+  var LINKS_API = 'https://rozklad.zhelieznyi-vladyslav-hs-61mp.workers.dev';
   var DEFAULT_GROUP = { id: '6202', name: 'ГС-61мп' };
   var TZ = 'Europe/Kyiv';
   var DAYS = ['Пн', 'Вв', 'Ср', 'Чт', 'Пт', 'Сб'];
@@ -202,33 +198,16 @@
   // Стандартний дзвінковий розклад КПІ
   var BELLS = { '08:30': ['10:05', 1], '10:25': ['12:00', 2], '12:20': ['13:55', 3], '14:15': ['15:50', 4],
                 '16:10': ['17:45', 5], '18:30': ['20:05', 6], '20:20': ['21:55', 7] };
-
-  // Посилання на конференції — зашифровані (AES-GCM, ключ з коду доступу через PBKDF2).
-  // Без коду це просто набір байтів. Генерується скриптом з приватної папки, вручну не редагувати.
-  var VAULT = 'u2chHughkgU3aC6Ur5XXFdv2HZ48OE4jsEg9qLUu8/zworvfjXCjtXNrASYqmwCO+wscgMfhiozCeHC4DC8jHQM4xl8qj7cG1H/Acsm0lGSTNLGopKPJCn+hC36a0V/1f2J+sMozLWR86NQR/Oz2MTUV3J4u1ykIJ9dkuB2brgRRFK+XKxQHZgeCFnHG3sGMs3Fnsc0deGX9zB+L9g4YZ15jm0jaP6u5fWkdxEeBu0tqi+znmbWebg+5AHXSZljTaxGW0KzQ9PmjNPAAE4GnQPkFcQS90UvdsDI4I+rQ1OkwVC6ArKt4nypP3CDk9fr8FoTPTUFqRUuN9ZytejhCtpH3mHwF8FmZmfM9T+O0TLgmr4fBxlxc+NUC8CZHMWZAVsDkOKAOg2rmFAoMgENiIfkRQtE55f/p1qJbQEJIfQt+rDeA7bHKJeIp77wB+KhsYvuWaNMoHFf6vGdhA+0QwhW3U7HkF9AcgxWcIG3+h34SLR3EaWfx9SW9gcD6zrU96hiL8nMEUtfmQu1OhQy2g+pFqNFVfmWeDgfqUzKO6gL5o28WTx/tVxX3qhLxIzN+QEJoH/Z8L+6dVe2SS0N9DvLnA7LBes0YubjgEkclJ/RKDxFGkArIcypXfjrrfXi2WEXXeSD1Uw4DtcPAaVZw8JUlaZIpYJNHWtp+QmpUMnBvEhWYqpaLUjWexJ+e/qyO3TIoyKnIsbZxDfOjVc8BmMhjBD6Jg3wppucvQBDUrINNb/EANmHEj5Lu/5KlEIbJG4uEJ4hOP/c87bce4O9/Bx6RKh8FL/LapNlx7mLwXps7osynARNK7bdU2KO00RrezN0gDNG0l/k1dH/Mjg22VUI9rN9Za6qzbrmCgxvlYc7dm7ZsSO92QC+70kr+nR0uDrU33T9UCqQXUlPBHlRw+rIn+GA+UdWJV2zD4TmXapprGIf3xImXcJw80jto2JGSm5Zfyz6v9g6lMvcgPdbhOXRQyf1LTEQu/6J6gAKUVwPTZnM8SyZh35x4Iymn7xXLtGniVuIVD1CaiNwuwzfmP8RiqElX2nDr6f2sTxHbNcmDAY+Z0/x7XSqLA9QuAnMS/ZgzVoCezpSFakvDPTe5xkkVm6unM9IdmgxSKNXAS4pmYb4p+OEQthsnXDT7+DlkSsv+fiP+ETr/yPGXRtEr9D/VJaQNfZFaPc0TBuLzz0RQhWF8cb9M2tJgu71rdwLlcxXCD4yuYX2p42msvtEqsiB+1Gmoe8yw/okHRbzbah68hYkqZ2Ny5hEZujN76dIt9CgyJwhedJ5rdp3CtZxGMrS/j3lpC3JD/4SmFsTFicepCsG9zYz3tpFppiIqqjMe/TFa5j1AzfupMiCNYIUbkvd/Ww0F6hNqWAZ2T/+CB2MWhu144nb83ueqDFIdPeeT/Pn4t+8s2p+QgCdT7OF+hEhNl1gei1RBS77BQ4S6k8LyJsc8eN4N79LdT8PznKXdSFZ/ZJvUelD0MZx+kZWtDkKUFQVy1u6GgODe0gBj0iP75KXYXNLTDEKF5pUgbN0HnEronK83w6ySqFlOBPgojHLhdU8n5QW+1PlI3sQtD3OOslGNWDmihJPBFH0glNIY7fAjccH+Oh7RZ1ghR43pzeaG6MASlGDgQ9zsusG4Adsfgh/79VyX6Oid50BFpup9LAJsGYGMe9zJKI7kXkrd/lKa4UARGK57viArnjnDzUH7yPHmp2I0bOfjuz+PE7wIaqQQ2tG4c51KNeTbcX5CYj9/U/kTqsG6TMPrjwwKERK+gQN6+itdEco5sFeK7hAMvqdZ7jeuPBVZAA7vZlURfNgRwoeIpuIbvWK6cvZcqj5iGUSICBJ72ioHlSO6rmkbCC+pnomn0FkEzOt0xB3tX/SiROVhjSlazCXorR9JoK3kr3qhzx/txMp+7/XZidrbNnLAYvAkySv8HCltPNOQujXvp5AyoY66rlQ4w2F3v30GksXwcvzf81vrZXDPHmviv4Pc5SZhLnEsPk2OOKLP6bEYSFx8Jkyyty4QCz8ONsLg97LO1d89DtMZC6cwVqMonne1+Fcpq9OTRd2Rdy9p+cM8jBP88zZFB1+8LuQJKZHrW3koSYFTavKxVJrns7tuUjrBrPUJCrBSuQXiqpm4YF2C3/sBDocbkguh+kQQiki3aXnixDlqHlk1PUJmCzFqQYB31hPWwR42XBpv7Mla6gfxdjzm1k7ZxziXZTry5MDr+ynevThUKrLUQH358vuHj2/IM5o0l5oQooQSmClC4oVCLuVTwUB62JUxEZY9c/izzka9Cox/v3hQs989sydJughzcxW2uE+uvc/tnYawLBMGCu64r9+//d09mNjWxpaEXXNrrku1rrncv3uk+xtJtXtMi7J0vgu4uuiM/0EBfv+zLnFCLcydbzpnLBB/OPz/voo7waSziB8FhSyUkMxhYFhlcqMbqqcQ+q0WRxrsFlPdcRUirFHOjzeFi1LnG+W2JTD4zfcgH4OWLlon60Mz5fzys6g8Tg81uq/E+yRSFq2RvPIb/EJ1BfoG5uHxBPAhN3fF4OkbjzxYocK2UsEP0OmCtZiqN7L1x9BEXi96jpXCttMFojHsLGT2V7y6wZK3bOd4mIa45RlS0QJdBg==';
-  var VAULT_ITER = 310000;
-  var CODE_KEY = 'rozklad_access';
-  var OWNER_KEY = 'rozklad_owner'; // лише власник бачить кнопку «Запросити»
-
-  var IC = {
-    play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>',
-    cap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>',
-    lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="3"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>',
-    unlock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="3"/><path d="M8 10.5V7.5a4 4 0 0 1 7.7-1.5"/></svg>',
-    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
-    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
-    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/></svg>',
-    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>'
-  };
+  var PALETTE = ['green', 'lilac', 'lime', 'mint', 'violet', 'pink', 'warm', 'red'];
   var KIND = { zoom: 'Zoom', meet: 'Meet', classroom: 'Classroom' };
-  // Декор у стилі референсу: кольори підбираються під колір картки
-  function deco(a, b) {
-    return '<svg class="deco" viewBox="0 0 112 84" fill="none" stroke="#151515" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">' +
-      '<rect x="52" y="10" width="46" height="28" rx="5" fill="' + a + '" transform="rotate(-10 75 24)"/>' +
-      '<path d="M58 20h16M58 27h26" transform="rotate(-10 75 24)"/>' +
-      '<rect x="30" y="46" width="34" height="22" rx="4" fill="' + b + '" transform="rotate(12 47 57)"/>' +
-      '<circle cx="92" cy="62" r="8"/><path d="M16 22v10M11 27h10"/><path d="M80 76l6 0"/></svg>';
-  }
+  var IC = {
+    out: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+    right: '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="miter"><path d="M6 40h62M42 14l26 26-26 26"/></svg>',
+    down: '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="miter"><path d="M40 4v66M14 44l26 26 26-26"/></svg>',
+    left: '<svg viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="10" stroke-linejoin="miter"><path d="M74 40H12M38 14L12 40l26 26"/></svg>'
+  };
 
   var tg = window.Telegram && window.Telegram.WebApp;
   var inTg = !!(tg && tg.initData);
@@ -238,7 +217,7 @@
     var dark = inTg ? tg.colorScheme === 'dark' : window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
     if (inTg) {
-      var c = dark ? '#0c0c0c' : '#e8e4dc';
+      var c = dark ? '#000000' : '#ececea';
       try { tg.setHeaderColor(c); tg.setBackgroundColor(c); } catch (e) {}
     }
   }
@@ -259,11 +238,11 @@
   function toast(text) {
     var t = document.getElementById('toast');
     t.textContent = text; t.classList.add('show');
-    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3200);
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.remove('show'); }, 3000);
   }
 
   var state = { view: 'today', weekShift: 0, data: null, currentWeek: null, refDate: null, baseDate: null,
-                group: loadGroup(), vault: null, code: null, owner: false };
+                group: loadGroup(), links: null, owner: false, colors: {} };
   var LINKS = [];
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -315,110 +294,51 @@
       .sort(function (a, b) { return toMin(a.start) - toMin(b.start); });
   }
 
-  // ---- посилання ----
+  // У кожного предмета свій колір — однаковий у картці й у списку
+  function buildColors() {
+    var names = {};
+    ['scheduleFirstWeek', 'scheduleSecondWeek'].forEach(function (w) {
+      (state.data[w] || []).forEach(function (d) { d.pairs.forEach(function (p) { names[p.name] = 1; }); });
+    });
+    state.colors = {};
+    Object.keys(names).sort().forEach(function (n, i) { state.colors[n] = PALETTE[i % PALETTE.length]; });
+  }
+  function colorOf(name) { return 'var(--c-' + (state.colors[name] || 'warm') + ')'; }
+
+  // ---- посилання (приходять із сервера лише тим, кому дали доступ) ----
   function linksFor(name) {
-    if (!state.vault || state.group.id !== state.vault.group) return [];
+    if (!state.links || state.group.id !== state.links.group) return [];
     var n = String(name || '').toLowerCase(), out = [];
-    state.vault.items.forEach(function (it) {
+    state.links.items.forEach(function (it) {
       if (n.indexOf(it.match.toLowerCase()) >= 0) out = out.concat(it.links);
     });
     return out;
   }
   function linkRef(l) { LINKS.push(l); return LINKS.length - 1; }
-  function rowActions(name) {
-    var ls = linksFor(name);
-    if (!ls.length) return '';
-    return '<div class="acts">' + ls.map(function (l) {
-      if (l.kind === 'classroom') return '<button class="act light" data-li="' + linkRef(l) + '">' + IC.cap + 'Classroom</button>';
-      return '<button class="act" data-li="' + linkRef(l) + '"><b>' + IC.play + '</b>' + esc(KIND[l.kind] || l.kind) + '</button>';
-    }).join('') + '</div>';
-  }
-  function bigButtons(name, verb) {
-    return linksFor(name).filter(function (l) { return l.kind !== 'classroom'; }).map(function (l) {
-      return '<button class="go" data-li="' + linkRef(l) + '"><span>' + verb + ' · ' + esc(KIND[l.kind] || l.kind) + '</span><b>' + IC.play + '</b></button>';
-    }).join('');
-  }
   function openLink(url) {
     haptic('imp', 'light');
     if (inTg) { try { tg.openLink(url); return; } catch (e) {} }
     window.open(url, '_blank', 'noopener');
   }
-
-  // ---- доступ: розшифрування, збереження, запрошення ----
-  function b64(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
-  function normCode(c) { return String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
-  function decrypt(code) {
-    if (!VAULT || !window.crypto || !crypto.subtle) return Promise.reject(new Error('unsupported'));
-    var raw = b64(VAULT), salt = raw.slice(0, 16), iv = raw.slice(16, 28), ct = raw.slice(28);
-    return crypto.subtle.importKey('raw', new TextEncoder().encode(normCode(code)), 'PBKDF2', false, ['deriveKey'])
-      .then(function (k) {
-        return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: VAULT_ITER, hash: 'SHA-256' },
-          k, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-      })
-      .then(function (key) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct); })
-      .then(function (buf) { return JSON.parse(new TextDecoder().decode(buf)); });
+  function post(path, body) {
+    body = body || {};
+    body.initData = tg.initData;
+    return fetch(LINKS_API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().then(function (j) { j._status = r.status; return j; }); });
   }
-  function grant(code, vault, owner) {
-    state.vault = vault; state.code = normCode(code);
-    store(CODE_KEY, state.code);
-    if (inTg && tg.CloudStorage) { try { tg.CloudStorage.setItem(CODE_KEY, state.code); } catch (e) {} }
-    if (owner) {
-      state.owner = true; store(OWNER_KEY, '1');
-      if (inTg && tg.CloudStorage) { try { tg.CloudStorage.setItem(OWNER_KEY, '1'); } catch (e) {} }
-    }
-    updateLock(); render();
-  }
-  function revoke() {
-    state.vault = null; state.code = null; state.owner = false;
-    drop(CODE_KEY); drop(OWNER_KEY);
-    if (inTg && tg.CloudStorage) { try { tg.CloudStorage.removeItems([CODE_KEY, OWNER_KEY]); } catch (e) {} }
-    updateLock(); render();
-  }
-  function inviteLink() { return 'https://t.me/' + BOT + '?startapp=k_' + state.code; }
-  function shareInvite() {
-    var link = inviteLink(), text = 'Розклад ' + state.group.name + ' з посиланнями на Zoom і Meet. Натисни, щоб відкрити:';
-    haptic('imp', 'medium');
-    if (inTg) {
-      try { tg.openTelegramLink('https://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(text)); return; } catch (e) {}
-    }
-    if (navigator.share) { navigator.share({ text: text, url: link }).catch(function () {}); return; }
-    if (navigator.clipboard) navigator.clipboard.writeText(link).then(function () { toast('Посилання скопійовано'); });
-  }
-  function restoreAccess() {
-    restoreOwner();
-    var sp = inTg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
-    if (sp && (sp.indexOf('k_') === 0 || sp.indexOf('o_') === 0)) {
-      var c = sp.slice(2), own = sp.charAt(0) === 'o';
-      decrypt(c).then(function (v) {
-        var had = !!read(CODE_KEY);
-        grant(c, v, own); haptic('n', 'success');
-        if (!had) toast(own ? 'Ви власник — можете запрошувати інших' : 'Доступ відкрито — кнопки Zoom і Meet тепер біля пар');
-      }).catch(function () { toast('Запрошення недійсне — попросіть нове'); haptic('n', 'error'); fromStorage(); });
-      return;
-    }
-    fromStorage();
-  }
-  function restoreOwner() {
-    if (read(OWNER_KEY)) { state.owner = true; return; }
-    if (inTg && tg.CloudStorage) {
-      try { tg.CloudStorage.getItem(OWNER_KEY, function (err, v) { if (!err && v) { state.owner = true; store(OWNER_KEY, '1'); } }); } catch (e) {}
-    }
-  }
-  function fromStorage() {
-    function tryCode(c) {
-      if (!c) return;
-      decrypt(c).then(function (v) { grant(c, v); }).catch(function () { revoke(); });
-    }
-    var c = read(CODE_KEY);
-    if (c) return tryCode(c);
-    if (inTg && tg.CloudStorage) {
-      try { tg.CloudStorage.getItem(CODE_KEY, function (err, v) { if (!err) tryCode(v); }); } catch (e) {}
-    }
-  }
-  function updateLock() {
-    var b = document.getElementById('lockBtn');
-    b.innerHTML = state.vault ? IC.unlock : IC.lock;
-    b.classList.toggle('on', !!state.vault);
+  function loadAccess() {
+    if (!inTg) return;
+    try {
+      var c = JSON.parse(read('rozklad_links'));
+      if (c) { state.links = c.links; state.owner = !!c.owner; updateDock(); }
+    } catch (e) {}
+    post('/links').then(function (r) {
+      if (r._status !== 200) return;
+      state.links = r.links || null; state.owner = !!r.owner;
+      if (state.links || state.owner) store('rozklad_links', JSON.stringify({ links: state.links, owner: state.owner }));
+      else drop('rozklad_links');
+      updateDock(); render();
+    }).catch(function () {});
   }
 
   // ---- розмітка ----
@@ -427,11 +347,7 @@
     if (p.length < 2) return n || '';
     return p[0] + ' ' + p.slice(1, 3).map(function (x) { return x.charAt(0) + '.'; }).join(' ');
   }
-  function tagOf(p) {
-    if (p.tag === 'lec') return ['lec', 'Лекція'];
-    if (p.tag === 'lab') return ['lab', 'Лаба'];
-    return ['prac', 'Практика'];
-  }
+  function typeOf(p) { return p.tag === 'lec' ? 'лекція' : p.tag === 'lab' ? 'лаба' : 'практика'; }
   function dur(min) {
     var h = Math.floor(min / 60), m = min % 60;
     return h ? h + ' год' + (m ? ' ' + m + ' хв' : '') : m + ' хв';
@@ -439,19 +355,27 @@
 
   function rowHtml(p, opts) {
     opts = opts || {};
-    var t = tagOf(p), cls = 'row' + (opts.live ? ' live' : '') + (opts.past ? ' past' : '');
-    var only = opts.showDates && p.dates.length
-      ? '<div class="only">лише ' + p.dates.map(function (x) { return x.slice(8, 10) + '.' + x.slice(5, 7); }).join(', ') + '</div>' : '';
-    return '<div class="' + cls + '"><div class="tm"><b>' + p.start + '</b><span>' + p.end + '</span>' +
-      (p.num ? '<em>' + p.num + ' пара</em>' : '') + '</div><div class="bd"><div class="nm">' + esc(p.name) + '</div>' +
-      '<div class="mt">' + (opts.live ? '<span class="tag now">Зараз</span>' : '') + '<span class="tag ' + t[0] + '">' + t[1] + '</span>' +
-      '<span>' + esc(shortName(p.teacher)) + (p.place ? ' · ' + esc(p.place) : '') + '</span></div>' + only +
-      (opts.past ? '' : rowActions(p.name)) + '</div></div>';
+    var cls = 'row' + (opts.live ? ' live' : '') + (opts.past ? ' past' : '');
+    var tags = (opts.live ? '<span class="now">● зараз</span> · ' : '') + '#' + typeOf(p) + (p.num ? ' · ' + p.num + ' пара' : '');
+    if (opts.showDates && p.dates.length) tags += ' · лише ' + p.dates.map(function (x) { return x.slice(8, 10) + '.' + x.slice(5, 7); }).join(', ');
+    var ls = opts.past ? [] : linksFor(p.name);
+    var links = ls.length ? '<div class="links">' + ls.map(function (l) {
+      return '<button class="lk' + (l.kind === 'classroom' ? ' out' : '') + '" data-li="' + linkRef(l) + '">' + esc(KIND[l.kind] || l.kind) + IC.out + '</button>';
+    }).join('') + '</div>' : '';
+    return '<div class="' + cls + '"><div class="tile" style="background:' + colorOf(p.name) + '"><b>' + p.start + '</b><span>' + p.end + '</span></div>' +
+      '<div class="info"><div class="nm">' + esc(p.name) + '</div><div class="who2">' + esc(shortName(p.teacher)) + (p.place ? ' · ' + esc(p.place) : '') + '</div>' +
+      '<div class="tags">' + tags + '</div>' + links + '</div></div>';
   }
 
   function nextDayWithPairs(from) {
     for (var i = 1; i <= 14; i++) { var d = addDays(from, i); if (pairsFor(d).length) return d; }
     return null;
+  }
+
+  function joinButtons(p, verb) {
+    return linksFor(p.name).filter(function (l) { return l.kind !== 'classroom'; }).map(function (l) {
+      return '<button class="join" data-li="' + linkRef(l) + '"><span><i class="gdot"></i>' + verb + ' ' + esc(KIND[l.kind] || l.kind) + '</span><b>' + IC.out + '</b></button>';
+    }).join('');
   }
 
   function heroHtml(dt, list, now) {
@@ -460,35 +384,33 @@
       if (now.min >= toMin(p.start) && now.min < toMin(p.end)) live = p;
       else if (!next && toMin(p.start) > now.min) next = p;
     });
+    function card(p, kick, sub, ring, arrow, stats, verb) {
+      return '<section class="hero"><div class="hero-top"><div class="kick">' + kick + '<span>' + sub + '</span></div>' +
+        (ring ? '<div class="ring">' + ring + '</div>' : '') + '</div>' +
+        '<div class="block" style="background:' + colorOf(p.name) + '"><h2>' + esc(p.name) + '</h2>' +
+        '<div class="who">' + esc(shortName(p.teacher)) + ' · ' + typeOf(p) + '</div>' +
+        '<div class="big">' + arrow + '<b>' + (p.num || p.start.slice(0, 2)) + '</b></div></div>' +
+        '<div class="stats">' + stats + '</div>' + (verb ? joinButtons(p, verb) : '') + '</section>';
+    }
+    function stat(label, value) { return '<div><i>' + label + '</i><b>' + value + '</b></div>'; }
     if (live) {
-      var total = toMin(live.end) - toMin(live.start), done = now.min - toMin(live.start);
-      return '<section class="hero green">' + deco('#f5a48c', '#e8e382') +
-        '<span class="status"><i class="dot"></i>Зараз іде' + (live.num ? ' · ' + live.num + ' пара' : '') + '</span>' +
-        '<h2>' + esc(live.name) + '</h2><div class="by">' + esc(shortName(live.teacher)) + ' · ' + tagOf(live)[1] + '</div>' +
-        '<div class="prog"><i style="width:' + Math.round(done / total * 100) + '%"></i></div>' +
-        '<div class="prog-l"><span>' + live.start + '</span><span>ще ' + dur(toMin(live.end) - now.min) + '</span><span>' + live.end + '</span></div>' +
-        bigButtons(live.name, 'Приєднатися') +
-        (next ? '<div class="next-line">Далі о ' + next.start + ' — ' + esc(next.name) + '</div>' : '') + '</section>';
+      return card(live, 'Зараз іде', 'ще ' + dur(toMin(live.end) - now.min), '<span class="dot"></span>', IC.right,
+        stat('Початок', live.start) + stat('Кінець', live.end) + stat('Далі', next ? next.start : '—'), 'Увійти в');
     }
     if (next) {
       var wait = toMin(next.start) - now.min;
-      return '<section class="hero yellow">' + deco('#8dca8e', '#f5a48c') +
-        '<span class="status">Наступна пара · через ' + dur(wait) + '</span>' +
-        '<h2>' + esc(next.name) + '</h2><div class="by">' + esc(shortName(next.teacher)) + ' · ' + tagOf(next)[1] + '</div>' +
-        '<div class="when"><span>' + next.start + ' – ' + next.end + '</span>' + (next.num ? '<span>' + next.num + ' пара</span>' : '') + '</div>' +
-        bigButtons(next.name, 'Відкрити') + '</section>';
+      return card(next, 'Наступна пара', 'через ' + dur(wait), '', IC.down,
+        stat('Початок', next.start) + stat('Кінець', next.end) + stat('Пара', next.num || '—'), wait <= 30 ? 'Увійти в' : '');
     }
     var nd = nextDayWithPairs(dt), np = nd && pairsFor(nd)[0];
-    return '<section class="hero salmon">' + deco('#e8e382', '#8dca8e') +
-      '<span class="status">' + (list.length ? 'Пари на сьогодні закінчились' : 'Сьогодні пар немає') + '</span>' +
-      (np ? '<h2>' + esc(np.name) + '</h2><div class="by">Наступна пара</div><div class="when"><span>' +
-        DAY_FULL[dow(nd)] + ', ' + human(nd) + '</span><span>' + np.start + '</span></div>'
-        : '<h2>Відпочивайте</h2>') + '</section>';
+    if (!np) return '';
+    return card(np, list.length ? 'На сьогодні все' : 'Сьогодні пар немає', 'наступна — ' + DAY_FULL[dow(nd)].toLowerCase(), '', IC.left,
+      stat('Коли', human(nd)) + stat('Початок', np.start) + stat('Пара', np.num || '—'), '');
   }
 
   function dayList(list, opts) {
     var now = kyivNow(), html = '';
-    if (!list.length) return '<div class="empty"><span>🎉</span>Пар немає</div>';
+    if (!list.length) return '<div class="empty"><b>Пар немає</b><span>Можна відпочити</span></div>';
     list.forEach(function (p) {
       var o = { showDates: opts.showDates };
       if (opts.today) { o.live = now.min >= toMin(p.start) && now.min < toMin(p.end); o.past = now.min >= toMin(p.end); }
@@ -497,57 +419,44 @@
     return html;
   }
 
-  function weekCount(mon) {
-    var n = 0;
-    for (var i = 0; i < 6; i++) n += pairsFor(addDays(mon, i)).length;
-    return n;
-  }
-
   function render() {
     if (!state.data || !document.getElementById('page').hidden) return;
     LINKS = [];
     var n = kyivNow(), main = document.getElementById('main');
     var today = state.baseDate = dateUTC(n.y, n.m, n.d), tomorrow = addDays(today, 1);
-    var todayList = pairsFor(today), tomList = pairsFor(tomorrow);
-    var counts = { today: todayList.length, tomorrow: tomList.length, week: weekCount(monday(today)) };
-    Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
-      var c = counts[b.getAttribute('data-v')], i = b.querySelector('i');
-      i.textContent = c; i.style.display = c ? '' : 'none';
-      b.classList.toggle('noc', !c);
-    });
+    var title = document.getElementById('title'), html = '';
     document.getElementById('grpName').textContent = state.group.name;
-    var title = document.getElementById('title'), lead = document.getElementById('lead'), html = '';
+    document.getElementById('wkName').textContent = weekOf(today) + '-й тиждень';
 
     if (state.view === 'today') {
-      title.innerHTML = DAY_FULL[dow(today)] + ',<br>' + human(today);
-      lead.textContent = weekOf(today) + '-й тиждень · ' + (todayList.length ? pairs(todayList.length) : 'вихідний');
-      html += heroHtml(today, todayList, n);
-      if (todayList.length) {
-        html += '<div class="sec"><b>Пари на сьогодні</b><span class="count">' + pairs(todayList.length) + '</span></div>';
-        html += dayList(todayList, { today: true });
+      var list = pairsFor(today);
+      title.innerHTML = DAY_FULL[dow(today)] + '<span>' + human(today) + '</span>';
+      html += heroHtml(today, list, n);
+      if (list.length) {
+        html += '<div class="sec"><h3>Пари<br><span>на сьогодні</span></h3><small>' + pairs(list.length) + '</small></div>';
+        html += dayList(list, { today: true });
       }
     } else if (state.view === 'tomorrow') {
-      title.innerHTML = DAY_FULL[dow(tomorrow)] + ',<br>' + human(tomorrow);
-      lead.textContent = 'Завтра · ' + weekOf(tomorrow) + '-й тиждень';
-      html += '<div class="sec"><b>Пари на завтра</b><span class="count' + (tomList.length ? '' : ' ghost') + '">' +
-        (tomList.length ? pairs(tomList.length) : 'вихідний') + '</span></div>';
-      html += dayList(tomList, {});
+      var tl = pairsFor(tomorrow);
+      title.innerHTML = 'Завтра<span>' + DAY_FULL[dow(tomorrow)].toLowerCase() + ', ' + human(tomorrow) + '</span>';
+      html += '<div class="sec"><h3>Пари<br><span>на завтра</span></h3><small>' + (tl.length ? pairs(tl.length) : 'вихідний') + '</small></div>';
+      html += dayList(tl, {});
     } else {
       var mon = addDays(monday(today), 7 * state.weekShift);
-      title.innerHTML = state.weekShift ? 'Наступний<br>тиждень' : 'Цей тиждень';
-      lead.textContent = human(mon) + ' – ' + human(addDays(mon, 5)) + ' · ' + weekOf(mon) + '-й тиждень';
-      html += '<div class="wk"><button data-w="0" class="' + (state.weekShift === 0 ? 'on' : '') + '">Цей тиждень</button>' +
+      title.innerHTML = (state.weekShift ? 'Наступний' : 'Цей') + '<span>тиждень</span>';
+      html += '<div class="wk"><button data-w="0" class="' + (state.weekShift === 0 ? 'on' : '') + '">Цей</button>' +
         '<button data-w="1" class="' + (state.weekShift === 1 ? 'on' : '') + '">Наступний</button></div>';
+      html += '<div class="hello">' + human(mon) + ' – ' + human(addDays(mon, 5)) + ' · ' + weekOf(mon) + '-й тиждень</div>';
       var any = false;
       for (var i = 0; i < 6; i++) {
-        var d = addDays(mon, i), list = pairsFor(d), isToday = iso(d) === iso(today);
-        if (!list.length) continue;
+        var d = addDays(mon, i), dl = pairsFor(d);
+        if (!dl.length) continue;
         any = true;
-        html += '<div class="sec"><b>' + DAY_FULL[i] + '</b><span class="count' + (isToday ? '' : ' ghost') + '">' +
-          (isToday ? 'сьогодні' : human(d)) + '</span></div>';
-        html += dayList(list, { showDates: true });
+        html += '<div class="day"><b>' + DAYS[i].replace('Вв', 'Вт') + '</b><span>' + DAY_FULL[i].toLowerCase() + ', ' + human(d) + '</span>' +
+          (iso(d) === iso(today) ? '<em>сьогодні</em>' : '') + '</div>';
+        html += dayList(dl, { showDates: true });
       }
-      if (!any) html += '<div class="empty" style="margin-top:16px"><span>🎉</span>Пар немає</div>';
+      if (!any) html += '<div class="empty" style="margin-top:18px"><b>Пар немає</b><span>Цього тижня вільно</span></div>';
     }
     main.innerHTML = html;
     Array.prototype.forEach.call(main.querySelectorAll('[data-w]'), function (b) {
@@ -567,7 +476,10 @@
     var gid = state.group.id;
     var cached = read('rozklad_cache_' + gid);
     if (cached) {
-      try { var c = JSON.parse(cached); if (c.ref) { state.data = c.data; state.currentWeek = c.week; state.refDate = new Date(c.ref + 'T00:00:00Z'); render(); } } catch (e) {}
+      try {
+        var c = JSON.parse(cached);
+        if (c.ref) { state.data = c.data; state.currentWeek = c.week; state.refDate = new Date(c.ref + 'T00:00:00Z'); buildColors(); render(); }
+      } catch (e) {}
     }
     Promise.all([getJSON(API + '/schedule/lessons?groupId=' + encodeURIComponent(gid)), getJSON(API + '/time/current')])
       .then(function (r) {
@@ -575,42 +487,44 @@
         state.currentWeek = r[1].currentWeek;
         var n = kyivNow(); state.refDate = dateUTC(n.y, n.m, n.d);
         store('rozklad_cache_' + gid, JSON.stringify({ data: state.data, week: state.currentWeek, ref: iso(state.refDate) }));
-        render();
+        buildColors(); render();
       })
       .catch(function () {
         if (!state.data) {
-          document.getElementById('lead').textContent = 'Немає зв’язку';
-          document.getElementById('main').innerHTML = '<div class="empty err" style="margin-top:16px">Не вдалося завантажити розклад. Перевірте інтернет і відкрийте ще раз.</div>';
+          document.getElementById('main').innerHTML = '<div class="empty err" style="margin-top:22px"><b>Немає зв’язку</b><span>Не вдалося завантажити розклад. Перевірте інтернет і відкрийте ще раз.</span></div>';
         }
       });
   }
 
   // ---- окремі сторінки ----
-  function showPage(html) {
+  var pageView = null;
+  function showPage(html, view) {
     var page = document.getElementById('page');
-    page.innerHTML = html; page.hidden = false;
+    page.innerHTML = html; page.hidden = false; pageView = view || null;
     document.getElementById('home').hidden = true;
     window.scrollTo(0, 0);
     if (inTg && tg.BackButton) { try { tg.BackButton.show(); } catch (e) {} }
     var b = page.querySelector('.back');
     if (b) b.onclick = closePage;
+    setDock(view || state.view);
   }
   function closePage() {
     var page = document.getElementById('page');
     if (page.hidden) return;
-    page.hidden = true; page.innerHTML = '';
+    page.hidden = true; page.innerHTML = ''; pageView = null;
     document.getElementById('home').hidden = false;
     if (inTg && tg.BackButton) { try { tg.BackButton.hide(); } catch (e) {} }
+    setDock(state.view);
     render();
   }
   if (inTg && tg.BackButton) { try { tg.BackButton.onClick(closePage); } catch (e) {} }
-  function pageTop(title) { return '<div class="page-top"><button class="back" aria-label="Назад">' + IC.back + '</button><b>' + title + '</b></div>'; }
+  function ptop(a, b) { return '<div class="ptop"><button class="back" aria-label="Назад">' + IC.back + '</button></div><h1>' + a + '<span>' + b + '</span></h1>'; }
 
   var groupsCache = null;
   function openGroupPicker() {
-    showPage(pageTop('Вибір групи') + '<label class="search">' + IC.search +
-      '<input id="q" placeholder="Назва групи, напр. ГС-61мп" autocomplete="off"></label>' +
-      '<div class="glist" id="gl"><div class="hint">Завантаження списку груп…</div></div>');
+    showPage(ptop('Вибір', 'групи') + '<label class="search">' + IC.search +
+      '<input id="q" placeholder="Напр. ГС-61мп" autocomplete="off"></label>' +
+      '<div class="glist" id="gl"><div class="hint">Завантаження списку груп…</div></div>', 'group');
     var q = document.getElementById('q'), gl = document.getElementById('gl');
     function draw() {
       if (!groupsCache) return;
@@ -624,7 +538,7 @@
           haptic('sel');
           state.group = { id: b.getAttribute('data-id'), name: b.getAttribute('data-name') };
           store('rozklad_group', JSON.stringify(state.group));
-          state.data = null; state.view = 'today'; setTabs(); closePage(); load();
+          state.data = null; state.view = 'today'; closePage(); load();
         };
       });
     }
@@ -634,64 +548,88 @@
       .catch(function () { gl.innerHTML = '<div class="hint err">Не вдалося завантажити список груп</div>'; });
   }
 
+  // ---- вкладка «Доступ» (лише для власника) ----
   function openAccess() {
-    if (state.vault && !state.owner) {
-      showPage(pageTop('Посилання на пари') +
-        '<section class="hero green ac-hero">' + deco('#f5a48c', '#e8e382') + '<div class="big">' + IC.check + '</div>' +
-        '<h2>Доступ відкрито</h2><p>Біля кожної пари є кнопки Zoom, Meet і Classroom.</p></section>' +
-        '<div class="step"><i>!</i><div>Не пересилайте посилання на пари<small>Запрошувати інших може лише власник розкладу</small></div></div>' +
-        '<button class="btn text" id="offBtn">Сховати посилання на цьому телефоні</button>');
-      document.getElementById('offBtn').onclick = function () { revoke(); haptic('n', 'warning'); closePage(); toast('Посилання сховано'); };
-      return;
+    showPage(ptop('Доступ', 'до посилань') +
+      '<div class="lead">Впишіть нікнейм людини в Telegram і натисніть «Додати». Вона побачить кнопки Zoom, Meet і Classroom, щойно відкриє бота.</div>' +
+      '<div class="field"><label class="inp"><b>@</b><input id="nick" placeholder="nickname" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="40"></label>' +
+      '<button class="add" id="addBtn">Додати</button></div><div class="msg" id="msg"></div>' +
+      '<div class="sec" style="margin-top:22px"><h3>Мають<br><span>доступ</span></h3><small id="cnt"></small></div>' +
+      '<div id="people"><div class="hint">Завантаження…</div></div>' +
+      '<div class="note"><b>Де людині взяти нікнейм:</b> Telegram → Налаштування → Ім’я користувача. Якщо його немає — нехай створить, інакше додати не вийде.<br><br>' +
+      '<b>Щоб забрати доступ</b> — натисніть «Прибрати». Посилання зникнуть у людини, коли вона наступного разу відкриє бота.</div>', 'access');
+    var nick = document.getElementById('nick'), msg = document.getElementById('msg'), addBtn = document.getElementById('addBtn');
+    function say(text, bad) { msg.textContent = text; msg.className = 'msg' + (bad ? ' bad' : ''); }
+    function draw(r) {
+      var people = document.getElementById('people');
+      if (!people) return;
+      var me = (tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username || '').toLowerCase();
+      var all = (r.owners || []).map(function (u) { return { u: u, owner: true }; })
+        .concat((r.allow || []).filter(function (u) { return (r.owners || []).indexOf(u) < 0; }).map(function (u) { return { u: u }; }));
+      document.getElementById('cnt').textContent = all.length + ' ' + (all.length === 1 ? 'людина' : all.length < 5 ? 'людини' : 'людей');
+      people.innerHTML = all.map(function (x, i) {
+        return '<div class="person"><span class="ava" style="background:var(--c-' + PALETTE[i % PALETTE.length] + ')">' + esc(x.u.charAt(0).toUpperCase()) + '</span>' +
+          '<div class="u">@' + esc(x.u) + '<small>' + (x.owner ? (x.u === me ? 'ви — власник' : 'власник') : 'бачить посилання') + '</small></div>' +
+          (x.owner ? '' : '<button class="del" data-u="' + esc(x.u) + '">Прибрати</button>') + '</div>';
+      }).join('');
+      Array.prototype.forEach.call(people.querySelectorAll('[data-u]'), function (b) {
+        b.onclick = function () {
+          var u = b.getAttribute('data-u');
+          b.disabled = true; b.textContent = '…';
+          post('/access/remove', { username: u }).then(function (r) {
+            if (r._status !== 200) throw new Error();
+            haptic('n', 'warning'); say('@' + u + ' більше не бачить посилань'); draw(r);
+          }).catch(function () { say('Не вдалося. Перевірте інтернет', true); b.disabled = false; b.textContent = 'Прибрати'; });
+        };
+      });
     }
-    if (state.vault) {
-      showPage(pageTop('Посилання на пари') +
-        '<section class="hero green ac-hero">' + deco('#f5a48c', '#e8e382') + '<div class="big">' + IC.check + '</div>' +
-        '<h2>Ви власник</h2><p>Тільки ви можете давати доступ. Ті, кого ви запросите, далі нікого запросити не зможуть.</p></section>' +
-        '<div class="sec"><b>Як дати доступ</b></div>' +
-        '<div class="step"><i>1</i><div>Натисніть «Надіслати запрошення»<small>Відкриється список ваших чатів у Telegram</small></div></div>' +
-        '<div class="step"><i>2</i><div>Виберіть людину й надішліть<small>Вона натисне на посилання — і одразу бачить Zoom і Meet</small></div></div>' +
-        '<button class="btn dark" id="inviteBtn">' + IC.share + 'Надіслати запрошення</button>' +
-        '<div class="note">Надсилайте особисто тим, кому довіряєте. Не кидайте в загальні чати.</div>' +
-        '<button class="btn text" id="offBtn">Сховати посилання на цьому телефоні</button>');
-      document.getElementById('inviteBtn').onclick = shareInvite;
-      document.getElementById('offBtn').onclick = function () { revoke(); haptic('n', 'warning'); closePage(); toast('Посилання сховано'); };
-      return;
+    function add() {
+      var u = nick.value.trim().replace(/^https?:\/\//i, '').replace(/^t\.me\//i, '').replace(/^@/, '');
+      if (!/^[A-Za-z0-9_]{4,32}$/.test(u)) { say('Нікнейм — це латинські літери, цифри й _, без пробілів', true); haptic('n', 'error'); return; }
+      addBtn.disabled = true; say('');
+      post('/access/add', { username: u }).then(function (r) {
+        if (r._status !== 200) throw new Error();
+        haptic('n', 'success'); nick.value = ''; say('Готово! @' + u.toLowerCase() + ' тепер бачить посилання'); draw(r);
+      }).catch(function () { say('Не вдалося додати. Перевірте інтернет', true); haptic('n', 'error'); })
+        .then(function () { addBtn.disabled = false; });
     }
-    showPage(pageTop('Посилання на пари') +
-      '<section class="hero salmon ac-hero">' + deco('#e8e382', '#8dca8e') + '<div class="big">' + IC.lock + '</div>' +
-      '<h2>Zoom і Meet — лише для запрошених</h2><p>Кнопки входу на пари бачать тільки ті, кому власник розкладу надіслав запрошення.</p></section>' +
-      '<div class="sec"><b>Як отримати доступ</b></div>' +
-      '<div class="step"><i>1</i><div>Попросіть запрошення у власника розкладу<small>Він надішле вам посилання в Telegram</small></div></div>' +
-      '<div class="step"><i>2</i><div>Натисніть на це посилання<small>Розклад відкриється вже з кнопками Zoom і Meet. Більше нічого робити не треба</small></div></div>');
+    addBtn.onclick = add;
+    nick.onkeydown = function (e) { if (e.key === 'Enter') add(); };
+    post('/access/list').then(function (r) {
+      if (r._status !== 200) throw new Error();
+      draw(r);
+    }).catch(function () { var p = document.getElementById('people'); if (p) p.innerHTML = '<div class="hint err">Не вдалося завантажити список. Перевірте інтернет</div>'; });
   }
 
-  function setTabs() {
-    Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
-      b.classList.toggle('on', b.getAttribute('data-v') === state.view);
+  // ---- нижня панель ----
+  function setDock(v) {
+    Array.prototype.forEach.call(document.querySelectorAll('#dock button'), function (b) {
+      b.classList.toggle('on', b.getAttribute('data-v') === v);
     });
   }
+  function updateDock() { document.querySelector('#dock [data-v="access"]').hidden = !state.owner; }
+  Array.prototype.forEach.call(document.querySelectorAll('#dock button'), function (b) {
+    b.onclick = function () {
+      var v = b.getAttribute('data-v');
+      haptic('sel');
+      if (v === 'access') { if (pageView !== 'access') openAccess(); return; }
+      if (pageView) closePage();
+      if (v === state.view) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+      state.view = v; state.weekShift = 0; setDock(v); render(); window.scrollTo(0, 0);
+    };
+  });
 
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-li]');
     if (b && LINKS[+b.getAttribute('data-li')]) openLink(LINKS[+b.getAttribute('data-li')].url);
   });
-  Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
-    b.onclick = function () {
-      var v = b.getAttribute('data-v');
-      if (v === state.view) return;
-      haptic('sel'); state.view = v; state.weekShift = 0; setTabs(); render();
-    };
-  });
   document.getElementById('grpBtn').onclick = openGroupPicker;
-  document.getElementById('lockBtn').onclick = openAccess;
 
   var user = inTg && tg.initDataUnsafe && tg.initDataUnsafe.user;
-  if (user && user.first_name) document.getElementById('hi').innerHTML = 'Привіт, <b>' + esc(user.first_name) + '</b> 👋';
+  if (user && user.first_name) document.getElementById('hello').textContent = 'Привіт, ' + user.first_name + ' 👋';
 
-  updateLock();
   load();
-  restoreAccess();
+  loadAccess();
   setInterval(function () { if (state.view !== 'week') render(); }, 30000);
 })();
 </script>
