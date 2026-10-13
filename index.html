@@ -22,18 +22,22 @@
     --bg: #f2f0f5; --ink: #121214; --muted: #5d5b66; --line: rgba(18, 18, 20, .08);
     --glass: rgba(255, 255, 255, .55); --glass-2: rgba(255, 255, 255, .4); --edge: rgba(255, 255, 255, .8);
     --shadow: 0 8px 30px rgba(40, 20, 60, .07);
-    --lec: #7b6cff; --lec-ink: #ffffff;   /* лекція */
-    --prac: #b6ec5a; --prac-ink: #142000;  /* практика */
-    --lab: #ffae52; --lab-ink: #2a1600;    /* лаба */
-    --live: #ff2e6e;                       /* зараз іде */
-    --blob1: #ff7ad9; --blob2: #b8f25a; --blob3: #8f80ff; --blob-o: .7;
+    --lec: #4a52c9; --lec-bg: rgba(91, 99, 230, .13);    /* лекція */
+    --prac: #1f7a4a; --prac-bg: rgba(40, 150, 90, .13);  /* практика */
+    --lab: #a8560f; --lab-bg: rgba(220, 130, 40, .15);   /* лаба */
+    --live: #e5484d;                                     /* зараз іде */
+    --blob1: #9db8ff; --blob2: #bfe0c6; --blob3: #d0c8f5; --blob-o: .55;
     --btn: #121214; --btn-ink: #ffffff;
   }
   :root[data-theme="dark"] {
     --bg: #060607; --ink: #f5f5f7; --muted: #a9a7b3; --line: rgba(255, 255, 255, .08);
     --glass: rgba(34, 34, 38, .55); --glass-2: rgba(255, 255, 255, .06); --edge: rgba(255, 255, 255, .09);
     --shadow: 0 0 0 transparent;
-    --blob-o: .5; --btn: #ffffff; --btn-ink: #121214;
+    --lec: #a9aeff; --lec-bg: rgba(120, 128, 255, .18);
+    --prac: #86d9a8; --prac-bg: rgba(70, 190, 120, .16);
+    --lab: #f3b46b; --lab-bg: rgba(240, 160, 70, .16);
+    --live: #f05a5f;
+    --blob1: #3b5bdb; --blob2: #2f8f68; --blob3: #6a5bc9; --blob-o: .3; --btn: #ffffff; --btn-ink: #121214;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html { background: var(--bg); }
@@ -84,8 +88,8 @@
   /* ---- картка «зараз / далі» ---- */
   .now { position: relative; overflow: hidden; border-radius: 24px; padding: 16px 18px 18px; margin-bottom: 4px; }
   .now.is-live::before { content: ''; position: absolute; width: 220px; height: 220px; right: -70px; top: -90px; border-radius: 50%;
-    background: var(--live); opacity: .16; filter: blur(40px); animation: glow 3s ease-in-out infinite alternate; }
-  @keyframes glow { to { opacity: .3; transform: scale(1.15); } }
+    background: var(--live); opacity: .06; filter: blur(40px); animation: glow 3s ease-in-out infinite alternate; }
+  @keyframes glow { to { opacity: .12; transform: scale(1.15); } }
   .now > * { position: relative; }
   .now .k { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
   .now .k span { display: flex; align-items: center; gap: 9px; font-size: 14.5px; font-weight: 600; }
@@ -97,7 +101,8 @@
   .now .t { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; font-weight: 500; margin-top: 12px; font-variant-numeric: tabular-nums; }
   .now .t b { font-weight: 600; }
   .bar { height: 7px; border-radius: 4px; background: var(--line); margin-top: 8px; overflow: hidden; }
-  .bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--live), #ff9a5a, #b8f25a, var(--live));
+  .bar i { display: block; height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, var(--live) 0%, var(--live) 40%, rgba(255, 255, 255, .45) 50%, var(--live) 60%, var(--live) 100%);
     background-size: 300% 100%; animation: shimmer 4s linear infinite, grow .9s cubic-bezier(.2, .8, .2, 1) both; transform-origin: left; }
   @keyframes shimmer { to { background-position: -300% 0; } }
   @keyframes grow { from { transform: scaleX(0); } }
@@ -112,7 +117,7 @@
   .day span { font-size: 14px; font-weight: 500; color: var(--muted); white-space: nowrap; }
   .day .today { color: var(--live); font-weight: 600; }
   .pair { display: flex; gap: 14px; border-radius: 20px; padding: 14px; margin-bottom: 8px; }
-  .pair.live { box-shadow: var(--shadow), inset 0 0 0 2px var(--live); }
+  .pair.live { box-shadow: var(--shadow), inset 0 0 0 1.5px var(--live); }
   .pair.past { opacity: .5; }
   .tm { flex: none; width: 52px; text-align: right; font-variant-numeric: tabular-nums; padding-top: 1px; }
   .tm b { display: block; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
@@ -123,9 +128,9 @@
   .name { font-size: 16.5px; line-height: 1.28; font-weight: 600; letter-spacing: -.01em; }
   .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 8px; margin-top: 6px; font-size: 14.5px; color: var(--muted); }
   .tag { height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
-  .tag.lec { background: var(--lec); color: var(--lec-ink); }
-  .tag.prac { background: var(--prac); color: var(--prac-ink); }
-  .tag.lab { background: var(--lab); color: var(--lab-ink); }
+  .tag.lec { background: var(--lec-bg); color: var(--lec); }
+  .tag.prac { background: var(--prac-bg); color: var(--prac); }
+  .tag.lab { background: var(--lab-bg); color: var(--lab); }
   .tag.nowtag { background: transparent; color: var(--live); padding: 0 2px; }
   .tag.nowtag .beacon { width: 8px; height: 8px; }
   .only { font-size: 13px; color: var(--muted); margin-top: 5px; }
