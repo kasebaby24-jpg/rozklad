@@ -19,14 +19,15 @@
 </script>
 <style>
   :root {
-    --bg: #f4f2ed; --card: #ffffff; --soft: #ebe8e1; --ink: #151515; --muted: #7b7871;
+    --bg: #e8e4dc; --card: #ffffff; --soft: #f1eee8; --ink: #121212; --muted: #55524c; --border: rgba(18, 18, 18, .07);
+    --tm: #121212; --tm-ink: #ffffff;
     --green: #8dca8e; --salmon: #f5a48c; --yellow: #e8e382;
     --on: #151515; --pill: #151515; --pill-ink: #ffffff;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .03), 0 10px 30px rgba(0, 0, 0, .05);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 6px 18px rgba(0, 0, 0, .06);
   }
   :root[data-theme="dark"] {
-    --bg: #111111; --card: #1d1d1d; --soft: #282828; --ink: #f4f4f1; --muted: #9c9a94;
-    --pill: #111111; --shadow: none;
+    --bg: #0c0c0c; --card: #232323; --soft: #2e2e2e; --ink: #f6f6f3; --muted: #bdbab3; --border: rgba(255, 255, 255, .08);
+    --tm: #f6f6f3; --tm-ink: #121212; --pill: #111111; --shadow: none;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { margin: 0; background: var(--bg); color: var(--ink);
@@ -39,27 +40,27 @@
 
   /* ---- шапка ---- */
   .head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0 4px; }
-  .hi { font-size: 20px; font-weight: 400; }
-  .hi b { font-weight: 600; }
-  .grp { display: inline-flex; align-items: center; gap: 6px; margin-top: 5px; font-size: 14px; font-weight: 500; color: var(--muted); }
+  .hi { font-size: 20px; font-weight: 500; }
+  .hi b { font-weight: 700; }
+  .grp { display: inline-flex; align-items: center; gap: 6px; margin-top: 5px; font-size: 15px; font-weight: 600; color: var(--ink); }
   .grp .cap { width: 20px; height: 20px; border-radius: 50%; background: var(--yellow); display: grid; place-items: center; }
   .grp .cap svg { width: 12px; height: 12px; color: var(--on); }
   .grp .chev { width: 14px; height: 14px; }
   .lock { position: relative; flex: none; width: 48px; height: 48px; border-radius: 50%; background: var(--card);
-    display: grid; place-items: center; box-shadow: var(--shadow); }
+    display: grid; place-items: center; box-shadow: var(--shadow); border: 1px solid var(--border); }
   .lock svg { width: 22px; height: 22px; }
   .lock.on { background: var(--green); color: var(--on); }
-  h1 { font-size: 34px; line-height: 1.1; font-weight: 500; letter-spacing: -.02em; margin: 18px 0 8px; }
-  .lead { font-size: 15px; color: var(--muted); font-weight: 400; }
+  h1 { font-size: 34px; line-height: 1.1; font-weight: 700; letter-spacing: -.02em; margin: 18px 0 8px; }
+  .lead { font-size: 16px; color: var(--muted); font-weight: 500; }
 
   /* ---- вкладки ---- */
   .tabs { display: flex; gap: 6px; margin: 20px 0 4px; }
   .tabs button { flex: 1 1 auto; display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 42px; padding: 0 6px 0 12px;
-    border-radius: 21px; background: var(--card); font-size: 14.5px; font-weight: 500; box-shadow: var(--shadow); transition: background .2s; white-space: nowrap; }
+    border-radius: 21px; background: var(--card); font-size: 14.5px; font-weight: 600; box-shadow: var(--shadow); border: 1px solid var(--border); transition: background .2s; white-space: nowrap; }
   .tabs button i { font-style: normal; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--soft);
     font-size: 12px; font-weight: 600; display: grid; place-items: center; }
-  .tabs button.on { background: var(--salmon); color: var(--on); }
-  .tabs button.on i { background: rgba(21, 21, 21, .14); }
+  .tabs button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .tabs button.on i { background: var(--salmon); color: var(--on); }
   .tabs button.noc { padding-right: 12px; }
 
   /* ---- велика картка ---- */
@@ -67,77 +68,78 @@
   .hero.green { background: var(--green); } .hero.yellow { background: var(--yellow); } .hero.salmon { background: var(--salmon); }
   .deco { position: absolute; top: 10px; right: 8px; width: 112px; height: 84px; pointer-events: none; }
   .status { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding: 0 12px; border-radius: 15px;
-    background: rgba(21, 21, 21, .1); font-size: 13px; font-weight: 500; }
+    background: rgba(255, 255, 255, .55); font-size: 13.5px; font-weight: 700; }
   .dot { width: 8px; height: 8px; border-radius: 50%; background: #e5372b; animation: pulse 1.8s ease-out infinite; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(229, 55, 43, .5); } 75%, 100% { box-shadow: 0 0 0 7px rgba(229, 55, 43, 0); } }
-  .hero h2 { font-size: 27px; line-height: 1.12; font-weight: 600; letter-spacing: -.02em; margin: 40px 0 8px; }
-  .hero .by { font-size: 15px; font-weight: 400; opacity: .75; }
+  .hero h2 { font-size: 27px; line-height: 1.12; font-weight: 700; letter-spacing: -.02em; margin: 40px 0 8px; }
+  .hero .by { font-size: 16px; font-weight: 600; opacity: .85; }
   .prog { height: 8px; border-radius: 4px; background: rgba(21, 21, 21, .12); margin: 18px 0 8px; overflow: hidden; }
   .prog i { display: block; height: 100%; border-radius: 4px; background: var(--on); }
   .prog-l { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; }
-  .prog-l span:first-child, .prog-l span:last-child { opacity: .6; }
+  .prog-l { font-size: 14px; font-weight: 700; }
+  .prog-l span:first-child, .prog-l span:last-child { opacity: .7; }
   .when { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
   .when span { display: inline-flex; align-items: center; height: 34px; padding: 0 14px; border-radius: 17px;
-    background: rgba(21, 21, 21, .1); font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    background: rgba(255, 255, 255, .55); font-size: 14.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .go { display: flex; align-items: center; justify-content: space-between; width: 100%; height: 60px; margin-top: 18px;
-    padding: 0 8px 0 22px; border-radius: 30px; background: var(--pill); color: var(--pill-ink); font-size: 16px; font-weight: 500; }
+    padding: 0 8px 0 22px; border-radius: 30px; background: var(--pill); color: var(--pill-ink); font-size: 17px; font-weight: 600; }
   .go + .go { margin-top: 8px; }
   .go b { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: #151515; display: grid; place-items: center; }
   .go b svg { width: 18px; height: 18px; margin-left: 2px; }
-  .next-line { margin-top: 14px; font-size: 14px; font-weight: 400; opacity: .75; }
+  .next-line { margin-top: 14px; font-size: 15px; font-weight: 600; opacity: .85; }
 
   /* ---- список ---- */
   .sec { display: flex; justify-content: space-between; align-items: center; margin: 28px 2px 12px; }
-  .sec b { font-size: 19px; font-weight: 500; letter-spacing: -.01em; }
+  .sec b { font-size: 21px; font-weight: 700; letter-spacing: -.01em; }
   .count { height: 30px; padding: 0 13px; border-radius: 15px; background: var(--salmon); color: var(--on);
-    font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; }
-  .count.ghost { background: var(--card); color: var(--muted); box-shadow: var(--shadow); }
+    font-size: 13.5px; font-weight: 700; display: inline-flex; align-items: center; }
+  .count.ghost { background: var(--card); color: var(--ink); box-shadow: var(--shadow); border: 1px solid var(--border); }
   .row { display: flex; gap: 14px; background: var(--card); border-radius: 24px; padding: 16px; margin-bottom: 10px;
-    box-shadow: var(--shadow); border: 2px solid transparent; }
-  .row.live { border-color: var(--green); }
-  .row.past { opacity: .45; }
+    box-shadow: var(--shadow); border: 1px solid var(--border); }
+  .row.live { border: 2.5px solid var(--green); padding: 14.5px; }
+  .row.past { opacity: .5; }
   .tm { flex: none; width: 58px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
-    padding: 9px 0; border-radius: 16px; background: var(--soft); font-variant-numeric: tabular-nums; align-self: flex-start; }
-  .tm b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
-  .tm span { font-size: 12px; font-weight: 500; color: var(--muted); }
-  .tm em { font-style: normal; font-size: 10.5px; font-weight: 500; color: var(--muted); margin-top: 2px; }
+    padding: 9px 0; border-radius: 16px; background: var(--tm); color: var(--tm-ink); font-variant-numeric: tabular-nums; align-self: flex-start; }
+  .tm b { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+  .tm span { font-size: 12.5px; font-weight: 600; opacity: .72; }
+  .tm em { font-style: normal; font-size: 11px; font-weight: 600; opacity: .72; margin-top: 2px; }
   .row.live .tm { background: var(--green); color: var(--on); }
-  .row.live .tm span, .row.live .tm em { color: rgba(21, 21, 21, .6); }
+  
   .bd { flex: 1; min-width: 0; }
-  .nm { font-size: 17px; font-weight: 500; line-height: 1.25; letter-spacing: -.01em; }
-  .mt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 7px; font-size: 13.5px; font-weight: 400; color: var(--muted); }
-  .tag { height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12px; font-weight: 500; color: var(--on); display: inline-flex; align-items: center; }
+  .nm { font-size: 17px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
+  .mt { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 8px; font-size: 14.5px; font-weight: 600; color: var(--muted); }
+  .tag { height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12.5px; font-weight: 700; color: var(--on); display: inline-flex; align-items: center; }
   .tag.lec { background: var(--salmon); } .tag.prac { background: var(--green); } .tag.lab { background: var(--yellow); }
   .tag.now { background: var(--ink); color: var(--bg); }
-  .only { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .only { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 6px; }
   .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
   .act { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 6px; border-radius: 20px;
-    background: var(--ink); color: var(--bg); font-size: 14.5px; font-weight: 500; }
+    background: var(--ink); color: var(--bg); font-size: 15px; font-weight: 600; }
   .act b { width: 28px; height: 28px; border-radius: 50%; background: var(--bg); color: var(--ink); display: grid; place-items: center; }
   .act b svg { width: 12px; height: 12px; margin-left: 1px; }
-  .act.light { background: var(--soft); color: var(--ink); padding: 0 16px 0 12px; }
+  .act.light { background: var(--card); color: var(--ink); padding: 0 16px 0 12px; box-shadow: inset 0 0 0 1.5px var(--ink); }
   .act.light svg { width: 17px; height: 17px; }
-  .empty { background: var(--card); border-radius: 24px; padding: 26px 18px; text-align: center; color: var(--muted);
-    font-weight: 500; box-shadow: var(--shadow); }
+  .empty { background: var(--card); border-radius: 24px; padding: 26px 18px; text-align: center; color: var(--ink);
+    font-weight: 600; box-shadow: var(--shadow); border: 1px solid var(--border); }
   .empty span { display: block; font-size: 30px; margin-bottom: 6px; }
   .err { color: #d0392b; }
 
   /* ---- перемикач тижнів ---- */
-  .wk { display: flex; background: var(--card); border-radius: 22px; padding: 4px; margin-top: 16px; box-shadow: var(--shadow); }
-  .wk button { flex: 1; height: 38px; border-radius: 18px; font-size: 14.5px; font-weight: 500; color: var(--muted); }
+  .wk { display: flex; background: var(--card); border-radius: 22px; padding: 4px; margin-top: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+  .wk button { flex: 1; height: 38px; border-radius: 18px; font-size: 15px; font-weight: 600; color: var(--muted); }
   .wk button.on { background: var(--ink); color: var(--bg); }
 
   /* ---- окремі сторінки (група, доступ) ---- */
   .page-top { display: flex; align-items: center; gap: 12px; padding: 18px 0 0; }
-  .back { width: 44px; height: 44px; border-radius: 50%; background: var(--card); display: grid; place-items: center; box-shadow: var(--shadow); }
+  .back { width: 44px; height: 44px; border-radius: 50%; background: var(--card); display: grid; place-items: center; box-shadow: var(--shadow); border: 1px solid var(--border); }
   .back svg { width: 20px; height: 20px; }
-  .page-top b { font-size: 18px; font-weight: 500; }
-  .search { display: flex; align-items: center; gap: 8px; background: var(--card); border-radius: 22px; padding: 0 16px; margin: 18px 0 12px; box-shadow: var(--shadow); }
+  .page-top b { font-size: 18px; font-weight: 700; }
+  .search { display: flex; align-items: center; gap: 8px; background: var(--card); border-radius: 22px; padding: 0 16px; margin: 18px 0 12px; box-shadow: var(--shadow); border: 1px solid var(--border); }
   .search svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
   .search input { flex: 1; border: 0; background: none; outline: none; font: inherit; font-size: 16px; color: var(--ink); padding: 14px 0; }
   .search input::placeholder { color: var(--muted); }
   .glist button { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; text-align: left;
-    background: var(--card); border-radius: 18px; padding: 14px 16px; margin-bottom: 8px; font-weight: 500; box-shadow: var(--shadow); }
+    background: var(--card); border-radius: 18px; padding: 14px 16px; margin-bottom: 8px; font-weight: 700; box-shadow: var(--shadow); border: 1px solid var(--border); }
   .glist small { color: var(--muted); font-size: 13px; }
   .hint { color: var(--muted); padding: 12px 4px; }
 
@@ -145,32 +147,24 @@
   .ac-hero .big { width: 64px; height: 64px; border-radius: 50%; background: var(--pill); color: #fff; display: grid; place-items: center; }
   .ac-hero .big svg { width: 30px; height: 30px; }
   .ac-hero h2 { margin: 18px 0 8px; }
-  .ac-hero p { font-size: 15px; margin: 0; opacity: .75; }
-  .step { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border-radius: 22px; padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow); }
+  .ac-hero p { font-size: 16px; font-weight: 500; margin: 0; opacity: .85; }
+  .step { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border-radius: 22px; padding: 16px; margin-bottom: 10px; box-shadow: var(--shadow); border: 1px solid var(--border); }
   .step i { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--salmon); color: var(--on);
     font-style: normal; font-weight: 600; display: grid; place-items: center; }
-  .step div { font-size: 16px; font-weight: 500; padding-top: 5px; }
-  .step small { display: block; color: var(--muted); font-size: 13.5px; font-weight: 400; margin-top: 3px; }
+  .step div { font-size: 16px; font-weight: 700; padding-top: 5px; }
+  .step small { display: block; color: var(--muted); font-size: 14px; font-weight: 500; margin-top: 4px; }
   .btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 58px; border-radius: 29px;
-    font-size: 16px; font-weight: 500; margin-top: 10px; }
+    font-size: 17px; font-weight: 600; margin-top: 10px; }
   .btn.dark { background: var(--ink); color: var(--bg); }
   .btn.text { height: 44px; color: var(--muted); font-size: 14px; }
   .btn svg { width: 20px; height: 20px; }
-  .codebox { background: var(--card); border-radius: 24px; padding: 16px; margin-top: 18px; box-shadow: var(--shadow); }
-  .codebox label { display: block; font-size: 15px; font-weight: 500; margin: 0 4px 10px; }
-  .codebox input { width: 100%; height: 52px; border: 0; outline: none; border-radius: 16px; background: var(--soft); color: var(--ink);
-    font: 600 18px/1 Outfit, ui-monospace, monospace; letter-spacing: .14em; text-align: center; text-transform: uppercase; }
-  .codebox input::placeholder { color: var(--muted); letter-spacing: .14em; }
-  .codebox .msg { min-height: 18px; font-size: 13px; font-weight: 500; color: #d0392b; text-align: center; margin: 8px 0 0; }
-  .note { font-size: 13px; color: var(--muted); text-align: center; margin: 12px 8px 0; }
-  .shake { animation: shake .4s; }
-  @keyframes shake { 20%, 60% { transform: translateX(-7px); } 40%, 80% { transform: translateX(7px); } }
+  .note { font-size: 14px; font-weight: 500; color: var(--muted); text-align: center; margin: 12px 8px 0; }
 
   .toast { position: fixed; left: 50%; top: 14px; z-index: 30; transform: translate(-50%, -140%); width: max-content; max-width: calc(100% - 32px);
     background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 22px; font-size: 14px; font-weight: 500;
     box-shadow: 0 10px 30px rgba(0, 0, 0, .2); transition: transform .35s cubic-bezier(.2, .8, .2, 1); text-align: center; }
   .toast.show { transform: translate(-50%, 0); }
-  .foot { text-align: center; color: var(--muted); font-size: 12px; margin-top: 28px; }
+  .foot { text-align: center; color: var(--muted); font-size: 13px; font-weight: 500; margin-top: 28px; }
   .foot a { color: var(--muted); }
 </style>
 </head>
@@ -211,9 +205,10 @@
 
   // Посилання на конференції — зашифровані (AES-GCM, ключ з коду доступу через PBKDF2).
   // Без коду це просто набір байтів. Генерується скриптом з приватної папки, вручну не редагувати.
-  var VAULT = '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';
+  var VAULT = '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';
   var VAULT_ITER = 310000;
   var CODE_KEY = 'rozklad_access';
+  var OWNER_KEY = 'rozklad_owner'; // лише власник бачить кнопку «Запросити»
 
   var IC = {
     play: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z"/></svg>',
@@ -243,7 +238,7 @@
     var dark = inTg ? tg.colorScheme === 'dark' : window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
     if (inTg) {
-      var c = dark ? '#111111' : '#f4f2ed';
+      var c = dark ? '#0c0c0c' : '#e8e4dc';
       try { tg.setHeaderColor(c); tg.setBackgroundColor(c); } catch (e) {}
     }
   }
@@ -268,7 +263,7 @@
   }
 
   var state = { view: 'today', weekShift: 0, data: null, currentWeek: null, refDate: null, baseDate: null,
-                group: loadGroup(), vault: null, code: null };
+                group: loadGroup(), vault: null, code: null, owner: false };
   var LINKS = [];
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -363,16 +358,20 @@
       .then(function (key) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, ct); })
       .then(function (buf) { return JSON.parse(new TextDecoder().decode(buf)); });
   }
-  function grant(code, vault) {
+  function grant(code, vault, owner) {
     state.vault = vault; state.code = normCode(code);
     store(CODE_KEY, state.code);
     if (inTg && tg.CloudStorage) { try { tg.CloudStorage.setItem(CODE_KEY, state.code); } catch (e) {} }
+    if (owner) {
+      state.owner = true; store(OWNER_KEY, '1');
+      if (inTg && tg.CloudStorage) { try { tg.CloudStorage.setItem(OWNER_KEY, '1'); } catch (e) {} }
+    }
     updateLock(); render();
   }
   function revoke() {
-    state.vault = null; state.code = null;
-    drop(CODE_KEY);
-    if (inTg && tg.CloudStorage) { try { tg.CloudStorage.removeItem(CODE_KEY); } catch (e) {} }
+    state.vault = null; state.code = null; state.owner = false;
+    drop(CODE_KEY); drop(OWNER_KEY);
+    if (inTg && tg.CloudStorage) { try { tg.CloudStorage.removeItems([CODE_KEY, OWNER_KEY]); } catch (e) {} }
     updateLock(); render();
   }
   function inviteLink() { return 'https://t.me/' + BOT + '?startapp=k_' + state.code; }
@@ -386,17 +385,24 @@
     if (navigator.clipboard) navigator.clipboard.writeText(link).then(function () { toast('Посилання скопійовано'); });
   }
   function restoreAccess() {
+    restoreOwner();
     var sp = inTg && tg.initDataUnsafe && tg.initDataUnsafe.start_param;
-    if (sp && sp.indexOf('k_') === 0) {
-      var c = sp.slice(2);
+    if (sp && (sp.indexOf('k_') === 0 || sp.indexOf('o_') === 0)) {
+      var c = sp.slice(2), own = sp.charAt(0) === 'o';
       decrypt(c).then(function (v) {
         var had = !!read(CODE_KEY);
-        grant(c, v); haptic('n', 'success');
-        if (!had) toast('Доступ відкрито — кнопки Zoom і Meet тепер біля пар');
+        grant(c, v, own); haptic('n', 'success');
+        if (!had) toast(own ? 'Ви власник — можете запрошувати інших' : 'Доступ відкрито — кнопки Zoom і Meet тепер біля пар');
       }).catch(function () { toast('Запрошення недійсне — попросіть нове'); haptic('n', 'error'); fromStorage(); });
       return;
     }
     fromStorage();
+  }
+  function restoreOwner() {
+    if (read(OWNER_KEY)) { state.owner = true; return; }
+    if (inTg && tg.CloudStorage) {
+      try { tg.CloudStorage.getItem(OWNER_KEY, function (err, v) { if (!err && v) { state.owner = true; store(OWNER_KEY, '1'); } }); } catch (e) {}
+    }
   }
   function fromStorage() {
     function tryCode(c) {
@@ -629,15 +635,24 @@
   }
 
   function openAccess() {
+    if (state.vault && !state.owner) {
+      showPage(pageTop('Посилання на пари') +
+        '<section class="hero green ac-hero">' + deco('#f5a48c', '#e8e382') + '<div class="big">' + IC.check + '</div>' +
+        '<h2>Доступ відкрито</h2><p>Біля кожної пари є кнопки Zoom, Meet і Classroom.</p></section>' +
+        '<div class="step"><i>!</i><div>Не пересилайте посилання на пари<small>Запрошувати інших може лише власник розкладу</small></div></div>' +
+        '<button class="btn text" id="offBtn">Сховати посилання на цьому телефоні</button>');
+      document.getElementById('offBtn').onclick = function () { revoke(); haptic('n', 'warning'); closePage(); toast('Посилання сховано'); };
+      return;
+    }
     if (state.vault) {
       showPage(pageTop('Посилання на пари') +
         '<section class="hero green ac-hero">' + deco('#f5a48c', '#e8e382') + '<div class="big">' + IC.check + '</div>' +
-        '<h2>Доступ відкрито</h2><p>Біля кожної пари є кнопки Zoom, Meet і Classroom. Стороннім вони не видні.</p></section>' +
-        '<div class="sec"><b>Як дати доступ іншому</b></div>' +
-        '<div class="step"><i>1</i><div>Натисніть «Запросити»<small>Відкриється список ваших чатів у Telegram</small></div></div>' +
-        '<div class="step"><i>2</i><div>Виберіть чат групи або людину<small>Хто натисне на посилання — одразу бачить Zoom і Meet. Ніяких кодів</small></div></div>' +
-        '<button class="btn dark" id="inviteBtn">' + IC.share + 'Запросити</button>' +
-        '<div class="note">Надсилайте тільки своїм — у чат групи чи особисто. Стороннім не пересилайте.</div>' +
+        '<h2>Ви власник</h2><p>Тільки ви можете давати доступ. Ті, кого ви запросите, далі нікого запросити не зможуть.</p></section>' +
+        '<div class="sec"><b>Як дати доступ</b></div>' +
+        '<div class="step"><i>1</i><div>Натисніть «Надіслати запрошення»<small>Відкриється список ваших чатів у Telegram</small></div></div>' +
+        '<div class="step"><i>2</i><div>Виберіть людину й надішліть<small>Вона натисне на посилання — і одразу бачить Zoom і Meet</small></div></div>' +
+        '<button class="btn dark" id="inviteBtn">' + IC.share + 'Надіслати запрошення</button>' +
+        '<div class="note">Надсилайте особисто тим, кому довіряєте. Не кидайте в загальні чати.</div>' +
         '<button class="btn text" id="offBtn">Сховати посилання на цьому телефоні</button>');
       document.getElementById('inviteBtn').onclick = shareInvite;
       document.getElementById('offBtn').onclick = function () { revoke(); haptic('n', 'warning'); closePage(); toast('Посилання сховано'); };
@@ -645,32 +660,10 @@
     }
     showPage(pageTop('Посилання на пари') +
       '<section class="hero salmon ac-hero">' + deco('#e8e382', '#8dca8e') + '<div class="big">' + IC.lock + '</div>' +
-      '<h2>Zoom і Meet — лише для своїх</h2><p>Посилання на пари приховані. Їх бачать тільки ті, кого запросили.</p></section>' +
+      '<h2>Zoom і Meet — лише для запрошених</h2><p>Кнопки входу на пари бачать тільки ті, кому власник розкладу надіслав запрошення.</p></section>' +
       '<div class="sec"><b>Як отримати доступ</b></div>' +
-      '<div class="step"><i>1</i><div>Знайдіть посилання-запрошення<small>У чаті групи або попросіть в одногрупника</small></div></div>' +
-      '<div class="step"><i>2</i><div>Натисніть на нього<small>Розклад відкриється вже з кнопками Zoom і Meet. Нічого вводити не треба</small></div></div>' +
-      '<button class="btn text" id="haveCode">У мене є код</button>' +
-      '<div class="codebox" id="codebox" hidden><label>Код доступу</label>' +
-      '<input id="code" placeholder="XXXX-XXXX-XXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="20">' +
-      '<div class="msg" id="msg"></div><button class="btn dark" id="unlockBtn" style="margin-top:6px">Відкрити</button></div>');
-    var codeIn = document.getElementById('code'), msg = document.getElementById('msg'), btn = document.getElementById('unlockBtn');
-    document.getElementById('haveCode').onclick = function () {
-      this.hidden = true; document.getElementById('codebox').hidden = false; codeIn.focus();
-    };
-    function submit() {
-      var c = codeIn.value;
-      if (normCode(c).length < 6) { msg.textContent = 'Введіть код повністю'; return; }
-      btn.disabled = true; btn.textContent = 'Перевіряю…'; msg.textContent = '';
-      decrypt(c).then(function (v) {
-        closePage(); grant(c, v); haptic('n', 'success'); toast('Доступ відкрито — кнопки Zoom і Meet тепер біля пар');
-      }).catch(function () {
-        haptic('n', 'error'); msg.textContent = 'Код не підходить';
-        var box = codeIn.parentNode; box.classList.remove('shake'); void box.offsetWidth; box.classList.add('shake');
-        btn.disabled = false; btn.textContent = 'Відкрити';
-      });
-    }
-    btn.onclick = submit;
-    codeIn.onkeydown = function (e) { if (e.key === 'Enter') submit(); };
+      '<div class="step"><i>1</i><div>Попросіть запрошення у власника розкладу<small>Він надішле вам посилання в Telegram</small></div></div>' +
+      '<div class="step"><i>2</i><div>Натисніть на це посилання<small>Розклад відкриється вже з кнопками Zoom і Meet. Більше нічого робити не треба</small></div></div>');
   }
 
   function setTabs() {
