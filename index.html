@@ -6,7 +6,7 @@
 <title>Розклад КПІ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
   (function () {
@@ -17,134 +17,189 @@
   })();
 </script>
 <style>
+  /* Кольори мають значення: тип пари і «зараз іде». Усе інше — нейтральне. */
   :root {
-    --bg: #ececea; --card: #ffffff; --ink: #0d0d0d; --muted: #555553; --line: rgba(13, 13, 13, .1); --track: #dcdcd9;
-    --on: #0d0d0d; --live: #e8382a;
-    --c-green: #5fd38d; --c-lime: #dcf244; --c-lilac: #d8bbf6; --c-mint: #4ee3b4;
-    --c-pink: #f6a4a4; --c-violet: #a9a5ff; --c-warm: #d9d3cc; --c-orange: #ffb057;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 4px 14px rgba(0, 0, 0, .05);
+    --bg: #f2f0f5; --ink: #121214; --muted: #5d5b66; --line: rgba(18, 18, 20, .08);
+    --glass: rgba(255, 255, 255, .55); --glass-2: rgba(255, 255, 255, .4); --edge: rgba(255, 255, 255, .8);
+    --shadow: 0 8px 30px rgba(40, 20, 60, .07);
+    --lec: #7b6cff; --lec-ink: #ffffff;   /* лекція */
+    --prac: #b6ec5a; --prac-ink: #142000;  /* практика */
+    --lab: #ffae52; --lab-ink: #2a1600;    /* лаба */
+    --live: #ff2e6e;                       /* зараз іде */
+    --blob1: #ff7ad9; --blob2: #b8f25a; --blob3: #8f80ff; --blob-o: .7;
+    --btn: #121214; --btn-ink: #ffffff;
   }
   :root[data-theme="dark"] {
-    --bg: #000000; --card: #1a1a1a; --ink: #ffffff; --muted: #b4b4b1; --line: rgba(255, 255, 255, .12); --track: #262626;
+    --bg: #060607; --ink: #f5f5f7; --muted: #a9a7b3; --line: rgba(255, 255, 255, .08);
+    --glass: rgba(34, 34, 38, .55); --glass-2: rgba(255, 255, 255, .06); --edge: rgba(255, 255, 255, .09);
     --shadow: 0 0 0 transparent;
+    --blob-o: .5; --btn: #ffffff; --btn-ink: #121214;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink);
-    font: 16px/1.35 "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  html { background: var(--bg); }
+  html, body { margin: 0; color: var(--ink);
+    font: 16px/1.4 "Inter Tight", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased; }
-  body { padding: 14px 16px calc(28px + env(safe-area-inset-bottom)); max-width: 560px; margin: 0 auto; }
-  button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
-  button:active { opacity: .7; }
+  body { padding: 14px 16px calc(28px + env(safe-area-inset-bottom)); max-width: 560px; margin: 0 auto; position: relative; }
+  button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; transition: transform .15s; }
+  button:active { transform: scale(.96); }
   svg { display: block; }
 
-  /* ---- шапка ---- */
-  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin: 4px 2px 14px; }
-  h1 { font-size: 28px; line-height: 1.05; font-weight: 800; letter-spacing: -.03em; margin: 0; }
-  .sub { font-size: 15px; font-weight: 600; color: var(--muted); margin-top: 4px; }
-  .grp { flex: none; height: 36px; padding: 0 14px; border-radius: 18px; background: var(--card); box-shadow: var(--shadow);
-    font-size: 14.5px; font-weight: 700; white-space: nowrap; }
+  /* ---- живий розмитий фон ---- */
+  .bgfx { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .bgfx i { position: absolute; border-radius: 50%; filter: blur(64px); opacity: var(--blob-o); will-change: transform; }
+  .bgfx .b1 { width: 340px; height: 340px; background: var(--blob1); top: -120px; left: -90px; animation: drift1 18s ease-in-out infinite alternate; }
+  .bgfx .b2 { width: 320px; height: 320px; background: var(--blob2); top: -60px; right: -120px; animation: drift2 22s ease-in-out infinite alternate; }
+  .bgfx .b3 { width: 300px; height: 300px; background: var(--blob3); top: 180px; left: 30%; opacity: calc(var(--blob-o) * .6); animation: drift3 26s ease-in-out infinite alternate; }
+  .bgfx::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, transparent 28%, var(--bg) 72%); }
+  @keyframes drift1 { to { transform: translate(90px, 70px) scale(1.15); } }
+  @keyframes drift2 { to { transform: translate(-80px, 110px) scale(.9); } }
+  @keyframes drift3 { to { transform: translate(-90px, -60px) scale(1.2); } }
 
-  /* ---- вкладки ---- */
-  .tabs { display: flex; gap: 4px; background: var(--track); border-radius: 16px; padding: 4px; margin-bottom: 14px; }
-  .tabs button { flex: 1; height: 40px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--muted); white-space: nowrap; }
-  .tabs button.on { background: var(--ink); color: var(--bg); }
+  .glass { background: var(--glass); -webkit-backdrop-filter: blur(22px) saturate(160%); backdrop-filter: blur(22px) saturate(160%);
+    box-shadow: var(--shadow), inset 0 0 0 1px var(--edge); }
+
+  /* ---- шапка ---- */
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin: 4px 2px 16px; }
+  h1 { font-size: 27px; line-height: 1.1; font-weight: 700; letter-spacing: -.025em; margin: 0; }
+  .sub { font-size: 15px; font-weight: 500; color: var(--muted); margin-top: 3px; }
+  .grp { flex: none; height: 38px; padding: 0 15px; border-radius: 19px; font-size: 14.5px; font-weight: 600; white-space: nowrap; }
+
+  /* ---- вкладки з плавним перемикачем ---- */
+  .tabs { position: relative; display: flex; border-radius: 18px; padding: 4px; margin-bottom: 14px; }
+  .tabs .thumb { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 14px; background: var(--btn);
+    transition: transform .38s cubic-bezier(.3, .9, .25, 1), width .38s cubic-bezier(.3, .9, .25, 1); }
+  .tabs button { position: relative; z-index: 1; flex: 1; height: 40px; border-radius: 14px; font-size: 15px; font-weight: 500;
+    color: var(--muted); white-space: nowrap; transition: color .25s; }
+  .tabs button.on { color: var(--btn-ink); font-weight: 600; }
   .tabs button[hidden] { display: none; }
 
+  /* ---- маячок «зараз іде» ---- */
+  .beacon { position: relative; flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--live); }
+  .beacon::before, .beacon::after { content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--live);
+    animation: ping 2s cubic-bezier(0, 0, .2, 1) infinite; }
+  .beacon::after { animation-delay: 1s; }
+  @keyframes ping { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(3.4); opacity: 0; } }
+
   /* ---- картка «зараз / далі» ---- */
-  .now { border-radius: 22px; padding: 16px 18px 18px; margin-bottom: 4px; color: var(--on); }
-  .now .k { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; }
-  .now .k .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--live); animation: pulse 1.8s ease-out infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(232, 56, 42, .5); } 75%, 100% { box-shadow: 0 0 0 7px rgba(232, 56, 42, 0); } }
-  .now h2 { font-size: 21px; line-height: 1.18; font-weight: 800; letter-spacing: -.02em; margin: 8px 0 4px; }
-  .now .w { font-size: 15px; font-weight: 600; opacity: .72; }
-  .now .t { font-size: 15.5px; font-weight: 700; margin-top: 10px; font-variant-numeric: tabular-nums; }
-  .bar { height: 6px; border-radius: 3px; background: rgba(13, 13, 13, .14); margin-top: 12px; overflow: hidden; }
-  .bar i { display: block; height: 100%; background: var(--on); border-radius: 3px; }
+  .now { position: relative; overflow: hidden; border-radius: 24px; padding: 16px 18px 18px; margin-bottom: 4px; }
+  .now.is-live::before { content: ''; position: absolute; width: 220px; height: 220px; right: -70px; top: -90px; border-radius: 50%;
+    background: var(--live); opacity: .16; filter: blur(40px); animation: glow 3s ease-in-out infinite alternate; }
+  @keyframes glow { to { opacity: .3; transform: scale(1.15); } }
+  .now > * { position: relative; }
+  .now .k { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .now .k span { display: flex; align-items: center; gap: 9px; font-size: 14.5px; font-weight: 600; }
+  .now.is-live .k span { color: var(--live); }
+  .chip { height: 26px; padding: 0 10px; border-radius: 13px; background: var(--glass-2); box-shadow: inset 0 0 0 1px var(--line);
+    font-size: 13px; font-style: normal; font-weight: 500; color: var(--muted); display: inline-flex; align-items: center; white-space: nowrap; }
+  .now h2 { font-size: 20px; line-height: 1.22; font-weight: 600; letter-spacing: -.015em; margin: 10px 0 3px; }
+  .now .w { font-size: 15px; font-weight: 400; color: var(--muted); }
+  .now .t { display: flex; justify-content: space-between; gap: 10px; font-size: 15px; font-weight: 500; margin-top: 12px; font-variant-numeric: tabular-nums; }
+  .now .t b { font-weight: 600; }
+  .bar { height: 7px; border-radius: 4px; background: var(--line); margin-top: 8px; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--live), #ff9a5a, #b8f25a, var(--live));
+    background-size: 300% 100%; animation: shimmer 4s linear infinite, grow .9s cubic-bezier(.2, .8, .2, 1) both; transform-origin: left; }
+  @keyframes shimmer { to { background-position: -300% 0; } }
+  @keyframes grow { from { transform: scaleX(0); } }
   .join { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 52px; margin-top: 14px;
-    border-radius: 26px; background: #0d0d0d; color: #fff; font-size: 16.5px; font-weight: 700; }
+    border-radius: 26px; background: var(--btn); color: var(--btn-ink); font-size: 16px; font-weight: 600; }
   .join + .join { margin-top: 8px; }
   .join svg { width: 18px; height: 18px; }
 
   /* ---- день і пари ---- */
   .day { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 20px 4px 8px; }
-  .day b { font-size: 18px; font-weight: 800; letter-spacing: -.01em; }
-  .day span { font-size: 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
-  .day .today { background: var(--ink); color: var(--bg); padding: 3px 10px; border-radius: 10px; font-size: 12.5px; font-weight: 700; }
-  .pair { display: flex; gap: 12px; background: var(--card); border-radius: 20px; padding: 12px; margin-bottom: 8px; box-shadow: var(--shadow); }
-  .pair.live { box-shadow: inset 0 0 0 2.5px var(--ink), var(--shadow); }
-  .pair.past { opacity: .45; }
-  .tm { flex: none; width: 64px; padding: 8px 0; border-radius: 14px; text-align: center; color: var(--on); align-self: flex-start;
-    font-variant-numeric: tabular-nums; }
-  .tm b { display: block; font-size: 17px; font-weight: 800; letter-spacing: -.01em; }
-  .tm span { display: block; font-size: 13px; font-weight: 700; opacity: .62; }
-  .tm em { display: block; font-style: normal; font-size: 11.5px; font-weight: 700; opacity: .62; margin-top: 3px; }
-  .info { flex: 1; min-width: 0; padding-top: 2px; }
-  .name { font-size: 16.5px; line-height: 1.25; font-weight: 700; letter-spacing: -.01em; }
-  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 6px; font-size: 14.5px; font-weight: 500; color: var(--muted); }
-  .tag { height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12.5px; font-weight: 700; display: inline-flex; align-items: center;
-    background: var(--track); color: var(--ink); }
-  .tag.nowtag { background: var(--live); color: #fff; }
-  .only { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 5px; }
-  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .day b { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .day span { font-size: 14px; font-weight: 500; color: var(--muted); white-space: nowrap; }
+  .day .today { color: var(--live); font-weight: 600; }
+  .pair { display: flex; gap: 14px; border-radius: 20px; padding: 14px; margin-bottom: 8px; }
+  .pair.live { box-shadow: var(--shadow), inset 0 0 0 2px var(--live); }
+  .pair.past { opacity: .5; }
+  .tm { flex: none; width: 52px; text-align: right; font-variant-numeric: tabular-nums; padding-top: 1px; }
+  .tm b { display: block; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+  .tm span { display: block; font-size: 13.5px; color: var(--muted); }
+  .tm em { display: block; font-style: normal; font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .pair.live .tm b { color: var(--live); }
+  .info { flex: 1; min-width: 0; padding-left: 14px; border-left: 1px solid var(--line); }
+  .name { font-size: 16.5px; line-height: 1.28; font-weight: 600; letter-spacing: -.01em; }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 8px; margin-top: 6px; font-size: 14.5px; color: var(--muted); }
+  .tag { height: 22px; padding: 0 9px; border-radius: 11px; font-size: 12.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .tag.lec { background: var(--lec); color: var(--lec-ink); }
+  .tag.prac { background: var(--prac); color: var(--prac-ink); }
+  .tag.lab { background: var(--lab); color: var(--lab-ink); }
+  .tag.nowtag { background: transparent; color: var(--live); padding: 0 2px; }
+  .tag.nowtag .beacon { width: 8px; height: 8px; }
+  .only { font-size: 13px; color: var(--muted); margin-top: 5px; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
   .lk { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 18px;
-    background: var(--ink); color: var(--bg); font-size: 14.5px; font-weight: 700; }
-  .lk.out { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+    background: var(--btn); color: var(--btn-ink); font-size: 14.5px; font-weight: 600; }
+  .lk.out { background: var(--glass-2); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line); }
   .lk svg { width: 14px; height: 14px; }
-  .empty { background: var(--card); border-radius: 20px; padding: 22px 18px; text-align: center; font-size: 16px; font-weight: 700;
-    color: var(--muted); box-shadow: var(--shadow); }
+  .empty { border-radius: 20px; padding: 22px 18px; text-align: center; font-size: 16px; font-weight: 500; color: var(--muted); }
   .err { color: var(--live); }
+
+  /* ---- поява карток ---- */
+  .anim > * { animation: rise .5s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i, 0) * 45ms); }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } }
 
   /* ---- тиждень ---- */
   .wk { display: flex; gap: 8px; }
-  .wk button { flex: 1; height: 42px; border-radius: 14px; background: var(--card); font-size: 15px; font-weight: 700; color: var(--muted); box-shadow: var(--shadow); }
-  .wk button.on { color: var(--ink); box-shadow: inset 0 0 0 2px var(--ink); }
-  .range { font-size: 14.5px; font-weight: 600; color: var(--muted); margin: 10px 4px 0; }
+  .wk button { flex: 1; height: 42px; border-radius: 14px; font-size: 15px; font-weight: 500; color: var(--muted); }
+  .wk button.on { color: var(--ink); font-weight: 600; box-shadow: var(--shadow), inset 0 0 0 2px var(--ink); }
+  .range { font-size: 14.5px; color: var(--muted); margin: 10px 4px 0; }
 
   /* ---- вибір групи і доступ ---- */
-  .box { background: var(--card); border-radius: 20px; padding: 14px; box-shadow: var(--shadow); }
-  .search { width: 100%; height: 48px; border: 0; outline: none; border-radius: 14px; background: var(--bg); color: var(--ink);
-    font: inherit; font-size: 16px; font-weight: 600; padding: 0 14px; }
+  .box { border-radius: 20px; padding: 14px; }
+  .search { width: 100%; height: 48px; border: 0; outline: none; border-radius: 14px; background: var(--glass-2); box-shadow: inset 0 0 0 1px var(--line);
+    color: var(--ink); font: inherit; font-size: 16px; padding: 0 14px; }
   .search::placeholder { color: var(--muted); }
   .glist button { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; text-align: left;
-    padding: 13px 4px; border-bottom: 1px solid var(--line); font-size: 16px; font-weight: 700; }
-  .glist small { color: var(--muted); font-size: 13px; font-weight: 600; }
-  .hint { color: var(--muted); font-weight: 600; padding: 12px 4px; font-size: 15px; }
-  .acc h3 { font-size: 20px; font-weight: 800; letter-spacing: -.02em; margin: 2px 2px 6px; }
-  .acc p { font-size: 15px; font-weight: 500; color: var(--muted); margin: 0 2px 14px; line-height: 1.4; }
+    padding: 13px 4px; border-bottom: 1px solid var(--line); font-size: 16px; font-weight: 600; }
+  .glist small { color: var(--muted); font-size: 13px; font-weight: 400; }
+  .hint { color: var(--muted); padding: 12px 4px; font-size: 15px; }
+  .acc h3 { font-size: 19px; font-weight: 600; letter-spacing: -.015em; margin: 2px 2px 6px; }
+  .acc p { font-size: 15px; color: var(--muted); margin: 0 2px 14px; line-height: 1.45; }
   .field { display: flex; gap: 8px; }
-  .inp { flex: 1; min-width: 0; display: flex; align-items: center; height: 50px; padding: 0 14px; border-radius: 14px; background: var(--bg); }
-  .inp b { font-size: 17px; font-weight: 800; color: var(--muted); margin-right: 2px; }
-  .inp input { flex: 1; min-width: 0; border: 0; outline: none; background: none; font: inherit; font-size: 16.5px; font-weight: 700; color: var(--ink); }
-  .inp input::placeholder { color: var(--muted); font-weight: 600; }
-  .add { flex: none; height: 50px; padding: 0 20px; border-radius: 14px; background: var(--ink); color: var(--bg); font-size: 16px; font-weight: 700; }
+  .inp { flex: 1; min-width: 0; display: flex; align-items: center; height: 50px; padding: 0 14px; border-radius: 14px;
+    background: var(--glass-2); box-shadow: inset 0 0 0 1px var(--line); }
+  .inp b { font-size: 17px; font-weight: 600; color: var(--muted); margin-right: 2px; }
+  .inp input { flex: 1; min-width: 0; border: 0; outline: none; background: none; font: inherit; font-size: 16.5px; font-weight: 500; color: var(--ink); }
+  .inp input::placeholder { color: var(--muted); font-weight: 400; }
+  .add { flex: none; height: 50px; padding: 0 20px; border-radius: 14px; background: var(--btn); color: var(--btn-ink); font-size: 16px; font-weight: 600; }
   .add:disabled { opacity: .5; }
-  .msg { min-height: 20px; font-size: 14px; font-weight: 700; margin: 8px 4px 0; }
+  .msg { min-height: 20px; font-size: 14px; font-weight: 500; margin: 8px 4px 0; }
   .msg.bad { color: var(--live); }
   .person { display: flex; align-items: center; gap: 10px; padding: 11px 2px; border-bottom: 1px solid var(--line); }
   .person:last-child { border-bottom: 0; }
-  .person .u { flex: 1; min-width: 0; font-size: 16.5px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .person .u small { display: block; font-size: 13px; font-weight: 600; color: var(--muted); }
-  .del { flex: none; height: 36px; padding: 0 14px; border-radius: 12px; background: var(--bg); font-size: 14px; font-weight: 700; color: var(--muted); }
-  .note { font-size: 14px; font-weight: 500; color: var(--muted); line-height: 1.45; margin: 12px 4px 0; }
-  .note b { color: var(--ink); font-weight: 700; }
+  .person .u { flex: 1; min-width: 0; font-size: 16.5px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .person .u small { display: block; font-size: 13px; font-weight: 400; color: var(--muted); }
+  .del { flex: none; height: 36px; padding: 0 14px; border-radius: 12px; background: var(--glass-2); box-shadow: inset 0 0 0 1px var(--line);
+    font-size: 14px; font-weight: 500; color: var(--muted); }
+  .note { font-size: 14px; color: var(--muted); line-height: 1.5; margin: 12px 4px 0; }
+  .note b { color: var(--ink); font-weight: 600; }
 
   .toast { position: fixed; left: 50%; top: 12px; z-index: 30; transform: translate(-50%, -150%); width: max-content; max-width: calc(100% - 32px);
-    background: var(--ink); color: var(--bg); padding: 12px 18px; border-radius: 18px; font-size: 15px; font-weight: 700;
+    background: var(--btn); color: var(--btn-ink); padding: 12px 18px; border-radius: 18px; font-size: 15px; font-weight: 500;
     box-shadow: 0 10px 30px rgba(0, 0, 0, .2); transition: transform .35s cubic-bezier(.2, .8, .2, 1); text-align: center; }
   .toast.show { transform: translate(-50%, 0); }
-  .foot { text-align: center; color: var(--muted); font-size: 13px; font-weight: 600; margin-top: 24px; }
+  .foot { text-align: center; color: var(--muted); font-size: 13px; margin-top: 24px; }
   .foot a { color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
 </style>
 </head>
 <body>
+<div class="bgfx" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
 <header>
   <div>
     <h1 id="title">Розклад</h1>
     <div class="sub" id="sub">Завантаження…</div>
   </div>
-  <button class="grp" id="grpBtn">Змінити групу</button>
+  <button class="grp glass" id="grpBtn">Змінити групу</button>
 </header>
-<div class="tabs" id="tabs">
+<div class="tabs glass" id="tabs">
+  <span class="thumb"></span>
   <button data-v="today" class="on">Сьогодні</button>
   <button data-v="tomorrow">Завтра</button>
   <button data-v="week">Тиждень</button>
@@ -167,9 +222,9 @@
   // Стандартний дзвінковий розклад КПІ
   var BELLS = { '08:30': ['10:05', 1], '10:25': ['12:00', 2], '12:20': ['13:55', 3], '14:15': ['15:50', 4],
                 '16:10': ['17:45', 5], '18:30': ['20:05', 6], '20:20': ['21:55', 7] };
-  var PALETTE = ['green', 'lilac', 'lime', 'mint', 'violet', 'pink', 'orange', 'warm'];
   var KIND = { zoom: 'Zoom', meet: 'Meet', classroom: 'Classroom' };
-  var OUT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>';
+  var OUT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M8 7h9v9"/></svg>';
+  var CLOCK = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
 
   var tg = window.Telegram && window.Telegram.WebApp;
   var inTg = !!(tg && tg.initData);
@@ -179,7 +234,7 @@
     var dark = inTg ? tg.colorScheme === 'dark' : window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches;
     root.setAttribute('data-theme', dark ? 'dark' : 'light');
     if (inTg) {
-      var c = dark ? '#000000' : '#ececea';
+      var c = dark ? '#060607' : '#f2f0f5';
       try { tg.setHeaderColor(c); tg.setBackgroundColor(c); } catch (e) {}
     }
   }
@@ -198,7 +253,7 @@
   }
 
   var state = { view: 'today', weekShift: 0, data: null, currentWeek: null, refDate: null, baseDate: null,
-                group: loadGroup(), links: null, owner: false, colors: {}, picker: false };
+                group: loadGroup(), links: null, owner: false, picker: false };
   var LINKS = [];
 
   function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
@@ -249,17 +304,6 @@
       .sort(function (a, b) { return toMin(a.start) - toMin(b.start); });
   }
 
-  // У кожного предмета свій колір — однаковий у картці й у списку
-  function buildColors() {
-    var names = {};
-    ['scheduleFirstWeek', 'scheduleSecondWeek'].forEach(function (w) {
-      (state.data[w] || []).forEach(function (d) { d.pairs.forEach(function (p) { names[p.name] = 1; }); });
-    });
-    state.colors = {};
-    Object.keys(names).sort().forEach(function (n, i) { state.colors[n] = PALETTE[i % PALETTE.length]; });
-  }
-  function colorOf(name) { return 'var(--c-' + (state.colors[name] || 'warm') + ')'; }
-
   // ---- посилання (приходять із сервера лише тим, кому дали доступ) ----
   function linksFor(name) {
     if (!state.links || state.group.id !== state.links.group) return [];
@@ -292,12 +336,12 @@
       state.links = r.links || null; state.owner = !!r.owner;
       if (state.links || state.owner) store('rozklad_links', JSON.stringify({ links: state.links, owner: state.owner }));
       else drop('rozklad_links');
-      updateTabs(); render();
+      updateTabs(); render(false);
     }).catch(function () {});
   }
 
   // ---- розмітка ----
-  function typeOf(p) { return p.tag === 'lec' ? 'Лекція' : p.tag === 'lab' ? 'Лаба' : 'Практика'; }
+  function typeOf(p) { return p.tag === 'lec' ? ['lec', 'Лекція'] : p.tag === 'lab' ? ['lab', 'Лаба'] : ['prac', 'Практика']; }
   function dur(min) {
     var h = Math.floor(min / 60), m = min % 60;
     return h ? h + ' год' + (m ? ' ' + m + ' хв' : '') : m + ' хв';
@@ -305,16 +349,17 @@
 
   function pairHtml(p, opts) {
     opts = opts || {};
-    var cls = 'pair' + (opts.live ? ' live' : '') + (opts.past ? ' past' : '');
+    var t = typeOf(p), cls = 'pair glass' + (opts.live ? ' live' : '') + (opts.past ? ' past' : '');
     var only = opts.showDates && p.dates.length
       ? '<div class="only">лише ' + p.dates.map(function (x) { return x.slice(8, 10) + '.' + x.slice(5, 7); }).join(', ') + '</div>' : '';
     var ls = opts.past ? [] : linksFor(p.name);
     var links = ls.length ? '<div class="links">' + ls.map(function (l) {
       return '<button class="lk' + (l.kind === 'classroom' ? ' out' : '') + '" data-li="' + linkRef(l) + '">' + esc(KIND[l.kind] || l.kind) + OUT + '</button>';
     }).join('') + '</div>' : '';
-    return '<div class="' + cls + '"><div class="tm" style="background:' + colorOf(p.name) + '"><b>' + p.start + '</b><span>' + p.end + '</span>' +
+    return '<div class="' + cls + '"><div class="tm"><b>' + p.start + '</b><span>' + p.end + '</span>' +
       (p.num ? '<em>' + p.num + ' пара</em>' : '') + '</div><div class="info"><div class="name">' + esc(p.name) + '</div>' +
-      '<div class="meta">' + (opts.live ? '<span class="tag nowtag">Зараз</span>' : '') + '<span class="tag">' + typeOf(p) + '</span>' +
+      '<div class="meta">' + (opts.live ? '<span class="tag nowtag"><i class="beacon"></i>Зараз</span>' : '') +
+      '<span class="tag ' + t[0] + '">' + t[1] + '</span>' +
       '<span>' + esc(p.teacher || '') + (p.place ? ' · ' + esc(p.place) : '') + '</span></div>' + only + links + '</div></div>';
   }
 
@@ -337,28 +382,31 @@
     });
     if (live) {
       var total = toMin(live.end) - toMin(live.start), done = now.min - toMin(live.start);
-      return '<section class="now" style="background:' + colorOf(live.name) + '"><div class="k"><span class="dot"></span>Зараз іде</div>' +
+      return '<section class="now glass is-live"><div class="k"><span><i class="beacon"></i>Зараз іде</span>' +
+        (live.num ? '<em class="chip">' + live.num + ' пара · ' + typeOf(live)[1].toLowerCase() + '</em>' : '') + '</div>' +
         '<h2>' + esc(live.name) + '</h2><div class="w">' + esc(live.teacher || '') + '</div>' +
-        '<div class="t">до кінця ' + dur(toMin(live.end) - now.min) + (next ? ' · далі о ' + next.start : '') + '</div>' +
-        '<div class="bar"><i style="width:' + Math.round(done / total * 100) + '%"></i></div>' + joinButtons(live) + '</section>';
+        '<div class="t"><span>' + live.start + ' – ' + live.end + '</span><span>ще <b>' + dur(toMin(live.end) - now.min) + '</b></span></div>' +
+        '<div class="bar"><i style="width:' + Math.max(3, Math.round(done / total * 100)) + '%"></i></div>' +
+        joinButtons(live) + '</section>';
     }
     if (next) {
       var wait = toMin(next.start) - now.min;
-      return '<section class="now" style="background:' + colorOf(next.name) + '"><div class="k">Наступна пара</div>' +
+      return '<section class="now glass"><div class="k"><span>' + CLOCK + 'Наступна пара</span>' +
+        '<em class="chip">через ' + dur(wait) + '</em></div>' +
         '<h2>' + esc(next.name) + '</h2><div class="w">' + esc(next.teacher || '') + '</div>' +
-        '<div class="t">о ' + next.start + ', через ' + dur(wait) + '</div>' + (wait <= 30 ? joinButtons(next) : '') + '</section>';
+        '<div class="t"><span>' + next.start + ' – ' + next.end + '</span><span>' + (next.num ? next.num + ' пара' : '') + '</span></div>' +
+        (wait <= 30 ? joinButtons(next) : '') + '</section>';
     }
     var nd = nextDayWithPairs(dt), np = nd && pairsFor(nd)[0];
-    return '<section class="now" style="background:' + (np ? colorOf(np.name) : 'var(--card)') + '"><div class="k">' +
-      (list.length ? 'На сьогодні пари закінчились' : 'Сьогодні пар немає') + '</div>' +
-      (np ? '<h2>' + esc(np.name) + '</h2><div class="t">Наступна: ' + DAY_FULL[dow(nd)].toLowerCase() + ', ' + human(nd) + ' о ' + np.start + '</div>' : '') + '</section>';
+    return '<section class="now glass"><div class="k"><span>' + (list.length ? 'На сьогодні пари закінчились' : 'Сьогодні пар немає') + '</span></div>' +
+      (np ? '<h2>' + esc(np.name) + '</h2><div class="w">Наступна: ' + DAY_FULL[dow(nd)].toLowerCase() + ', ' + human(nd) + ' о ' + np.start + '</div>' : '') + '</section>';
   }
 
   function renderDay(dt, isToday) {
     var now = kyivNow(), list = pairsFor(dt), html = '';
     if (isToday) html += nowCard(dt, list, now);
     html += '<div class="day"><b>' + DAY_FULL[dow(dt)] + ', ' + human(dt) + '</b><span>' + weekOf(dt) + '-й тиждень</span></div>';
-    if (!list.length) return html + '<div class="empty">Пар немає 🎉</div>';
+    if (!list.length) return html + '<div class="empty glass">Пар немає 🎉</div>';
     list.forEach(function (p) {
       var o = {};
       if (isToday) { o.live = now.min >= toMin(p.start) && now.min < toMin(p.end); o.past = now.min >= toMin(p.end); }
@@ -369,8 +417,8 @@
 
   function renderWeek() {
     var mon = addDays(monday(state.baseDate), 7 * state.weekShift);
-    var html = '<div class="wk"><button data-w="0" class="' + (state.weekShift === 0 ? 'on' : '') + '">Цей тиждень</button>' +
-      '<button data-w="1" class="' + (state.weekShift === 1 ? 'on' : '') + '">Наступний</button></div>';
+    var html = '<div class="wk"><button class="glass' + (state.weekShift === 0 ? ' on' : '') + '" data-w="0">Цей тиждень</button>' +
+      '<button class="glass' + (state.weekShift === 1 ? ' on' : '') + '" data-w="1">Наступний</button></div>';
     html += '<div class="range">' + human(mon) + ' – ' + human(addDays(mon, 5)) + ' · ' + weekOf(mon) + '-й тиждень</div>';
     var today = iso(state.baseDate), any = false;
     for (var i = 0; i < 6; i++) {
@@ -380,11 +428,18 @@
       html += '<div class="day"><b>' + DAY_FULL[i] + '</b>' + (iso(d) === today ? '<span class="today">сьогодні</span>' : '<span>' + human(d) + '</span>') + '</div>';
       list.forEach(function (p) { html += pairHtml(p, { showDates: true }); });
     }
-    if (!any) html += '<div class="empty" style="margin-top:14px">Пар немає</div>';
+    if (!any) html += '<div class="empty glass" style="margin-top:14px">Пар немає</div>';
     return html;
   }
 
-  function render() {
+  // Картки з'являються по черзі — лише коли змінюється вкладка, не при щохвилинному оновленні
+  function animateIn(el) {
+    Array.prototype.forEach.call(el.children, function (c, i) { c.style.setProperty('--i', Math.min(i, 10)); });
+    el.classList.remove('anim'); void el.offsetWidth; el.classList.add('anim');
+    clearTimeout(animateIn.t); animateIn.t = setTimeout(function () { el.classList.remove('anim'); }, 1200);
+  }
+
+  function render(animate) {
     if (!state.data || state.picker || state.view === 'access') return;
     LINKS = [];
     var n = kyivNow(), main = document.getElementById('main');
@@ -394,11 +449,12 @@
     if (state.view === 'today') main.innerHTML = renderDay(state.baseDate, true);
     else if (state.view === 'tomorrow') main.innerHTML = renderDay(addDays(state.baseDate, 1), false);
     else main.innerHTML = renderWeek();
+    if (animate) animateIn(main);
     Array.prototype.forEach.call(main.querySelectorAll('[data-w]'), function (b) {
       b.onclick = function () {
         var w = +b.getAttribute('data-w');
         if (w === state.weekShift) return;
-        haptic('sel'); state.weekShift = w; render();
+        haptic('sel'); state.weekShift = w; render(true);
       };
     });
   }
@@ -408,12 +464,12 @@
   }
 
   function load() {
-    var gid = state.group.id;
+    var gid = state.group.id, shown = false;
     var cached = read('rozklad_cache_' + gid);
     if (cached) {
       try {
         var c = JSON.parse(cached);
-        if (c.ref) { state.data = c.data; state.currentWeek = c.week; state.refDate = new Date(c.ref + 'T00:00:00Z'); buildColors(); render(); }
+        if (c.ref) { state.data = c.data; state.currentWeek = c.week; state.refDate = new Date(c.ref + 'T00:00:00Z'); render(true); shown = true; }
       } catch (e) {}
     }
     Promise.all([getJSON(API + '/schedule/lessons?groupId=' + encodeURIComponent(gid)), getJSON(API + '/time/current')])
@@ -422,12 +478,12 @@
         state.currentWeek = r[1].currentWeek;
         var n = kyivNow(); state.refDate = dateUTC(n.y, n.m, n.d);
         store('rozklad_cache_' + gid, JSON.stringify({ data: state.data, week: state.currentWeek, ref: iso(state.refDate) }));
-        buildColors(); render();
+        render(!shown);
       })
       .catch(function () {
         if (!state.data) {
           document.getElementById('sub').textContent = 'Немає зв’язку';
-          document.getElementById('main').innerHTML = '<div class="empty err">Не вдалося завантажити розклад. Перевірте інтернет і відкрийте ще раз.</div>';
+          document.getElementById('main').innerHTML = '<div class="empty glass err">Не вдалося завантажити розклад. Перевірте інтернет і відкрийте ще раз.</div>';
         }
       });
   }
@@ -437,8 +493,9 @@
   function openGroupPicker() {
     state.picker = true; setTabs();
     var main = document.getElementById('main');
-    main.innerHTML = '<div class="box"><input class="search" id="q" placeholder="Назва групи, напр. ГС-61мп" autocomplete="off">' +
+    main.innerHTML = '<div class="box glass"><input class="search" id="q" placeholder="Назва групи, напр. ГС-61мп" autocomplete="off">' +
       '<div class="glist" id="gl"><div class="hint">Завантаження списку груп…</div></div></div>';
+    animateIn(main);
     var q = document.getElementById('q'), gl = document.getElementById('gl');
     function draw() {
       if (!groupsCache) return;
@@ -466,14 +523,15 @@
   // ---- вкладка «Доступ» (бачить лише власник) ----
   function openAccess() {
     var main = document.getElementById('main');
-    main.innerHTML = '<div class="box acc"><h3>Хто бачить посилання</h3>' +
+    main.innerHTML = '<div class="box glass acc"><h3>Хто бачить посилання</h3>' +
       '<p>Впишіть нікнейм людини в Telegram і натисніть «Додати» — вона побачить кнопки Zoom, Meet і Classroom, щойно відкриє бота.</p>' +
       '<div class="field"><label class="inp"><b>@</b><input id="nick" placeholder="nickname" autocomplete="off" autocapitalize="none" spellcheck="false" maxlength="40"></label>' +
       '<button class="add" id="addBtn">Додати</button></div><div class="msg" id="msg"></div></div>' +
       '<div class="day"><b>Мають доступ</b><span id="cnt"></span></div>' +
-      '<div class="box" id="people"><div class="hint">Завантаження…</div></div>' +
+      '<div class="box glass" id="people"><div class="hint">Завантаження…</div></div>' +
       '<div class="note"><b>Де людині взяти нікнейм:</b> Telegram → Налаштування → Ім’я користувача. Без нікнейму додати не вийде.<br>' +
       '<b>«Прибрати»</b> — посилання зникнуть у людини, коли вона наступного разу відкриє бота.</div>';
+    animateIn(main);
     var nick = document.getElementById('nick'), msg = document.getElementById('msg'), addBtn = document.getElementById('addBtn');
     function say(text, bad) { msg.textContent = text; msg.className = 'msg' + (bad ? ' bad' : ''); }
     function draw(r) {
@@ -518,18 +576,27 @@
   }
 
   // ---- вкладки ----
+  function placeThumb() {
+    var tabs = document.getElementById('tabs'), thumb = tabs.querySelector('.thumb'), on = tabs.querySelector('button.on');
+    if (!on) { thumb.style.opacity = '0'; return; }
+    thumb.style.opacity = '1';
+    thumb.style.width = on.offsetWidth + 'px';
+    thumb.style.transform = 'translateX(' + on.offsetLeft + 'px)';
+  }
   function setTabs() {
     Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
       b.classList.toggle('on', !state.picker && b.getAttribute('data-v') === state.view);
     });
+    placeThumb();
   }
   function updateTabs() {
     document.querySelector('#tabs [data-v="access"]').hidden = !state.owner;
     if (!state.owner && state.view === 'access') setView('today');
+    placeThumb();
   }
   function setView(v) {
     state.view = v; state.picker = false; state.weekShift = 0; setTabs();
-    if (v === 'access') openAccess(); else render();
+    if (v === 'access') openAccess(); else render(true);
   }
   Array.prototype.forEach.call(document.querySelectorAll('#tabs button'), function (b) {
     b.onclick = function () {
@@ -538,15 +605,18 @@
       haptic('sel'); setView(v);
     };
   });
+  window.addEventListener('resize', placeThumb);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeThumb);
   document.getElementById('grpBtn').onclick = openGroupPicker;
   document.addEventListener('click', function (e) {
     var b = e.target.closest && e.target.closest('[data-li]');
     if (b && LINKS[+b.getAttribute('data-li')]) openLink(LINKS[+b.getAttribute('data-li')].url);
   });
 
+  placeThumb();
   load();
   loadAccess();
-  setInterval(function () { if (state.view === 'today' || state.view === 'tomorrow') render(); }, 30000);
+  setInterval(function () { if (state.view === 'today' || state.view === 'tomorrow') render(false); }, 30000);
 })();
 </script>
 </body>
